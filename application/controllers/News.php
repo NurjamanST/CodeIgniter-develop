@@ -29,7 +29,7 @@ class News extends CI_Controller {
     public function index() {
         $this->load->model('News_model');
         $data['news'] = $this->News_model->get_all();
-        $this->load->view('Pages/Admin/news/index', $data);
+        $this->load->view('Pages/Admin/News/index', $data);
         $this->load->view('Layout/addon-footer');
         $this->load->view('Layout/footer');
     }
@@ -160,11 +160,11 @@ class News extends CI_Controller {
         if ($this->News_model->update($this->input->post('id'), $data)) {
             // Tampilkan pesan sukses
             $this->session->set_flashdata('success', 'Berita berhasil diperbarui!');
-            redirect('news/index');
+            redirect('News/index');
         } else {
             // Tampilkan pesan gagal
             $this->session->set_flashdata('danger', 'Gagal memperbarui berita!');
-            redirect('news/index');
+            redirect('News/index');
         }
     }
     public function delete()
