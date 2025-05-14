@@ -70,10 +70,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $db['default'] = array(
 	'dsn'	=> '',
+	// 'hostname' => 'localhost',
+	// 'username' => 'root',
+	// 'password' => '',
+	// 'database' => 'db_haweshop',
 	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'db_haweshop',
+	'username' => 'u683701725_scriptechlight',
+	'password' => 'CahayaTech24#$*',
+	'database' => 'u683701725_db_haweshop',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
