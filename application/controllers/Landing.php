@@ -23,7 +23,7 @@ class Landing extends CI_Controller {
         $data['sliders'] = $this->db->order_by('urutan')->get_where('sliders', ['status' => 'aktif'])->result();
         $data['news'] = $this->News_model->get_all();
 
-        $this->load->view('pages/pelanggan/index', $data);
+        $this->load->view('Pages/Pelanggan/index', $data);
         $this->load->view('Layout/addon-footer-lp', $data);
         $this->load->view('Layout/footer');
 

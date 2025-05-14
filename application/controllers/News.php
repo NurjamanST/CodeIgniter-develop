@@ -47,7 +47,7 @@ class News extends CI_Controller {
             // var_dump($this->input->post('judul'));
             // var_dump($this->input->post('narasi'));
             // var_dump($this->input->post('tanggal'));
-            redirect('news/index');
+            redirect('News/index');
             return;
         }
     
@@ -94,11 +94,11 @@ class News extends CI_Controller {
         if ($this->News_model->insert($data)) {
             // Tampilkan pesan sukses
             $this->session->set_flashdata('success', 'Berita berhasil ditambahkan!');
-            redirect('news/index');
+            redirect('News/index');
         } else {
             // Tampilkan pesan gagal
             $this->session->set_flashdata('danger', 'Gagal menyimpan berita!');
-            redirect('news/index');
+            redirect('News/index');
         }
     }
     public function update() {
@@ -112,7 +112,7 @@ class News extends CI_Controller {
     
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('danger', '<div class="alert alert-danger">' . validation_errors() . '</div>');
-            redirect('news/index');
+            redirect('News/index');
             return;
         }
     
@@ -179,7 +179,7 @@ class News extends CI_Controller {
         $news = $this->News_model->getById($id);
         if (!$news) {
             $this->session->set_flashdata('danger', 'Data tidak ditemukan.');
-            redirect('news/index');
+            redirect('News/index');
             return;
         }
 
@@ -196,7 +196,7 @@ class News extends CI_Controller {
             $this->session->set_flashdata('danger', 'Gagal menghapus narrative.');
         }
 
-        redirect('news/index');
+        redirect('News/index');
     }
 
 }
