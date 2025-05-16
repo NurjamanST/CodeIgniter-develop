@@ -123,6 +123,7 @@
 
     </style>
     <!-- End Setup Navbar Landing Page -->
+
     <!-- Setup Footer Landing Page -->
     <style>
         /* Container utama footer */
@@ -189,6 +190,8 @@
             }
         }
     </style>
+    <!-- End Setup Footer Landing Page -->
+
     <!-- Setup Detail Produk -->
     <style>
         .main-image img {
@@ -251,6 +254,33 @@
             margin: 0 auto; /* Pusatkan video */
             border-radius: 8px; /* Opsi tambahan: memberikan radius sudut */
         }
+    </style>
+    <!-- End Setup Detail Produk -->
+
+    <!-- Setup Carousel-inner -->
+    <style>
+    /* Carousel */
+    .carousel-inner .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .carousel-inner .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Gambar Produk */
+    .carousel-inner .card-img-top {
+        object-fit: cover;
+        height: 200px; /* Atur tinggi gambar */
+    }
+
+    /* Tombol Marketplace */
+    .carousel-inner .card-body img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+    }
     </style>
 </head>
 

@@ -18,6 +18,7 @@ class Landing extends CI_Controller {
     public function index() {
         // Load Data
         $data['products'] = $this->Product_model->get_limit_catalogues(8, 0);
+        
         $data['categories'] = $this->Category_model->get_all();
         $data['collections'] = $this->Collection_model->get_all();
         $data['sliders'] = $this->db->order_by('urutan')->get_where('sliders', ['status' => 'aktif'])->result();

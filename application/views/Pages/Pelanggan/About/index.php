@@ -6,7 +6,7 @@
         <!-- Judul -->
         <div class="text-center mb-5">
             <h1 class="display-5 fw-bold"><?= htmlspecialchars($profile->judul ?? 'Tentang Kami') ?></h1>
-            <p class="lead text-muted"><?= htmlspecialchars($profile->subjudul ?? 'Kenali lebih dalam tentang Hawe Collections') ?></p>
+            <p class="lead text-muted"><?= htmlspecialchars($profile->judul ?? 'Kenali lebih dalam tentang Hawe Collections') ?></p>
         </div>
 
         <!-- Profil Perusahaan -->
@@ -43,49 +43,30 @@
                     </div>
                     <hr class="my-4">
                     <h5>Hubungi Kami</h5>
-                    <div class="d-flex gap-3 fs-5">
-                        <?php if (!empty($profile->email)): ?>
-                            <a href="mailto:<?= $profile->email ?>" class="text-decoration-none text-dark ">
-                                <i class="bi bi-envelope"></i> <?= htmlspecialchars($profile->email) ?>
-                            </a>
-                        <?php endif; ?>
-                        <?php if (!empty($profile->whatsapp)): ?>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <?php if (!empty($profile->email)): ?>
+                                <a href="mailto:<?= $profile->email ?>" class="text-decoration-none text-dark ">
+                                    <i class="bi bi-envelope"></i> <?= htmlspecialchars($profile->email) ?>
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <?php if (!empty($profile->whatsapp)): ?>
                             <a href="tel:<?= $profile->whatsapp ?>" class="text-decoration-none text-dark ">
                                 <i class="bi bi-whatsapp"></i> <?= htmlspecialchars($profile->whatsapp) ?>
                             </a>
                         <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-3 fs-5">
+                        
+                        
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Statistik / Fakta Singkat -->
-        <!-- <div class="row mt-5 text-center">
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h4 class="card-title"><?= $profile->tahun_berdiri ? date('Y') - $profile->tahun_berdiri : '10'?></h4>
-                        <p class="card-text text-muted">Tahun Berpengalaman</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h4 class="card-title"><?= count($collections) ?></h4>
-                        <p class="card-text text-muted">Koleksi Produk</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h4 class="card-title"><?= count($categories) ?></h4>
-                        <p class="card-text text-muted">Kategori Produk</p>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <hr class="my-4">
         <!-- Visi & Misi -->
         <div class="row mt-5">

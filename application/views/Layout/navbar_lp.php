@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-light" id="navbar">
   <div class="container-fluid px-4 px-lg-5" style="height: 100%; display: flex; align-items: center;">
     <!-- Brand -->
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="<?= base_url('index.php/Landing/index') ?>">
       <img src="<?= base_url('assets/img/logohawe2.png') ?>" alt="Logo" width="100" class="img-fluid">
     </a>
 
