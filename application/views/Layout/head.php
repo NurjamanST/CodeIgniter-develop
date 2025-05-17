@@ -10,8 +10,8 @@
     <meta content="" name="keywords">
     
     <!-- Favicons -->
-    <!-- <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"> -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts Merriweather -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -259,28 +259,66 @@
 
     <!-- Setup Carousel-inner -->
     <style>
-    /* Carousel */
-    .carousel-inner .card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+        /* Carousel */
+        .carousel-inner .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-    .carousel-inner .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
+        .carousel-inner .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Gambar Produk */
-    .carousel-inner .card-img-top {
-        object-fit: cover;
-        height: 200px; /* Atur tinggi gambar */
-    }
+        /* Gambar Produk */
+        .carousel-inner .card-img-top {
+            object-fit: cover;
+            height: 200px; /* Atur tinggi gambar */
+        }
 
-    /* Tombol Marketplace */
-    .carousel-inner .card-body img {
-        width: 40px;
-        height: 40px;
-        object-fit: cover;
-    }
+        /* Tombol Marketplace */
+        .carousel-inner .card-body img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+        }
+    </style>
+
+    <style>
+        /* Gambar Marketplace */
+        .modal-body img {
+            width: 20px;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* Layout Modal */
+        .modal-body .row {
+            justify-content: center;
+        }
+
+        /* Card Produk */
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tombol Beli */
+        .product-card .btn {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Responsif untuk Mobile */
+        @media (max-width: 768px) {
+            .product-card .btn {
+                font-size: 0.9rem; /* Ukuran teks lebih kecil di mobile */
+            }
+        }
     </style>
 </head>
 

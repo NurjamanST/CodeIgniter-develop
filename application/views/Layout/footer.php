@@ -150,8 +150,8 @@
     </script>
     <!-- Navbar Scroll Setup -->
 
-    <!-- Quill JS -->
-    <script src="<?= base_url('assets/vendor/quill/quill.min.js')?>"></script>
+    
+
 
     <!-- add Quill Keterangan -->
     <script>

@@ -66,72 +66,42 @@
             </ul>
 
             <!-- Tombol Marketplace -->
-            <!-- <div class="mt-4">
-                <h6 class="mb-3">Beli di:</h6>
-                <div class="d-flex flex-nowrap overflow-auto gap-2 pb-2" style="-webkit-overflow-scrolling: touch;">
-                    <?php if (!empty($product->shopee)): ?>
-                        <a href="<?= $product->shopee ?>" target="_blank" class="btn btn-outline-dark btn-sm d-flex align-items-center flex-shrink-0">
-                            <img src="<?= base_url("assets/img/shopee.png") ?>" width="20" class="me-1">
-                            <span class="d-none d-md-inline">Shopee</span>
-                        </a>
-                    <?php endif; ?>
-                    <?php if (!empty($product->lazada)): ?>
-                        <a href="<?= $product->lazada ?>" target="_blank" class="btn btn-outline-dark btn-sm d-flex align-items-center flex-shrink-0">
-                            <img src="<?= base_url("assets/img/lazada.png") ?>" width="20" class="me-1">
-                            <span class="d-none d-md-inline">Lazada</span>
-                        </a>
-                    <?php endif; ?>
-                    <?php if (!empty($product->tiktokshop)): ?>
-                        <a href="<?= $product->tiktokshop ?>" target="_blank" class="btn btn-outline-dark btn-sm d-flex align-items-center flex-shrink-0">
-                            <img src="<?= base_url("assets/img/tiktokshop.png") ?>" width="20" class="me-1">
-                            <span class="d-none d-md-inline">TikTok Shop</span>
-                        </a>
-                    <?php endif; ?>
-                    <?php if (!empty($product->tokopedia)): ?>
-                        <a href="<?= $product->tokopedia ?>" target="_blank" class="btn btn-outline-dark btn-sm d-flex align-items-center flex-shrink-0">
-                            <img src="<?= base_url("assets/img/tokopedia.png") ?>" width="20" class="me-1">
-                            <span class="d-none d-md-inline">Tokopedia</span>
-                        </a>
-                    <?php endif; ?>
-                </div>
-            </div> -->
-            <!-- Tombol Marketplace -->
             <div class="d-flex justify-content-center mt-3">
                 <div class="btn-group">
                     <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-cart me-1"></i> Beli Sekarang
                     </button>
                     <ul class="dropdown-menu shadow-sm">
-                        <?php if (!empty($p->shopee)): ?>
+                        <?php if (!empty($product->shopee)): ?>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="<?= $p->shopee ?>" target="_blank">
+                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->shopee ?>" target="_blank">
                                     <img src="<?= base_url("assets/img/shopee.png") ?>" alt="Shopee" width="20" class="me-2">
                                     Shopee
                                 </a>
                             </li>
                         <?php endif; ?>
 
-                        <?php if (!empty($p->lazada)): ?>
+                        <?php if (!empty($product->lazada)): ?>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="<?= $p->lazada ?>" target="_blank">
+                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->lazada ?>" target="_blank">
                                     <img src="<?= base_url("assets/img/lazada.png") ?>" alt="Lazada" width="20" class="me-2">
                                     Lazada
                                 </a>
                             </li>
                         <?php endif; ?>
 
-                        <?php if (!empty($p->tiktokshop)): ?>
+                        <?php if (!empty($product->tiktokshop)): ?>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="<?= $p->tiktokshop ?>" target="_blank">
+                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->tiktokshop ?>" target="_blank">
                                     <img src="<?= base_url("assets/img/tiktokshop.png") ?>" alt="TikTok Shop" width="20" class="me-2">
                                     TikTok Shop
                                 </a>
                             </li>
                         <?php endif; ?>
 
-                        <?php if (!empty($p->tokopedia)): ?>
+                        <?php if (!empty($product->tokopedia)): ?>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="<?= $p->tokopedia ?>" target="_blank">
+                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->tokopedia ?>" target="_blank">
                                     <img src="<?= base_url("assets/img/tokopedia.png") ?>" alt="Tokopedia" width="20" class="me-2">
                                     Tokopedia
                                 </a>
