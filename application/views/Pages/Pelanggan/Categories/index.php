@@ -1,6 +1,6 @@
 <div class="container-fluid py-5 mb-2 bg bg-white"></div>
 <div class="container-fluid">
-    <h2>Product Collections</h2>
+    <h2>Product Categories</h2>
     <div class="row">
         <?php foreach ($categories as $cata): ?>
             <div class="col-md-4 mb-4">
