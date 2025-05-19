@@ -1,4 +1,29 @@
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Vendor JS Files -->
+        <script src="<?= base_url('assets/vendor/apexcharts/apexcharts.min.js')?>"></script>
+        <script src="<?= base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')?>"></script>
+        <script src="<?= base_url('assets/vendor/chart.js/chart.umd.js')?>"></script>
+        <script src="<?= base_url('assets/vendor/echarts/echarts.min.js')?>"></script>
+        <script src="<?= base_url('assets/vendor/simple-datatables/simple-datatables.js')?>"></script>
+        <script src="<?= base_url('assets/vendor/tinymce/tinymce.min.js')?>"></script>
+        <script src="<?= base_url('assets/vendor/php-email-form/validate.js')?>"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Quill CSS -->
+        <!-- <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"> -->
+        <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+        
+        <!-- Template Main JS File -->
+        <script src="<?= base_url('assets/js/main.js')?>"></script>
+    <!-- End Vendor JS Files -->    
+    <!-- JS Untuk  -->
+
+
+
+
+
+
+
+
+    
     <!-- Script JavaScript untuk kirim data ke Modal Edit & Delete Product -->
     <script>
         // Fungsi untuk membuka Modal Delete dan set id
@@ -129,14 +154,8 @@
 
 
 
-    <!-- Vendor JS Files -->
-    <script src="<?= base_url('assets/vendor/apexcharts/apexcharts.min.js')?>"></script>
-    <script src="<?= base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')?>"></script>
-    <script src="<?= base_url('assets/vendor/chart.js/chart.umd.js')?>"></script>
-    <script src="<?= base_url('assets/vendor/echarts/echarts.min.js')?>"></script>
-    <script src="<?= base_url('assets/vendor/simple-datatables/simple-datatables.js')?>"></script>
-    <script src="<?= base_url('assets/vendor/tinymce/tinymce.min.js')?>"></script>
-    <script src="<?= base_url('assets/vendor/php-email-form/validate.js')?>"></script>
+    
+
     <!-- Navbar Scroll Setup -->
     <script>
         window.addEventListener("scroll", function () {
@@ -149,9 +168,6 @@
         });
     </script>
     <!-- Navbar Scroll Setup -->
-
-    
-
 
     <!-- add Quill Keterangan -->
     <script>
@@ -169,13 +185,13 @@
     <!-- Add Narasi Quill -->
     <script>
         // Inisialisasi Quill Editor untuk Edit
-        const newsQuill = new Quill('#editQuillNews', {
+        const editQuillNews = new Quill('#editQuillNews', {
             theme: 'snow'
         });
 
         // Sync ke textarea sebelum submit
         document.getElementById('newsForm').addEventListener('submit', function () {
-            document.getElementById('narasi').value = newsQuill.root.innerHTML;
+            document.getElementById('editQuillNews').value = editQuillNews.root.innerHTML;
         }); 
 
     </script>
@@ -401,8 +417,8 @@
             document.getElementById('confirmDeleteBtn').href = "<?= base_url('index.php/Slider/delete/') ?>" + id;
         }
     </script>
-    <!-- Template Main JS File -->
-    <script src="<?= base_url('assets/js/main.js')?>"></script>
+
+    
 
 </body>
 </html>

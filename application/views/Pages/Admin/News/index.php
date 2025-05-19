@@ -123,7 +123,7 @@
                 <!-- Quill Editor -->
                 <div id="editQuillNews" style="height: 350px;"></div>
                 <!-- Hidden textarea -->
-                <textarea name="narasi" id="narasi" style="display:none;"></textarea>
+                <textarea name="narasi" id="editQuillNews" style="display:none;"></textarea>
               </div>
             </div>
           </div>

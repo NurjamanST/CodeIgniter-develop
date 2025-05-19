@@ -20,9 +20,9 @@
 <!-- End Slider Banner -->
 
 <!-- Main Content -->
-<div class="container-fluid">
+<div class="container-fluid mt-4">
     <!-- PRODUCT CATEGORY -->
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-3 col-lg-12 text-center my-3 fw-bold">
                 <h4>Product Category</h4>
             </div>
@@ -43,12 +43,12 @@
                     </div>
                 <?php endforeach; ?>
             </div>
-        </div>
+        </div> -->
     <!-- End PRODUCT CATEGORY -->
 
     <!-- BEST SELLING -->
         <!-- Images Best Selling -->
-        <div class="row mt-4 mb-4">
+        <!-- <div class="row mt-4 mb-4">
             <div class="col-lg-12 text-center">
                 <div class="position-relative">
                     <img src="<?= base_url('assets/img/bestselling.png')?>" class="img-fluid" style="width: 100%;" alt="Best Selling">
@@ -58,7 +58,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     <!-- End Images Best Selling -->
 
     <!-- SLIDER PRODUCT -->
@@ -79,7 +79,7 @@
                         $activeClass = ($index === 0) ? 'active' : '';
                     ?>
                         <div class="carousel-item <?= $activeClass ?>">
-                            <div class="row row-cols-2 row-cols-sm-4 row-cols-md-4 g-3">
+                            <div class="row row-cols-2 row-cols-sm-2 row-cols-md-4 g-3">
                                 <?php foreach ($chunk as $p) : ?>
                                     <div class="col mb-3">
                                         <div class="card h-auto shadow-sm border-0 rounded">

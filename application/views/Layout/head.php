@@ -5,13 +5,13 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Dashboard - NiceAdmin Bootstrap Template</title>
+    <title>Hawe Collections</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
     
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="<?= base_url("assets/img/logohawe.png")?>" rel="icon">
+    <!-- <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"> -->
 
     <!-- Google Fonts Merriweather -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,11 +22,9 @@
     <link href="<?= base_url('assets/vendor/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
     <link href="<?= base_url('assets/vendor/bootstrap-icons/bootstrap-icons.css')?>" rel="stylesheet">
     <link href="<?= base_url('assets/vendor/boxicons/css/boxicons.min.css')?>" rel="stylesheet">
-    <!-- Quill CSS -->
-    <!-- <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"> -->
-    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+
     
-    <!-- <link href="<?= base_url('assets/vendor/quill/quill.snow.css')?>" rel="stylesheet"> -->
+    <link href="<?= base_url('assets/vendor/quill/quill.snow.css')?>" rel="stylesheet">
     <link href="<?= base_url('assets/vendor/quill/quill.bubble.css')?>" rel="stylesheet">
 
     <link href="<?= base_url('assets/vendor/remixicon/remixicon.css')?>" rel="stylesheet">
