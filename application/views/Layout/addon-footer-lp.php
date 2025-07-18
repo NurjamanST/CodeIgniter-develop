@@ -1,6 +1,6 @@
 <footer>
-    <div class="container-fluid footer-container">
-        <div class="footer-row">
+    <div class="container-fluid footer-container w-100">
+        <div class="footer-row d-flex justify-content-between w-100">
             <!-- COLLECTIONS -->
             <div class="footer-section">
                 <h3>COLLECTIONS</h3>
@@ -59,4 +59,21 @@
     </div>
 </footer>
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<div class="chat-bubble d-flex flex-row align-items-center">
+	<!-- Add WhatsApp button -->
+	<div class="chat-button my-2 mx-2">
+		<a  href="https://api.whatsapp.com/send/?
+				phone=<?= $profile->whatsapp ?>&
+				text=Halo,%20saya%20tertarik%20dengan%20produk%20anda%20dan%20ingin%20bertanya%20lebih%20lanjut..."
+			class="chat-btn whatsapp-btn" title="Contact Us via WhatsApp" target="_blank">
+			<i class="bi bi-whatsapp" style="font-size:24px;"></i>
+		</a>
+	</div>
+	<!-- Back to top button -->
+	<div class="chat-button my-2 mx-2">
+		<a href="#" class="chat-btn back-to-top-btn" title="Back to Top">
+			<i class="bi bi-arrow-up-short" style="font-size: 31px;"></i>
+		</a>
+	</div>
+</div>

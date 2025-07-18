@@ -8,7 +8,7 @@ class Landing extends CI_Controller {
         // Load Data
         $data['collections'] = $this->Collection_model->get_all();;
         $data['categories'] = $this->Category_model->get_all();
-
+        
         // Load Views
         $this->load->view('Layout/head');
         $this->load->view('Layout/navbar_lp', $data);
@@ -17,12 +17,17 @@ class Landing extends CI_Controller {
     // Halaman utama
     public function index() {
         // Load Data
-        $data['products'] = $this->Product_model->get_limit_catalogues(8, 0);
+        $data['products'] = $this->Product_model->get_limit_catalogues(4, 0);
         
         $data['categories'] = $this->Category_model->get_all();
         $data['collections'] = $this->Collection_model->get_all();
         $data['sliders'] = $this->db->order_by('urutan')->get_where('sliders', ['status' => 'aktif'])->result();
-        $data['news'] = $this->News_model->get_all();
+        $data['news'] = $this->News_model->get_limit_news(4, 0);
+		
+		// Load Profile
+		$this->load->model('Profile_model');
+		$data['profile'] = $this->Profile_model->get();
+		
 
         $this->load->view('Pages/Pelanggan/index', $data);
         $this->load->view('Layout/addon-footer-lp', $data);
@@ -38,6 +43,10 @@ class Landing extends CI_Controller {
             show_404(); // Tampilkan error jika produk tidak ditemukan
         }
 
+		// Load Profile
+		$this->load->model('Profile_model');
+		$data['profile'] = $this->Profile_model->get();
+
         $this->load->view('Pages/Pelanggan/Products/detail_view', $data);
         $this->load->view('Layout/addon-footer-lp', $data);
         $this->load->view('Layout/footer');
@@ -47,6 +56,11 @@ class Landing extends CI_Controller {
         $data['news'] = $this->News_model->get_all();
         $data['categories'] = $this->Category_model->get_all();
         $data['collections'] = $this->Collection_model->get_all();;
+
+		// Load Profile
+		$this->load->model('Profile_model');
+		$data['profile'] = $this->Profile_model->get();
+
         $this->load->view('Pages/Pelanggan/News/index', $data);
         $this->load->view('Layout/addon-footer-lp', $data);
         $this->load->view('Layout/footer');
@@ -62,6 +76,11 @@ class Landing extends CI_Controller {
             show_404(); // Tampilkan error jika produk tidak ditemukan
         }
 
+
+		// Load Profile
+		$this->load->model('Profile_model');
+		$data['profile'] = $this->Profile_model->get();
+
         $this->load->view('Pages/Pelanggan/News/view', $data);
         $this->load->view('Layout/addon-footer-lp', $data);
         $this->load->view('Layout/footer');
@@ -71,8 +90,9 @@ class Landing extends CI_Controller {
         // Load Data
         $data['categories'] = $this->Category_model->get_all();
         $data['collections'] = $this->Collection_model->get_all();
-        $data['profile'] = $this->Profile_model->get();
-        
+        // Load Profile
+		$this->load->model('Profile_model');
+		$data['profile'] = $this->Profile_model->get();
         $this->load->view('Pages/Pelanggan/About/index', $data);
         $this->load->view('Layout/addon-footer-lp', $data);
         $this->load->view('Layout/footer');

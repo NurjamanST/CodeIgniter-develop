@@ -53,7 +53,7 @@ class News extends CI_Controller {
     
         // Konfigurasi upload gambar
         $config['upload_path']   = './assets/uploads/news/';
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['allowed_types'] = '*';
         $config['encrypt_name']  = TRUE;
     
         // Buat folder jika belum ada
@@ -84,12 +84,6 @@ class News extends CI_Controller {
             'gambar'  => $upload_data['file_name']
         ];
     
-        // Debug: tampilkan data sebelum disimpan
-        echo '<h3>Debug: Data yang akan disimpan:</h3>';
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
-    
         // Simpan data
         if ($this->News_model->insert($data)) {
             // Tampilkan pesan sukses
@@ -101,72 +95,81 @@ class News extends CI_Controller {
             redirect('News/index');
         }
     }
-    public function update() {
-        $this->load->library(['form_validation', 'upload']);
-    
-        // Validasi form
-        $this->form_validation->set_rules('tanggal', 'Upload Date', 'required');
-        $this->form_validation->set_rules('judul', 'Narrative Title', 'required');
-        $this->form_validation->set_rules('narasi', 'Narrative Text', 'required');
-        
-    
-        if ($this->form_validation->run() == FALSE) {
-            $this->session->set_flashdata('danger', '<div class="alert alert-danger">' . validation_errors() . '</div>');
-            redirect('News/index');
-            return;
-        }
-    
-        // Konfigurasi upload gambar
-        $config['upload_path']   = './assets/uploads/news/';
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['encrypt_name']  = TRUE;
-    
-        // Buat folder jika belum ada
-        if (!is_dir($config['upload_path'])) {
-            mkdir($config['upload_path'], 0777, true);
-        }
-    
-        $this->upload->initialize($config);
-    
-        // Cek apakah ada file yang diupload
-        if ($_FILES['gambar']['name']) {
-            if (!$this->upload->do_upload('gambar')) {
-                // Tampilkan error upload
-                $error = $this->upload->display_errors();
-                echo '<h3>Upload Gagal:</h3>';
-                echo '<pre>' . $error . '</pre>';
-                echo '<pre>FILES:</pre>';
-                print_r($_FILES);
-                return;
-            }
-    
-            // Ambil data gambar
-            $upload_data = $this->upload->data();
-            $data['gambar'] = $upload_data['file_name'];
-        }
-    
-        // Siapkan data untuk disimpan
-        $data['judul']   = $this->input->post('judul');
-        $data['narasi']     = $this->input->post('narasi');
-        $data['tanggal'] = $this->input->post('tanggal');
-    
-        // Debug: tampilkan data sebelum disimpan
-        echo '<h3>Debug: Data yang akan disimpan:</h3>';
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
-    
-        // Simpan data
-        if ($this->News_model->update($this->input->post('id'), $data)) {
-            // Tampilkan pesan sukses
-            $this->session->set_flashdata('success', 'Berita berhasil diperbarui!');
-            redirect('News/index');
-        } else {
-            // Tampilkan pesan gagal
-            $this->session->set_flashdata('danger', 'Gagal memperbarui berita!');
-            redirect('News/index');
-        }
-    }
+    public function update()
+	{
+		$this->load->library(['form_validation', 'upload']);
+
+		// Validasi form
+		$this->form_validation->set_rules('tanggal', 'Upload Date', 'required');
+		$this->form_validation->set_rules('judul', 'Narrative Title', 'required');
+		$this->form_validation->set_rules('narasi', 'Narrative Text', 'required');
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->session->set_flashdata('danger', '<div class="alert alert-danger">' . validation_errors() . '</div>');
+			redirect('News/index');
+			return;
+		}
+		// Ambil ID dari input POST
+		$id = $this->input->post('id');
+
+		// Ambil data berita lama dari database
+		$news_data = $this->News_model->get_news_by_id($id); // Pastikan model ini tersedia
+		if (!$news_data) {
+			$this->session->set_flashdata('danger', '<div class="alert alert-danger">Berita tidak ditemukan.</div>');
+			redirect('News/index');
+			return;
+		}
+		// Konfigurasi upload gambar
+		$config['upload_path']   = './assets/uploads/news/';
+		$config['allowed_types'] = '*';
+		$config['encrypt_name']  = TRUE;
+
+		// Buat folder jika belum ada
+		if (!is_dir($config['upload_path'])) {
+			mkdir($config['upload_path'], 0777, true);
+		}
+
+		$this->upload->initialize($config);
+
+		// Cek apakah ada file baru yang diupload
+		if (!empty($_FILES['gambar']['name'])) {
+			if (!$this->upload->do_upload('gambar')) {
+				$error = $this->upload->display_errors();
+				$this->session->set_flashdata('danger', '<div class="alert alert-danger">Gagal mengunggah gambar: ' . $error . '</div>');
+				redirect('News/index');
+				return;
+			}
+
+			// Hapus gambar lama jika ada
+			$old_image_path = './assets/uploads/news/' . $news_data->gambar;
+			if ($news_data->gambar && file_exists($old_image_path)) {
+				unlink($old_image_path);
+			}
+
+			// Tambahkan gambar baru ke data
+			$upload_data = $this->upload->data();
+			$data['gambar'] = $upload_data['file_name'];
+		} else {
+			// Jika tidak ada gambar baru, gunakan gambar lama
+			$data['gambar'] = $news_data->gambar;
+		}
+
+		// Siapkan data untuk disimpan
+		$data['judul']   = $this->input->post('judul');
+		$data['narasi']  = $this->input->post('narasi');
+		$data['tanggal'] = $this->input->post('tanggal');
+
+		// Simpan data
+		if ($this->News_model->update($this->input->post('id'), $data)) {
+			// Tampilkan pesan sukses
+			$this->session->set_flashdata('success', '<div class="alert alert-success">Berita berhasil diperbarui!</div>');
+			redirect('News/index');
+		} else {
+			// Tampilkan pesan gagal
+			$this->session->set_flashdata('danger', '<div class="alert alert-danger">Gagal memperbarui berita!</div>');
+			redirect('News/index');
+		}
+	}
     public function delete()
     {
         // Load model

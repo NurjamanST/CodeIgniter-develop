@@ -19,7 +19,6 @@ class Profile extends CI_Controller {
         $data['admin'] = $admin;
         $data['profile'] = $this->Profile_model->get();
 
-        // $this->load->model('Install_model');
         $this->load->view('Layout/head');
         $this->load->view('Layout/header', $data);
         $this->load->view('Layout/aside', $data);
@@ -32,6 +31,13 @@ class Profile extends CI_Controller {
         $this->load->model('News_model');
         $data['profile'] = $this->Profile_model->get();
         $data['news'] = $this->News_model->get_all();
+		// Hitung Jumlah Collection, Category, Product.
+		$this->load->model('Collection_model');
+		$this->load->model('Category_model');
+		$this->load->model('Product_model');
+        $data['catalogues'] = $this->Product_model->get_all_catalogues();
+		$data['collections'] = $this->Collection_model->get_all();
+		$data['categories'] = $this->Category_model->get_all();
         $this->load->view('Pages/Admin/Profile/index', $data);
         $this->load->view('Layout/addon-footer');
         $this->load->view('Layout/footer');
@@ -138,6 +144,7 @@ class Profile extends CI_Controller {
     // Method untuk update akun (username, email, password)
     public function update_account()
     {
+		$this->load->model('Admin_model');
         // Validasi input
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');

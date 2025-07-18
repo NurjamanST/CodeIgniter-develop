@@ -26,7 +26,7 @@
                       <i class="bi bi-collection"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>145</h6>
+                      <h6><?= count($collections) ?></h6>
                       <!-- <span class="text-danger small pt-1 fw-bold">12%</span> -->
                       <span class="text-muted small pt-2 ps-1">Collections</span>
 
@@ -48,7 +48,7 @@
                       <i class="bi bi-columns-gap"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>364</h6>
+                      <h6><?= count($categories) ?></h6>
                       <span class="text-muted small pt-2 ps-1">Category</span>
 
                     </div>
@@ -68,7 +68,7 @@
                       <i class="bi bi-cart4"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>1244</h6>
+											<h6><?= count($catalogues) ?></h6>
                       <span class="text-muted small pt-2 ps-1">Catalog</span>
                     </div>
                   </div>

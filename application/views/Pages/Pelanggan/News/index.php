@@ -1,6 +1,8 @@
-<div class="container-fluid py-5 mb-2 bg bg-white"></div>
+<div class="container-fluid py-5 bg bg-white">
+	<div class="py-5"></div>
+</div>
 <!-- Page Content -->
-<div class="container-fluid">
+<div class="container my-2">
     <!-- Breadcrumb + Judul Halaman + Sort By -->
     <div class="col-md-12 mb-4">
         <div class="card">
@@ -30,7 +32,7 @@
 
                 <!-- Tombol Back dan Dropdown Sort By -->
                 <div class="d-flex flex-wrap mt-0 mt-md-5">
-                    <select id="sortSelect" class="form-select form-select-sm w-auto">
+                    <select id="sortSelect" class="form-select form-select-sm w-100 w-md-auto me-2 my-2 mb-md-0 px-3 py-2" aria-label="Sort By">
                         <option value="">Sort By</option>
                         <option value="az">A to Z</option>
                         <option value="za">Z to A</option>

@@ -1,6 +1,8 @@
-<div class="container-fluid py-5 mb-2 bg bg-white"></div>
+<div class="container-fluid py-5 bg bg-white">
+	<div class="py-5"></div>
+</div>
 <!-- Page Content -->
-<div class="container-fluid py-5 mb-2 bg bg-white">
+<div class="container py-5 mb-2 bg bg-white">
     <!-- Breadcrumb -->
     <div class="col-md-12 mb-4">
         <div class="card">

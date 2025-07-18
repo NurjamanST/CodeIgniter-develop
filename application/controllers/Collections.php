@@ -19,7 +19,11 @@ class Collections extends CI_Controller {
         // Load Data
         $data['collections'] = $this->Collection_model->get_all();;
         $data['categories'] = $this->Category_model->get_all();
-        // Load Views
+        // Load Profile
+		$this->load->model('Profile_model');
+		$data['profile'] = $this->Profile_model->get();
+		
+		// Load Views
         $this->load->view('Pages/Pelanggan/Collections/index', $data);
         $this->load->view('Layout/addon-footer-lp', $data);
         $this->load->view('Layout/footer');
@@ -37,7 +41,11 @@ class Collections extends CI_Controller {
         if (!$data['collection']) {
             show_404();
         }
-        // load view
+        // Load Profile
+		$this->load->model('Profile_model');
+		$data['profile'] = $this->Profile_model->get();
+		
+		// load view
         $this->load->view('Pages/Pelanggan/Collections/view', $data);
         $this->load->view('Layout/addon-footer-lp', $data);
         $this->load->view('Layout/footer', $data);

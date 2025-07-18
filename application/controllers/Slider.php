@@ -117,7 +117,7 @@ class Slider extends CI_Controller {
                 }
             } else {
                 $this->session->set_flashdata('error', $this->upload->display_errors());
-                redirect($this->agent->referrer());
+                redirect("Slider/index");
             }
         }
 

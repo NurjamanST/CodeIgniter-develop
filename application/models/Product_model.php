@@ -29,7 +29,7 @@ class Product_model extends CI_Model
         $this->db->from('products');
         $this->db->join('collections', 'products.koleksi_id = collections.id', 'left');
         $this->db->join('categories', 'products.kategori_id = categories.id', 'left');
-        $this->db->order_by('products.id', 'ASC');
+        $this->db->order_by('products.created_at', 'DESC');
         return $this->db->get('', $limit, $offset)->result();
     }
     // Fungsi ini digunakan untuk menghitung jumlah total produk dalam tabel 'products'

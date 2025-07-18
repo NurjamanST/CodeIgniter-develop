@@ -199,51 +199,70 @@
               </div>
             </div>
           </div>
+
           <!-- Bawah -->
           <div class="row">
+						<!-- Upload Images -->
             <div class="col-md-5">
               <div class="mb-3">
                   <label for="gambar1" class="form-label">Gambar 1</label>
                   <input type="file" class="form-control" name="gambar1"  accept="image/*" onchange="previewImage(event, 'preview-gambar1')">
-                  <img id="preview-gambar1" class="img-thumbnail mt-2" style="max-width: 200px; display:none;">
+									<div class="mt-2">
+										Preview Image 
+										<img id="preview-gambar1" class="w-100 img-thumbnail mt-2 img-fluid" style="display:none;">
+									</div>
               </div>
 
               <div class="mb-3">
                   <label for="gambar2" class="form-label">Gambar 2</label>
                   <input type="file" class="form-control" name="gambar2"  accept="image/*" onchange="previewImage(event, 'preview-gambar2')">
-                  <img id="preview-gambar2" class="img-thumbnail mt-2" style="max-width: 200px; display:none;">
+									<div class="mt-2">
+										Preview Image 
+										<img id="preview-gambar2" class="w-100 img-thumbnail mt-2 img-fluid" style=" display:none;">
+									</div>
               </div>
 
               <div class="mb-3">
                   <label for="gambar3" class="form-label">Gambar 3</label>
                   <input type="file" class="form-control" name="gambar3"  accept="image/*" onchange="previewImage(event, 'preview-gambar3')">
-                  <img id="preview-gambar3" class="img-thumbnail mt-2" style="max-width: 200px; display:none;">
+									<div class="mt-2">
+										Preview Image 
+										<img id="preview-gambar3" class="w-100 img-thumbnail mt-2 img-fluid" style=" display:none;">
+									</div>
               </div>
 
               <div class="mb-3">
                   <label for="gambar4" class="form-label">Gambar 4</label>
                   <input type="file" class="form-control" name="gambar4"  accept="image/*" onchange="previewImage(event, 'preview-gambar4')">
-                  <img id="preview-gambar4" class="img-thumbnail mt-2" style="max-width: 200px; display:none;">
+									<div class="mt-2">
+										Preview Image 
+										<img id="preview-gambar4" class="w-100 img-thumbnail mt-2 img-fluid" style=" display:none;">
+									</div>
               </div>
               
               <div class="mb-3">
                   <label for="gambar5" class="form-label">Gambar 5</label>
                   <input type="file" class="form-control" name="gambar5"  accept="image/*" onchange="previewImage(event, 'preview-gambar5')">
-                  <img id="preview-gambar5" class="img-thumbnail mt-2" style="max-width: 200px; display:none;">
+									<div class="mt-2">
+										Preview Image 
+										<img id="preview-gambar5" class="w-100 img-thumbnail mt-2 img-fluid" style=" display:none;">
+									</div>
               </div>
             </div>
 
+						<!-- Editor Keterangan -->
             <div class="col-md-7">
               <div class="mb-3">
                 <label for="keterangan" class="form-label">Keterangan</label>
                 <!-- Quill Editor -->
-                <div id="quillEditor" style="height: 350px;"></div>
+                <div id="quillEditoraddprod" style="height: 100vh;"></div>
                 <!-- Hidden textarea -->
-                <textarea name="keterangan" id="keterangan" style="display:none;"></textarea>
+                <textarea name="keterangan" id="addprodketerangan" style="display:none;"></textarea>
               </div>
             </div>
           </div>
         </div>
+				<!-- Button -->
         <div class="modal-footer">
           <button class="btn btn-primary">Simpan</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -329,16 +348,16 @@
               <?php for ($i = 1; $i <= 5; $i++): ?>
               <div class="mb-3">
                 <label for="edit_gambar<?= $i ?>" class="form-label">Gambar <?= $i ?></label>
-                <input type="file" class="form-control" name="gambar<?= $i ?>" id="edit_gambar<?= $i ?>" onchange="previewImage(event, 'edit_preview_gambar<?= $i ?>')">
-                <img id="edit_preview_gambar<?= $i ?>" class="img-thumbnail mt-2" style="max-width: 100%; display: none;">
+                <input type="file" class="form-control" name="gambar<?= $i ?>" id="edit_gambar<?= $i ?>" onchange="previewImage(event, 'edit_preview_gambar<?= $i  ?>')">
+                <img id="edit_preview_gambar<?= $i ?>" class="w-100 img-thumbnail mt-2" style="max-width: 100%; display: none;">
               </div>
               <?php endfor; ?>
             </div>
 
             <div class="col-md-7">
               <div class="mb-3">
-                <label for="editQuillEditor" class="form-label">Keterangan</label>
-                <div id="editQuillEditor" style="height: 350px;"></div>
+                <label for="quillEditoreditprod" class="form-label">Keterangan</label>
+                <div id="quillEditoreditprod" style="height: 100vh;"></div>
                 <textarea name="keterangan" id="edit_keterangan" style="display:none;"></textarea>
               </div>
             </div>

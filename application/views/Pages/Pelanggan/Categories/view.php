@@ -1,11 +1,13 @@
-<div class="container-fluid py-5 mb-2 bg bg-white"></div>
+<div class="container-fluid py-5 bg bg-white">
+	<div class="py-5"></div>
+</div>
 <!-- Page Content -->
-<div class="container-fluid">
+<div class="container my-2">
     <!-- Breadcrumb + Judul Halaman + Sort By -->
     <div class="col-md-12 mb-4">
         <div class="card">
             <!-- Breadcrumb -->
-            <div class="card-header bg-white py-3">
+            <div class="card-header">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
@@ -33,7 +35,7 @@
 
                 <!-- Tombol Back dan Dropdown Sort By -->
                 <div class="d-flex flex-wrap mt-0 mt-md-5">
-                    <select id="sortSelect" class="form-select form-select-sm w-auto">
+                    <select id="sortSelect" class="form-select form-select-sm w-100 w-md-auto me-2 my-2 mb-md-0 px-3 py-2" aria-label="Sort By">
                         <option value="">Sort By</option>
                         <option value="az">A to Z</option>
                         <option value="za">Z to A</option>
@@ -51,7 +53,7 @@
         <div class="col-md-12">
             <div class="row">
                 <?php foreach ($products as $product): ?>
-                    <div class="col-6 col-md-4 mb-4 product-card"
+                    <div class="col-6 col-md-3 mb-4 product-card"
                         data-name="<?= strtolower($product->nama_product) ?>"
                         data-price="<?= $product->harga ?>"
                         data-date="<?= strtotime($product->created_at) ?>">
@@ -60,15 +62,15 @@
                                     <img src="<?= base_url('uploads/products/' . $product->gambar1) ?>" class="card-img-top" alt="<?= $product->nama_product ?>">
                                 </a>
                                 
-                                <div class="card-body mt-2 text-center">                                    
+                                <div class="card-body my-1 text-center">                                    
                                     <p class="card-text text-dark ">
                                     <?= htmlspecialchars(substr(strip_tags($product->nama_product), 0, 24) ?? 'Produk') ?>...
                                     <p class="card-text text-secondary"><?= $product->nama_kategori ?> | <?= $product->nama_koleksi ?></p>
                                     <p class="card-text text-secondary">Rp <?= number_format($product->harga, 0, ',', '.') ?></p>
                                     <!-- Tombol Marketplace -->
                                     <div class="d-flex justify-content-center mt-3">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <div class="btn-group w-100">
+                                            <button type="button" class="btn btn-success btn-md dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="bi bi-cart me-1"></i> Beli Sekarang
                                             </button>
                                             <ul class="dropdown-menu shadow-sm">

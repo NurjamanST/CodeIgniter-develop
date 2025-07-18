@@ -1,4 +1,6 @@
-<div class="container-fluid py-5 mb-2 bg bg-white"></div>
+<div class="container-fluid py-5 bg bg-white">
+	<div class="py-5"></div>
+</div>
 <!-- Page Content -->
 <!-- About Us Page -->
 <div class="container-fluid py-5 bg-light">

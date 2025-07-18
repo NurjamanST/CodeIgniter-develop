@@ -123,7 +123,7 @@
             <!-- Preview Gambar -->
             <div class="mb-3 text-center">
                 <label>Gambar Saat Ini</label><br>
-                <img id="edit_gambar_preview" class="img-thumbnail" style="max-width: 100%;" src="">
+                <img id="edit_gambar_preview" class="w-100 img-thumbnail" style="max-width: 100%;" src="">
             </div>
 
             <!-- Ganti Gambar -->

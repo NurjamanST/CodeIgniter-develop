@@ -20,7 +20,11 @@ class Categories extends CI_Controller {
         $data['categories'] = $this->Category_model->get_all();
         $data['collections'] = $this->Collection_model->get_all();
 
-        // Load Views
+        // Load Profile
+		$this->load->model('Profile_model');
+		$data['profile'] = $this->Profile_model->get();
+		
+		// Load Views
         $this->load->view('Pages/Pelanggan/Categories/index', $data);
         $this->load->view('Layout/addon-footer-lp', $data);
         $this->load->view('Layout/footer');
@@ -36,7 +40,11 @@ class Categories extends CI_Controller {
         if (!$data['category']) {
             show_404();
         }
-        // load view
+        // Load Profile
+		$this->load->model('Profile_model');
+		$data['profile'] = $this->Profile_model->get();
+		
+		// load view
         $this->load->view('Pages/Pelanggan/Categories/view', $data);
         $this->load->view('Layout/addon-footer-lp', $data);
         $this->load->view('Layout/footer', $data);

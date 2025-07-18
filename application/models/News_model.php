@@ -9,6 +9,7 @@ class News_model extends CI_Model {
         return $this->db->where('id', $id)->get('news')->row();
     }
     public function get_limit_news($limit, $offset) {
+		$this->db->order_by('created_at', 'DESC');
         return $this->db->get('news', $limit, $offset)->result();
     }
     public function insert($data) {

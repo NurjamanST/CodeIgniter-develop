@@ -19,6 +19,16 @@ class Category_model extends CI_Model {
     public function get_all() {
         return $this->db->get('categories')->result();
     }
+	// get grouped categories by collection
+	public function get_grouped_categories() {
+		$this->db->select('categories.*, collections.nama_koleksi');
+		$this->db->from('categories');
+		$this->db->join('collections', 'categories.koleksi_id = collections.id', 'left');
+		$this->db->order_by('collections.nama_koleksi', 'ASC');
+		$this->db->order_by('categories.nama_kategori', 'ASC');
+		return $this->db->get()->result();
+	}
+	
     // insert category  
     public function create($data) {
         return $this->db->insert('categories', $data);

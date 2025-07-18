@@ -13,18 +13,21 @@
     <link href="<?= base_url("assets/img/logohawe.png")?>" rel="icon">
     <!-- <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"> -->
 
-    <!-- Google Fonts Merriweather -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
+    <!-- Google Fonts Nunito -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="<?= base_url('assets/vendor/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
+    <!-- <link href="<?= base_url('assets/vendor/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet"> -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="<?= base_url('assets/vendor/bootstrap-icons/bootstrap-icons.css')?>" rel="stylesheet">
     <link href="<?= base_url('assets/vendor/boxicons/css/boxicons.min.css')?>" rel="stylesheet">
 
     
+	<!-- Include Quill CSS -->
     <link href="<?= base_url('assets/vendor/quill/quill.snow.css')?>" rel="stylesheet">
+	<!-- <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css " rel="stylesheet"> -->
     <link href="<?= base_url('assets/vendor/quill/quill.bubble.css')?>" rel="stylesheet">
 
     <link href="<?= base_url('assets/vendor/remixicon/remixicon.css')?>" rel="stylesheet">
@@ -34,9 +37,9 @@
     <link href="<?= base_url('assets/css/style.css')?>" rel="stylesheet">
     <!-- Setup Navbar Landing Page -->
     <style>
-        /* Memaksa seluruh halaman menggunakan font Merriweather */
+        /* Memaksa seluruh halaman menggunakan font Nunito */
         * {
-            font-family: 'Merriweather', serif !important;
+            font-family: 'Nunito', sans-serif !important;
         }
         /* Pastikan konten tidak tertutup navbar */
         /* body {
@@ -118,7 +121,6 @@
             font-size: 14px;
             color: #777;
         }
-
     </style>
     <!-- End Setup Navbar Landing Page -->
 
@@ -318,6 +320,81 @@
             }
         }
     </style>
+
+ 	<style>
+        .chat-bubble {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chat-button {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .chat-button:last-child {
+            margin-bottom: 0;
+        }
+
+        .chat-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .chat-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .whatsapp-btn {
+            background-color: #25d366;
+            color: white;
+        }
+
+        .back-to-top-btn {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        @media (max-width: 576px) {
+            .chat-bubble {
+                bottom: 10px;
+                right: 10px;
+            }
+
+            .chat-btn {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+
+	<!-- Card Category Landing Page -->
+	 <style>
+    .category-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 15px;
+    }
+
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+        transition: color 0.3s ease;
+    }
+</style>
 </head>
 
 <body>

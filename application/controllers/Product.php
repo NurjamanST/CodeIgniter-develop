@@ -121,102 +121,115 @@ class Product extends CI_Controller {
 
     //  create catalogue
     public function create_catalogue()
-    {
-        $this->load->library(['form_validation', 'upload']);
+	{
+		$this->load->library(['form_validation', 'upload']);
 
-        // Validasi form input
-        $this->form_validation->set_rules('nama_product', 'Nama Produk', 'required');
-        $this->form_validation->set_rules('harga', 'Harga', 'required|numeric');
-        $this->form_validation->set_rules('koleksi_id', 'Koleksi', 'required|integer');
-        $this->form_validation->set_rules('kategori_id', 'Kategori', 'required|integer');
-        $this->form_validation->set_rules('shopee', 'Shopee', 'required|valid_url');
-        $this->form_validation->set_rules('lazada', 'Lazada', 'required|valid_url');
-        $this->form_validation->set_rules('tiktokshop', 'Tiktokshop', 'required|valid_url');
-        $this->form_validation->set_rules('tokopedia', 'Tokopedia', 'required|valid_url');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
+		// Validasi form input (tanpa validasi file dulu)
+		$this->form_validation->set_rules('nama_product', 'Nama Produk', 'required');
+		$this->form_validation->set_rules('harga', 'Harga', 'required|numeric');
+		$this->form_validation->set_rules('koleksi_id', 'Koleksi', 'required|integer');
+		$this->form_validation->set_rules('kategori_id', 'Kategori', 'required|integer');
+		$this->form_validation->set_rules('shopee', 'Shopee', 'required|valid_url');
+		$this->form_validation->set_rules('lazada', 'Lazada', 'required|valid_url');
+		$this->form_validation->set_rules('tiktokshop', 'Tiktokshop', 'required|valid_url');
+		$this->form_validation->set_rules('tokopedia', 'Tokopedia', 'required|valid_url');
+		$this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
 
+		if ($this->form_validation->run() == FALSE) {
+			$this->session->set_flashdata('danger', validation_errors());
+			redirect('product/catalogues');
+			return;
+		}
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->session->set_flashdata('danger', validation_errors());
-            // redirect('product/catalogues');
-            return;
-        }
+		// Konfigurasi upload
+		$config['upload_path'] = './uploads/products/';
+		$config['allowed_types'] = 'jpg|jpeg|png|gif|webp';
+		$config['encrypt_name'] = TRUE;
+		$config['max_size'] = 2048; // 2MB
 
-        // Konfigurasi upload
-        $config['upload_path'] = './uploads/products/';
-        $config['allowed_types'] = 'jpg|jpeg|png|gif|webp';
-        $config['encrypt_name'] = TRUE;
-        // $config['max_size'] = 5048;
+		// Buat folder jika belum ada
+		if (!is_dir($config['upload_path'])) {
+			mkdir($config['upload_path'], 0777, true);
+		}
 
-        // Buat folder jika belum ada
-        if (!is_dir($config['upload_path'])) {
-            mkdir($config['upload_path'], 0777, true);
-        }
+		$this->upload->initialize($config);
 
-        $gambar = [];
-        // Upload gambar
-        $upload_count = 0;
-        $upload_errors = [];
+		$gambar = [];
+		$upload_count = 0;
+		$upload_errors = [];
 
-        for ($i = 1; $i <= 5; $i++) {
-            $field = 'gambar' . $i;
-            $gambar[$field] = null;
+		for ($i = 1; $i <= 5; $i++) {
+			$field = 'gambar' . $i;
 
-            if (!empty($_FILES[$field]['name'])) {
-                $this->upload->initialize($config);
-    
-                if ($this->upload->do_upload($field)) {
-                    $uploaded = $this->upload->data();
-                    $gambar[$field] = $uploaded['file_name'];
-                    $upload_count++;
-                } else {
-                    $upload_errors[] = "Gagal upload $field: " . strip_tags($this->upload->display_errors('', ''));
-                }
-            }
-        }
+			if (!empty($_FILES[$field]['name'])) {
+				if ($this->upload->do_upload($field)) {
+					$uploaded = $this->upload->data();
+					$gambar[$field] = $uploaded['file_name'];
+					$upload_count++;
+				} else {
+					$upload_errors[] = "Gagal upload $field: " . strip_tags($this->upload->display_errors('', ''));
+				}
+			} else {
+				$gambar[$field] = null;
+			}
+		}
 
-        // Validasi minimal 1 gambar berhasil diupload
-        if ($upload_count === 0) {
-            $this->session->set_flashdata('danger', 'Minimal 1 gambar produk harus diupload.');
-            if (!empty($upload_errors)) {
-                $this->session->set_flashdata('upload_errors', implode('<br>', $upload_errors));
-            }
-            redirect('product/form_tambah'); // Ganti sesuai form
-            return;
-        }
+		// Minimal 1 gambar harus diupload
+		if ($upload_count === 0) {
+			$this->session->set_flashdata('danger', 'Tidak ada file gambar yang diupload / file gambar tidak terbaca, Slahkan upload minimal 1 gambar produk.');
+			if (!empty($upload_errors)) {
+				$this->session->set_flashdata('upload_errors', implode('<br>', $upload_errors));
+			}
+			redirect('product/catalogues');
+			return;
+		}
 
-        echo '<pre>';
-        print_r($_FILES);
-        echo '</pre>';
-        
-        // Menyimpan data produk
-        $data = [
-            'nama_product'      => $this->input->post('nama_product'),
-            'harga'             => $this->input->post('harga'),
-            'koleksi_id'        => $this->input->post('koleksi_id'),
-            'kategori_id'       => $this->input->post('kategori_id'),
-            'gambar1'           => $gambar['gambar1'] ?? null,
-            'gambar2'           => $gambar['gambar2'] ?? null,
-            'gambar3'           => $gambar['gambar3'] ?? null,
-            'gambar4'           => $gambar['gambar4'] ?? null,
-            'gambar5'           => $gambar['gambar5'] ?? null,
-            'shopee'            => $this->input->post('shopee'),
-            'lazada'            => $this->input->post('lazada'),
-            'tiktokshop'        => $this->input->post('tiktokshop'),
-            'tokopedia'         => $this->input->post('tokopedia'),
-            'keterangan'        => $this->input->post('keterangan'),
-        ];
-        
-        // Debugging
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
+		// Simpan data produk
+		$data = [
+			'nama_product'      => $this->input->post('nama_product'),
+			'harga'             => $this->input->post('harga'),
+			'koleksi_id'        => $this->input->post('koleksi_id'),
+			'kategori_id'       => $this->input->post('kategori_id'),
+			'gambar1'           => $gambar['gambar1'] ?? null,
+			'gambar2'           => $gambar['gambar2'] ?? null,
+			'gambar3'           => $gambar['gambar3'] ?? null,
+			'gambar4'           => $gambar['gambar4'] ?? null,
+			'gambar5'           => $gambar['gambar5'] ?? null,
+			'shopee'            => $this->input->post('shopee'),
+			'lazada'            => $this->input->post('lazada'),
+			'tiktokshop'        => $this->input->post('tiktokshop'),
+			'tokopedia'         => $this->input->post('tokopedia'),
+			'keterangan'        => $this->input->post('keterangan'),
+		];
 
-        // Simpan ke database
-        $this->Product_model->insert_product($data);
-        $this->session->set_flashdata('success', 'Produk berhasil ditambahkan!');
-        redirect('product/catalogues');
-    }
+		// Simpan ke database
+		$this->Product_model->insert_product($data);
+		$this->session->set_flashdata('success', 'Produk berhasil ditambahkan!');
+		redirect('product/catalogues');
+	}
+
+	public function file_check($str, $field)
+	{
+		$config['upload_path'] = './uploads/products/';
+		$config['allowed_types'] = 'jpg|jpeg|png|gif|webp';
+		$config['max_size'] = 2048; // 2MB
+		$this->load->library('upload', $config);
+
+		if (!empty($_FILES[$field]['name'])) {
+			if (!$this->upload->do_upload($field)) {
+				$this->form_validation->set_message('file_check', $this->upload->display_errors('', ''));
+				return false;
+			} else {
+				// Hapus file sementara setelah validasi
+				$data = $this->upload->data();
+				@unlink($data['full_path']);
+				return true;
+			}
+		} else {
+			$this->form_validation->set_message('file_check', 'Silakan pilih file untuk ' . $field);
+			return false;
+		}
+	}
     
 
     // Fungsi bantu untuk handle upload file (bisa diletakkan di bawah create_catalogue)

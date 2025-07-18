@@ -36,9 +36,8 @@
           <thead class="text-center">
             <tr>
               <th style="width:5%;">#</th>
-              <th style="width:10%;">Upload Date</th>
-              <th style="width:10%;">Narrative Title</th>
-              <th style="width:auto;">Narrative Text</th>
+              <th style="width:10%;">Narrative</th>
+              <!-- <th style="width:50%;">Narrative Text</th> -->
               <th style="width:25%;">Actions</th>
             </tr>
           </thead>
@@ -46,18 +45,38 @@
             <?php foreach($news as $nw): ?>
               <tr>
                 <td><?= $nw->id ?></td>
-                <td><?= $nw->tanggal ?></td>
                 <!-- Title & Images News -->
-                <td>
-                  <h6><?= $nw->judul ?></h6>
-                  <div>
-                      <img src="<?= base_url('assets/uploads/news/'.$nw->gambar) ?>" alt="Foto" style="width: 100%; object-fit: cover; border:1px solid #ddd; padding:2px;">
-                  </div>
-                  <span class="badge bg-dark" style="font-size: 14px; margin-top: 5px;">
-                    <?= $nw->updated_at ?>
-                  </span>
-                </td>
-                <td><?= substr(strip_tags($nw->narasi), 0, 500) ?>...</td>
+                <td >
+									<div class="d-flex flex-column flex-md-row align-items-center gap-3 p-2 bg-light rounded shadow-sm border" style="width: 100%;">
+										
+										<!-- Kolom Kiri: Gambar -->
+										<div class="flex-shrink-0 text-center" style="width: 120px; height: 120px;">
+											<img src="<?= base_url('assets/uploads/news/'.$nw->gambar) ?>" 
+													alt="Foto" 
+													class="img-fluid rounded" 
+													style="object-fit: cover; height: 100%; width: 100%; border:1px solid #ddd;">
+										</div>
+
+										<!-- Kolom Kanan: Judul, Tanggal, Narasi -->
+										<div class="d-flex flex-column justify-content-between flex-grow-1 text-start">
+											<h6 class="mb-1"><?= $nw->judul ?></h6>
+											<small class="text-muted d-flex flex-wrap gap-2 mb-2">
+												<span>
+														<i class="bi bi-calendar text-primary"></i>
+														<strong>Dibuat:</strong> <?= date('d M Y', strtotime($nw->tanggal)) ?>
+												</span>
+												<span class="d-none d-sm-inline">|</span>
+												<span>
+														<i class="bi bi-clock-history text-success"></i>
+														<strong>Diubah:</strong> <?= date('d M Y, H:i', strtotime($nw->updated_at)) ?>
+												</span>
+											</small>
+											<p class="mb-0 text-truncate-2-lines" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+												<?= strip_tags($nw->narasi) ?>
+											</p>
+										</div>
+									</div>
+								</td>
                 <td>
                   <!-- Tombol Modal edit -->
                   <button class="btn btn-warning btn-sm w-100" onclick='openEditModalNews(
@@ -71,7 +90,13 @@
                     Edit
                   </button> <br><br>
                   <!-- Tombol Hapus -->
-                  <button class="btn btn-danger btn-sm w-100" onclick="openDeleteModalNews('<?= $nw->id ?>')">Hapus</button>
+                  <button class="btn btn-danger btn-sm w-100" onclick='openDeleteModalNews(
+										<?= json_encode([
+											"id" => $nw->id,
+											"judul" => $nw->judul,
+										]) ?> )'>
+										Hapus
+									</button>
                   
                 </td>
               </tr>
@@ -88,7 +113,7 @@
 <!-- Modal Tambah News -->
 <div class="modal fade" id="createNewsModal" tabindex="-1" aria-labelledby="createNewsModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
-    <form id="newsForm" action="<?= base_url('index.php/News/create') ?>" method="post" enctype="multipart/form-data">
+    <form id="addNewsForm" action="<?= base_url('index.php/News/create') ?>" method="post" enctype="multipart/form-data">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="createNewsModalLabel">Create a New Narrative</h5>
@@ -112,7 +137,7 @@
               <div class="mb-3">
                   <label for="gambar1" class="form-label">Narrative Image</label>
                   <input type="file" class="form-control" name="gambar"  accept="image/*" onchange="previewImage(event, 'preview-gambar')">
-                  <img id="preview-gambar" class="img-thumbnail mt-2" style="max-width: 200px; display:none;">
+                  <img id="preview-gambar" class="w-100 img-thumbnail mt-2" style="max-width: 200px; display:none;">
               </div>
             </div>
           </div>
@@ -121,9 +146,9 @@
               <div class="mb-3">
                 <label for="narasi" class="form-label">Narrative Text</label>
                 <!-- Quill Editor -->
-                <div id="editQuillNews" style="height: 350px;"></div>
+                <div id="quillEditoraddnews" style="height: 350px;"></div>
                 <!-- Hidden textarea -->
-                <textarea name="narasi" id="editQuillNews" style="display:none;"></textarea>
+                <textarea name="narasi" id="addnewsketerangan" style="display:none;"></textarea>
               </div>
             </div>
           </div>
@@ -165,7 +190,7 @@
               <div class="mb-3">
                 <label for="edit_gambar1" class="form-label">Narrative Image</label>
                 <input type="file" class="form-control" name="gambar" id="edit_gambar1" accept="image/*" onchange="previewImage(event, 'edit_preview_gambar')">
-                <img id="edit_preview_gambar" class="img-thumbnail mt-2" style="max-width: 200px; display:none;">
+                <img id="edit_preview_gambar" class="w-100 img-thumbnail mt-2" style="max-width: 200px; display:none;">
               </div>
             </div>
           </div>
@@ -202,8 +227,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
         </div>
         <div class="modal-body">
-          Apakah Anda yakin ingin menghapus narrative ini?
-        </div>
+					<p>Apakah Anda yakin ingin menghapus narrative ini?</p>
+					<p><strong id="deleteNewsTitle"></strong></p>
+					<p>Data yang dihapus tidak dapat dikembalikan.</p>
+				</div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-danger">Hapus</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
