@@ -58,12 +58,19 @@
                      data-date="<?= strtotime($product->created_at) ?>">
                     <div class="card h-100 border-0 shadow-sm">
                         <a href="<?= base_url("index.php/Landing/view/{$product->id}") ?>">
-                            <img src="<?= !empty($product->gambar1) 
-                                ? base_url('uploads/products/' . $product->gambar1) 
-                                : base_url('assets/img/no-image.png') ?>" 
-                                class="card-img-top object-fit-cover" 
-                                alt="<?= htmlspecialchars($product->nama_product) ?>" 
-                                style="height: 180px;">
+                            <img 
+								src="
+								<?php 
+									if (!empty($product->gambar1)) {
+										echo base_url('uploads/products/' . $product->gambar1);
+									} else {
+										echo base_url('assets/img/no-image.png');
+									}
+								?>" 
+								class="card-img-top object-fit-cover" 
+								alt="<?= htmlspecialchars($product->nama_product) ?>" 
+								style="height: 180px;"
+							>
                         </a>
                         <div class="card-body text-center p-3">
                             <p class="card-text text-dark fw-medium mb-1" style="height: 1.8rem; overflow: hidden;">
@@ -78,50 +85,46 @@
                             </p>
 
                             <!-- Tombol Marketplace -->
-                            <div class="d-flex justify-content-center mt-2">
-                                <div class="btn-group w-100">
-                                    <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-cart me-1"></i> Beli
-                                    </button>
-                                    <ul class="dropdown-menu shadow-sm">
-                                        <?php if (!empty($product->shopee)): ?>
-                                            <li>
-                                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->shopee ?>" target="_blank">
-                                                    <img src="<?= base_url("assets/img/shopee.png") ?>" alt="Shopee" width="20" class="me-2">
-                                                    Shopee
-                                                </a>
-                                            </li>
-                                        <?php endif; ?>
+							<!-- <div class="d-flex justify-content-center gap-2 mt-3">
+								<div class="btn-group">
+									<button type="button" class="btn dropdown-toggle p-3" style="background-color: #e1e1e1ff; color: #333;" data-bs-toggle="dropdown" aria-expanded="false">
+										<i class="bi bi-cart me-1"></i> Beli Sekarang
+									</button>
+									<ul class="dropdown-menu shadow-sm">
+										<?php if (!empty($product->shopee)): ?>
+											<li>
+												<a class="dropdown-item d-flex align-items-center" href="<?= $product->shopee ?>" target="_blank">
+													<img src="<?= base_url("assets/img/shopee.png") ?>" alt="Shopee" width="40" class="me-2">
+												</a>
+											</li>
+										<?php endif; ?>
 
-                                        <?php if (!empty($product->lazada)): ?>
-                                            <li>
-                                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->lazada ?>" target="_blank">
-                                                    <img src="<?= base_url("assets/img/lazada.png") ?>" alt="Lazada" width="20" class="me-2">
-                                                    Lazada
-                                                </a>
-                                            </li>
-                                        <?php endif; ?>
+										<?php if (!empty($product->lazada)): ?>
+											<li>
+												<a class="dropdown-item d-flex align-items-center" href="<?= $product->lazada ?>" target="_blank">
+													<img src="<?= base_url("assets/img/lazada.png") ?>" alt="Lazada" width="40" class="me-2">
+												</a>
+											</li>
+										<?php endif; ?>
 
-                                        <?php if (!empty($product->tiktokshop)): ?>
-                                            <li>
-                                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->tiktokshop ?>" target="_blank">
-                                                    <img src="<?= base_url("assets/img/tiktokshop.png") ?>" alt="TikTok Shop" width="20" class="me-2">
-                                                    TikTok Shop
-                                                </a>
-                                            </li>
-                                        <?php endif; ?>
+										<?php if (!empty($product->tiktokshop)): ?>
+											<li>
+												<a class="dropdown-item d-flex align-items-center" href="<?= $product->tiktokshop ?>" target="_blank">
+													<img src="<?= base_url("assets/img/tiktokshop.png") ?>" alt="TikTok Shop" width="40" class="me-2">
+												</a>
+											</li>
+										<?php endif; ?>
 
-                                        <?php if (!empty($product->tokopedia)): ?>
-                                            <li>
-                                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->tokopedia ?>" target="_blank">
-                                                    <img src="<?= base_url("assets/img/tokopedia.png") ?>" alt="Tokopedia" width="20" class="me-2">
-                                                    Tokopedia
-                                                </a>
-                                            </li>
-                                        <?php endif; ?>
-                                    </ul>
-                                </div>
-                            </div>
+										<?php if (!empty($product->tokopedia)): ?>
+											<li>
+												<a class="dropdown-item d-flex align-items-center" href="<?= $product->tokopedia ?>" target="_blank">
+													<img src="<?= base_url("assets/img/tokopedia.png") ?>" alt="Tokopedia" width="40" class="me-2">
+												</a>
+											</li>
+										<?php endif; ?>
+									</ul>
+								</div>
+							</div> -->
                         </div>
                     </div>
                 </div>

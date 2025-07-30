@@ -378,6 +378,22 @@
         }
     </style>
 
+	<!-- CSS untuk Mengatur Modal Produk Zoom  -->
+	<style>
+		/* Stilisasi Gambar Utama */
+		.main-image img {
+			width: 100%;
+			height: auto;
+			cursor: pointer;
+		}
+
+		/* Stilisasi Modal */
+		#imageModal .modal-body img {
+			max-width: 100%;
+			max-height: 90vh;
+		}
+	</style>
+
 	<!-- Card Category Landing Page -->
 	 <style>
     .category-card {

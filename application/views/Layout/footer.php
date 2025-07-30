@@ -455,7 +455,16 @@
 				// 	});
 				// });
 			</script>
+			<!-- END Burger Menu -->
 
+			<!-- JavaScript untuk Mengatur Modal Produk Zoom -->
+			<script>
+				// Fungsi untuk memperbarui gambar di modal
+				function updateModalImage(imageElement) {
+					const modalImage = document.getElementById('modalImage');
+					modalImage.src = imageElement.src;
+				}
+			</script>
 			
 			
 

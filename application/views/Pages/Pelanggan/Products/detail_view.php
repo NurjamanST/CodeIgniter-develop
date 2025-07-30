@@ -30,8 +30,8 @@
         <!-- Gambar Produk - Gaya Shopee -->
         <div class="col-md-6 d-flex flex-column align-items-center">
             <!-- Main Image Preview -->
-            <div class="main-image mb-3 border rounded overflow-hidden shadow-sm" style="width: 100%; max-width: 450px;">
-                <img id="mainImage" src="
+			<div class="main-image mb-3 border rounded overflow-hidden shadow-sm" style="width: 100%; max-width: 450px;">
+				<img id="mainImage" src="
 					<?php
 						if (!empty($product->gambar1)) {
 							echo base_url('uploads/products/' . $product->gambar1);
@@ -39,31 +39,31 @@
 							echo base_url('assets/img/no-image.png');
 						}
 					?>
-					" alt="<?= htmlspecialchars($product->nama_product) ?>" class="img-fluid">
-            </div>
+				" alt="<?= htmlspecialchars($product->nama_product) ?>" class="img-fluid" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="updateModalImage(this)">
+			</div>
 
             <!-- Thumbnail Gallery -->
-            <div class="d-flex gap-2 justify-content-center flex-wrap mt-2" style="width: 100%;">
-                <?php if (!empty($product->gambar1)): ?>
-                    <img src="<?= base_url("uploads/products/" . $product->gambar1) ?>" alt="Gambar 1" class="thumb-img rounded border active" onclick="changeImage(this)">
-                <?php endif; ?>
+			<div class="d-flex gap-2 justify-content-center flex-wrap mt-2" style="width: 100%;">
+				<?php if (!empty($product->gambar1)): ?>
+					<img src="<?= base_url("uploads/products/" . $product->gambar1) ?>" alt="Gambar 1" class="thumb-img rounded border active" onclick="changeImage(this)">
+				<?php endif; ?>
 
-                <?php if (!empty($product->gambar2)): ?>
-                    <img src="<?= base_url("uploads/products/" . $product->gambar2) ?>" alt="Gambar 2" class="thumb-img rounded border" onclick="changeImage(this)">
-                <?php endif; ?>
+				<?php if (!empty($product->gambar2)): ?>
+					<img src="<?= base_url("uploads/products/" . $product->gambar2) ?>" alt="Gambar 2" class="thumb-img rounded border" onclick="changeImage(this)">
+				<?php endif; ?>
 
-                <?php if (!empty($product->gambar3)): ?>
-                    <img src="<?= base_url("uploads/products/" . $product->gambar3) ?>" alt="Gambar 3" class="thumb-img rounded border" onclick="changeImage(this)">
-                <?php endif; ?>
+				<?php if (!empty($product->gambar3)): ?>
+					<img src="<?= base_url("uploads/products/" . $product->gambar3) ?>" alt="Gambar 3" class="thumb-img rounded border" onclick="changeImage(this)">
+				<?php endif; ?>
 
-                <?php if (!empty($product->gambar4)): ?>
-                    <img src="<?= base_url("uploads/products/" . $product->gambar4) ?>" alt="Gambar 4" class="thumb-img rounded border" onclick="changeImage(this)">
-                <?php endif; ?>
-            </div>
+				<?php if (!empty($product->gambar4)): ?>
+					<img src="<?= base_url("uploads/products/" . $product->gambar4) ?>" alt="Gambar 4" class="thumb-img rounded border" onclick="changeImage(this)">
+				<?php endif; ?>
+			</div>
         </div>
 
 		<!-- Informasi Produk -->
-        <div class="col-md-6 d-flex flex-column align-items-start mx-2">
+        <div class="col-md-6 d-flex flex-column align-items-start">
             <h4 class="mt-5"><?= htmlspecialchars($product->nama_product) ?></h4>
             <p class="text-muted"><?= $product->keterangan?></p>
             <h4 class="text-success">Rp <?= number_format($product->harga, 0, ',', '.') ?></h4>
@@ -112,6 +112,18 @@
                         <?php endif; ?>
                     </ul>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal untuk Zoom Gambar -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" alt="Gambar Produk" class="img-fluid w-100">
             </div>
         </div>
     </div>
