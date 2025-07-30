@@ -271,6 +271,7 @@ class Product extends CI_Controller {
         $uploadPath = './uploads/products/';
         $this->load->library('upload');
 
+		// 
         for ($i = 1; $i <= 5; $i++) {
             $fileField = 'gambar' . $i;
             if (!empty($_FILES[$fileField]['name'])) {

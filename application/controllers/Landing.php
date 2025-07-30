@@ -4,14 +4,15 @@ class Landing extends CI_Controller {
     public function __construct() {
         parent::__construct();
         // Load Models
-        $this->load->model(['Product_model', 'Collection_model', 'Category_model', 'News_model', 'Profile_model']);
+        	$this->load->model(['Product_model', 'Collection_model', 'Category_model', 'News_model', 'Profile_model']);
+			
         // Load Data
-        $data['collections'] = $this->Collection_model->get_all();;
-        $data['categories'] = $this->Category_model->get_all();
+			$data['collections'] = $this->Collection_model->get_all();;
+			$data['categories'] = $this->Category_model->get_all();
         
         // Load Views
-        $this->load->view('Layout/head');
-        $this->load->view('Layout/navbar_lp', $data);
+			$this->load->view('Layout/head');
+			$this->load->view('Layout/navbar_lp', $data);
 
     }
     // Halaman utama
