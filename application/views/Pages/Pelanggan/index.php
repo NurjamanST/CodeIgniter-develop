@@ -101,13 +101,14 @@
 
 								<!-- Deskripsi Produk -->
 								<div class="p-2 flex-grow-1 d-flex flex-column">
-									<p class="mb-1 text-start text-truncate" 
-									style="font-size: 0.9rem; font-weight: 500; height: 1.8rem;">
-										<?= htmlspecialchars($product->nama_product) ?>
+									<p class="card-text text-dark fw-medium mb-1" style="height: 1.8rem; overflow: hidden;">
+										<?= htmlspecialchars(substr($product->nama_product, 0, 24)) ?>...
 									</p>
-
-									<!-- Harga -->
-									<p class="mb-1 text-start text-danger fw-bold" style="font-size: 1rem;">
+									<p class="card-text text-secondary small mb-1">
+										<?= htmlspecialchars($product->nama_kategori ?? 'Kategori') ?> <br>
+										<?= htmlspecialchars($product->nama_koleksi ?? 'Koleksi') ?>
+									</p>
+									<p class="card-text text-danger fw-bold">
 										Rp <?= number_format($product->harga, 0, ',', '.') ?>
 									</p>
 								</div>
