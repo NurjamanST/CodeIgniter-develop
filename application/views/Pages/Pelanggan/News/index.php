@@ -46,7 +46,7 @@
         </div>
     </div>
     <div class="row">
-        <!-- List Produk -->
+        <!-- List News -->
         <div class="col-md-12 ">
             <div class="row">
                 <?php foreach ($news as $n): ?>

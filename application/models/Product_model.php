@@ -18,6 +18,15 @@ class Product_model extends CI_Model
         $this->db->order_by('products.id', 'ASC');
         return $this->db->get()->result();
     }
+	// Ambil sebagian produk untuk pagination
+	// public function get_limit_catalogues($limit, $offset) {
+	// 	return $this->db->get('products', $limit, $offset)->result();
+	// }
+
+	// Hitung total semua produk
+	public function count_all() {
+		return $this->db->count_all('products'); // Hitung semua baris di tabel products
+	}
     // Fungsi ini digunakan untuk mendapatkan produk dengan limit tertentu
     public function get_limit_catalogues($limit, $offset)
     {

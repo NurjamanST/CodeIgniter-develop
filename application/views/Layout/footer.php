@@ -13,6 +13,7 @@
 		<!-- Include CDN ==============================================================================================-->
 		 	<!-- Jquery -->
 			<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+			
 			<!-- Quill JS -->
 			<script src="https://cdn.quilljs.com/1.3.6/quill.min.js "></script>
 		<!-- End Include CDN -->
@@ -455,6 +456,7 @@
 				// });
 			</script>
 
+			
 			
 
 	</body>

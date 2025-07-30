@@ -29,7 +29,7 @@
     </div>
             
     <div class="row">
-        <!-- Informasi Produk -->
+        <!-- Informasi News -->
         <div class="col-md-8 d-flex flex-column align-items-start">
             <!-- Kategori & Tanggal Publikasi -->
             <div class="mb-3">
