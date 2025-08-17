@@ -50,56 +50,58 @@
 
 
     <!-- List Produk -->
-    <div class="row">
-        <?php if (!empty($products)): ?>
-            <?php foreach ($products as $product): ?>
-                <div class="col">
-					<a href="<?= base_url('index.php/Landing/view/' . $product->id) ?>" 
-					class="text-decoration-none text-dark">
-						<div class="bg-white rounded-3 shadow-sm w-100 d-flex flex-column"
-							style="transition: transform 0.2s ease; cursor: pointer;"
-							onmouseover="this.style.transform='scale(1.02)';"
-							onmouseout="this.style.transform='scale(1)';">
-							
-							<!-- Gambar Produk -->
-							<div class="position-relative overflow-hidden" style="height: 180px;">
-								<img src="<?php
-									if (!empty($product->gambar1)) {
-										echo base_url('uploads/products/' . $product->gambar1);
-									} else {
-										echo base_url('assets/img/no-image.png');
-									}
-									?>" 
-									class="w-100 object-fit-cover" 
-									alt="<?= htmlspecialchars($product->nama_product) ?>"
-									style="transition: transform 0.3s ease;"
-									onmouseover="this.style.transform='scale(1.1)';"
-									onmouseout="this.style.transform='scale(1)';">
-							</div>
+    <!-- <div class="row"> -->
+         <?php if (!empty($products)): ?>
+            <div class="row row-cols-2 row-cols-md-4 g-3">
+				<?php foreach ($products as $product): ?>
+					<div class="col">
+						<a href="<?= base_url('index.php/Landing/view/' . $product->id) ?>" 
+						class="text-decoration-none text-dark">
+							<div class="bg-white rounded-3 shadow-sm w-100 d-flex flex-column"
+								style="transition: transform 0.2s ease; cursor: pointer;"
+								onmouseover="this.style.transform='scale(1.02)';"
+								onmouseout="this.style.transform='scale(1)';">
+								
+								<!-- Gambar Produk -->
+								<div class="position-relative overflow-hidden" style="height: 180px;">
+									<img src="<?php
+										if (!empty($product->gambar1)) {
+											echo base_url('uploads/products/' . $product->gambar1);
+										} else {
+											echo base_url('assets/img/no-image.png');
+										}
+										?>" 
+										class="w-100 object-fit-cover" 
+										alt="<?= htmlspecialchars($product->nama_product) ?>"
+										style="transition: transform 0.3s ease;"
+										onmouseover="this.style.transform='scale(1.1)';"
+										onmouseout="this.style.transform='scale(1)';">
+								</div>
 
-							<!-- Deskripsi Produk -->
-							<div class="p-2 flex-grow-1 d-flex flex-column">
-								<p class="card-text text-dark fw-medium mb-1" style="height: 1.8rem; overflow: hidden;">
-									<?= htmlspecialchars(substr($product->nama_product, 0, 24)) ?>...
-								</p>
-								<p class="card-text text-secondary small mb-1">
-									<?= htmlspecialchars($product->nama_kategori ?? 'Kategori') ?> <br>
-									<?= htmlspecialchars($product->nama_koleksi ?? 'Koleksi') ?>
-								</p>
-								<p class="card-text text-danger fw-bold">
-									Rp <?= number_format($product->harga, 0, ',', '.') ?>
-								</p>
+								<!-- Deskripsi Produk -->
+								<div class="p-2 flex-grow-1 d-flex flex-column">
+									<p class="card-text text-dark fw-medium mb-1" style="height: 1.8rem; overflow: hidden;">
+										<?= htmlspecialchars(substr($product->nama_product, 0, 24)) ?>...
+									</p>
+									<p class="card-text text-secondary small mb-1">
+										<?= htmlspecialchars($product->nama_kategori ?? 'Kategori') ?> <br>
+										<?= htmlspecialchars($product->nama_koleksi ?? 'Koleksi') ?>
+									</p>
+									<p class="card-text text-danger fw-bold">
+										Rp <?= number_format($product->harga, 0, ',', '.') ?>
+									</p>
+								</div>
 							</div>
-						</div>
-					</a>
-				</div>
-            <?php endforeach; ?>
+						</a>
+					</div>
+				<?php endforeach; ?>
+			</div>
         <?php else: ?>
             <div class="col-12 text-center">
                 <p class="text-muted">Tidak ada produk ditemukan.</p>
             </div>
         <?php endif; ?>
-    </div>
+    <!-- </div> -->
 
     <!-- Pagination -->
     <div class="d-flex justify-content-center mt-4">
