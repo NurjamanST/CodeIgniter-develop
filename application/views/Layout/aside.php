@@ -46,6 +46,12 @@
           <i class="bi bi-gear"></i><span>Pengaturan Slides</span>
         </a>
       </li>
+			<li class="nav-item">
+					<a class="nav-link collapsed" href="<?= site_url('banner') ?>">
+							<i class="bi bi-card-image"></i>
+							<span>Kelola Banner</span>
+					</a>
+			</li><!-- End Banner Nav -->
       <!-- End Profile Page Nav -->
     </ul>
 

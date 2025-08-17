@@ -50,89 +50,58 @@
     </div>
 
     <!-- List Produk -->
-    <div class="row">
+    <!-- <div class="row"> -->
         <?php if (!empty($products)): ?>
-            <?php foreach ($products as $product): ?>
-                <div class="col-6 col-md-3 mb-4 product-card"
-                     data-name="<?= strtolower(htmlspecialchars($product->nama_product)) ?>"
-                     data-price="<?= (int)$product->harga ?>"
-                     data-date="<?= strtotime($product->created_at) ?>">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <a href="<?= base_url("index.php/Landing/view/{$product->id}") ?>">
-                            <img src="<?= !empty($product->gambar1) 
-                                ? base_url('uploads/products/' . $product->gambar1) 
-                                : base_url('assets/img/no-image.png') ?>" 
-                                class="card-img-top object-fit-cover" 
-                                alt="<?= htmlspecialchars($product->nama_product) ?>" 
-                                style="height: 180px;">
-                        </a>
-                        <div class="card-body text-center p-3">
-                            <p class="card-text text-dark fw-medium mb-1" style="height: 1.8rem; overflow: hidden;">
-                                <?= htmlspecialchars(substr($product->nama_product, 0, 24)) ?>...
-                            </p>
-                            <p class="card-text text-secondary small mb-1">
-                                <?= htmlspecialchars($product->nama_kategori ?? 'Kategori') ?> <br>
-                                <?= htmlspecialchars($product->nama_koleksi ?? 'Koleksi') ?>
-                            </p>
-                            <p class="card-text text-danger fw-bold">
-                                Rp <?= number_format($product->harga, 0, ',', '.') ?>
-                            </p>
+            <div class="row row-cols-2 row-cols-md-4 g-3">
+				<?php foreach ($products as $product): ?>
+					<div class="col">
+						<a href="<?= base_url('index.php/Landing/view/' . $product->id) ?>" 
+						class="text-decoration-none text-dark">
+							<div class="bg-white rounded-3 shadow-sm w-100 d-flex flex-column"
+								style="transition: transform 0.2s ease; cursor: pointer;"
+								onmouseover="this.style.transform='scale(1.02)';"
+								onmouseout="this.style.transform='scale(1)';">
+								
+								<!-- Gambar Produk -->
+								<div class="position-relative overflow-hidden" style="height: 180px;">
+									<img src="<?php
+										if (!empty($product->gambar1)) {
+											echo base_url('uploads/products/' . $product->gambar1);
+										} else {
+											echo base_url('assets/img/no-image.png');
+										}
+										?>" 
+										class="w-100 object-fit-cover" 
+										alt="<?= htmlspecialchars($product->nama_product) ?>"
+										style="transition: transform 0.3s ease;"
+										onmouseover="this.style.transform='scale(1.1)';"
+										onmouseout="this.style.transform='scale(1)';">
+								</div>
 
-                            <!-- Tombol Marketplace -->
-                            <div class="d-flex justify-content-center mt-2">
-                                <div class="btn-group w-100">
-                                    <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-cart me-1"></i> Beli
-                                    </button>
-                                    <ul class="dropdown-menu shadow-sm">
-                                        <?php if (!empty($product->shopee)): ?>
-                                            <li>
-                                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->shopee ?>" target="_blank">
-                                                    <img src="<?= base_url("assets/img/shopee.png") ?>" alt="Shopee" width="20" class="me-2">
-                                                    Shopee
-                                                </a>
-                                            </li>
-                                        <?php endif; ?>
-
-                                        <?php if (!empty($product->lazada)): ?>
-                                            <li>
-                                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->lazada ?>" target="_blank">
-                                                    <img src="<?= base_url("assets/img/lazada.png") ?>" alt="Lazada" width="20" class="me-2">
-                                                    Lazada
-                                                </a>
-                                            </li>
-                                        <?php endif; ?>
-
-                                        <?php if (!empty($product->tiktokshop)): ?>
-                                            <li>
-                                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->tiktokshop ?>" target="_blank">
-                                                    <img src="<?= base_url("assets/img/tiktokshop.png") ?>" alt="TikTok Shop" width="20" class="me-2">
-                                                    TikTok Shop
-                                                </a>
-                                            </li>
-                                        <?php endif; ?>
-
-                                        <?php if (!empty($product->tokopedia)): ?>
-                                            <li>
-                                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->tokopedia ?>" target="_blank">
-                                                    <img src="<?= base_url("assets/img/tokopedia.png") ?>" alt="Tokopedia" width="20" class="me-2">
-                                                    Tokopedia
-                                                </a>
-                                            </li>
-                                        <?php endif; ?>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+								<!-- Deskripsi Produk -->
+								<div class="p-2 flex-grow-1 d-flex flex-column">
+									<p class="card-text text-dark fw-medium mb-1" style="height: 1.8rem; overflow: hidden;">
+										<?= htmlspecialchars(substr($product->nama_product, 0, 24)) ?>...
+									</p>
+									<p class="card-text text-secondary small mb-1">
+										<?= htmlspecialchars($product->nama_kategori ?? 'Kategori') ?> <br>
+										<?= htmlspecialchars($product->nama_koleksi ?? 'Koleksi') ?>
+									</p>
+									<p class="card-text text-danger fw-bold">
+										Rp <?= number_format($product->harga, 0, ',', '.') ?>
+									</p>
+								</div>
+							</div>
+						</a>
+					</div>
+				<?php endforeach; ?>
+			</div>
         <?php else: ?>
             <div class="col-12 text-center">
                 <p class="text-muted">Tidak ada produk ditemukan.</p>
             </div>
         <?php endif; ?>
-    </div>
+    <!-- </div> -->
 
     <!-- Pagination -->
     <div class="d-flex justify-content-center mt-4">

@@ -114,4 +114,75 @@ class Product_model extends CI_Model
         return $this->db->get()->result();
     }
 
+
+	// Method baru untuk menghitung total hasil pencarian
+	public function count_search_results($keyword)
+	{
+		if (empty($keyword)) {
+			return 0;
+		}
+		
+		$this->db->join('collections', 'products.koleksi_id = collections.id', 'left');
+		$this->db->join('categories', 'products.kategori_id = categories.id', 'left');
+
+		$this->db->group_start();
+		$this->db->like('nama_product', $keyword);
+		$this->db->or_like('keterangan', $keyword);
+		$this->db->or_like('collections.nama_koleksi', $keyword);
+		$this->db->or_like('categories.nama_kategori', $keyword);
+		$this->db->group_end();
+		
+		return $this->db->count_all_results('products');
+	}
+
+	// Modifikasi method search_products untuk menerima limit, offset, dan sort_by
+	public function search_products($keyword, $sort_by, $limit, $offset)
+	{
+		if (empty($keyword)) {
+			return array();
+		}
+
+		$this->db->select('
+			products.*, 
+			collections.nama_koleksi, 
+			categories.nama_kategori
+		');
+		$this->db->from('products');
+		$this->db->join('collections', 'products.koleksi_id = collections.id', 'left');
+		$this->db->join('categories', 'products.kategori_id = categories.id', 'left');
+		
+		$this->db->group_start();
+		$this->db->like('nama_product', $keyword);
+		$this->db->or_like('keterangan', $keyword);
+		$this->db->or_like('collections.nama_koleksi', $keyword);
+		$this->db->or_like('categories.nama_kategori', $keyword);
+		$this->db->group_end();
+		
+		// Logika Pengurutan
+		switch ($sort_by) {
+			case 'az':
+				$this->db->order_by('nama_product', 'ASC');
+				break;
+			case 'za':
+				$this->db->order_by('nama_product', 'DESC');
+				break;
+			case 'lowHigh':
+				$this->db->order_by('harga', 'ASC');
+				break;
+			case 'highLow':
+				$this->db->order_by('harga', 'DESC');
+				break;
+			case 'oldNew':
+				$this->db->order_by('products.created_at', 'ASC');
+				break;
+			case 'newOld':
+			default:
+				$this->db->order_by('products.created_at', 'DESC');
+				break;
+		}
+
+		$this->db->limit($limit, $offset);
+		return $this->db->get()->result();
+	}
+
 }

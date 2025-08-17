@@ -53,17 +53,19 @@
 	
 	
 	<!-- BEST SELLING -->
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-12 col-lg-12 text-center fw-bold">
-                <div class="position-relative shadow-sm rounded-3 overflow-hidden">
-                    <img src="<?= base_url('assets/img/bestselling.png')?>" class="img-fluid" style="width: 100%;" alt="Best Selling">
-                    <div class="position-absolute top-50 start-0 translate-end text-white fw-bold" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);">
-                        <h1>BEST SELLING PRODUCTS</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <!-- End BEST SELLING -->
+	<?php if (isset($banner_best_selling) && $banner_best_selling): ?>
+	<div class="row d-flex justify-content-center">
+		<div class="col-md-12 col-lg-12 text-center fw-bold">
+			<div class="position-relative shadow-sm rounded-3 overflow-hidden">
+				<img src="<?= base_url('assets/img/' . $banner_best_selling->gambar)?>" class="img-fluid" style="width: 100%;height:70vh; object-fit: cover;" alt="Best Selling">
+				<div class="position-absolute top-50 start-50 translate-middle text-white fw-bold" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);">
+					<h1><?= html_escape($banner_best_selling->teks) ?></h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php endif; ?>
+	<!-- End BEST SELLING -->
 
 	
 	

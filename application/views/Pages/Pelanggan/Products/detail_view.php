@@ -75,14 +75,14 @@
             <!-- Tombol Marketplace -->
             <div class="d-flex justify-content-center gap-2 mt-3">
                 <div class="btn-group">
-                    <button type="button" class="btn dropdown-toggle p-3" style="background-color: #e1e1e1ff; color: #333;" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button type="button" class="btn dropdown-toggle p-3 w-25" style="background-color: #e1e1e1ff; color: #333;" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-cart me-1"></i> Beli Sekarang
                     </button>
                     <ul class="dropdown-menu shadow-sm">
                         <?php if (!empty($product->shopee)): ?>
                             <li>
                                 <a class="dropdown-item d-flex align-items-center" href="<?= $product->shopee ?>" target="_blank">
-                                    <img src="<?= base_url("assets/img/shopee.png") ?>" alt="Shopee" width="40" class="me-2">
+                                    <img src="<?= base_url("assets/img/shopee.png") ?>" alt="Shopee" width="30" class="me-2">
                                 </a>
                             </li>
                         <?php endif; ?>
@@ -90,7 +90,7 @@
                         <?php if (!empty($product->lazada)): ?>
                             <li>
                                 <a class="dropdown-item d-flex align-items-center" href="<?= $product->lazada ?>" target="_blank">
-                                    <img src="<?= base_url("assets/img/lazada.png") ?>" alt="Lazada" width="40" class="me-2">
+                                    <img src="<?= base_url("assets/img/lazada.png") ?>" alt="Lazada" width="30" class="me-2">
                                 </a>
                             </li>
                         <?php endif; ?>
@@ -98,7 +98,7 @@
                         <?php if (!empty($product->tiktokshop)): ?>
                             <li>
                                 <a class="dropdown-item d-flex align-items-center" href="<?= $product->tiktokshop ?>" target="_blank">
-                                    <img src="<?= base_url("assets/img/tiktokshop.png") ?>" alt="TikTok Shop" width="40" class="me-2">
+                                    <img src="<?= base_url("assets/img/tiktokshop.png") ?>" alt="TikTok Shop" width="30" class="me-2">
                                 </a>
                             </li>
                         <?php endif; ?>
@@ -106,7 +106,7 @@
                         <?php if (!empty($product->tokopedia)): ?>
                             <li>
                                 <a class="dropdown-item d-flex align-items-center" href="<?= $product->tokopedia ?>" target="_blank">
-                                    <img src="<?= base_url("assets/img/tokopedia.png") ?>" alt="Tokopedia" width="40" class="me-2">
+                                    <img src="<?= base_url("assets/img/tokopedia.png") ?>" alt="Tokopedia" width="30" class="me-2">
                                 </a>
                             </li>
                         <?php endif; ?>

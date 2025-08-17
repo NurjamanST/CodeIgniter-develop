@@ -1,22 +1,22 @@
 <!-- Background Putih -->
-<div class="container-fluid py-5 bg-white">
+<div class="container-fluid py-5 bg-light">
     <div class="py-5"></div>
 </div>
 
 <!-- Page Content -->
 <div class="container my-5">
     <!-- Breadcrumb + Judul Halaman + Sort By -->
-    <div class="col-md-12 bg-warning border-0 rounded-3 mb-3">
+    <div class="col-md-12 border-0 rounded-3 mb-3">
         <div class="card border-0 rounded-3 shadow-sm">
             <!-- Breadcrumb -->
-            <div class="card-header">
+            <div class="card-header bg-white">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
                             <a href="<?= base_url('index.php/Landing/index') ?>">Home</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            <?= $page_title ?>
+                            Hasil Pencarian
                         </li>
                     </ol>
                 </nav>
@@ -26,9 +26,9 @@
             <div class="card-body d-flex flex-wrap justify-content-between align-items-start">
                 <!-- Judul dan Informasi -->
                 <div class="mb-3 mb-md-0">
-                    <h5 class="card-title mb-1"><?= $page_title ?></h5>
+                    <h5 class="card-title mb-1">Hasil Pencarian untuk "<?= html_escape($keyword) ?>"</h5>
                     <p class="card-text text-secondary mb-0 mt-1">
-                        Menampilkan <?= count($products) ?> dari <?= $total_products ?> produk.
+                        Menampilkan <?= count($products) ?> dari <?= $total_products ?> produk ditemukan.
                     </p>
                 </div>
 
@@ -36,18 +36,17 @@
                 <div class="d-flex flex-wrap mt-0 mt-md-5">
                     <select id="sortSelect" class="form-select form-select-sm w-100 w-md-auto me-2 my-2 mb-md-0 px-3 py-2" aria-label="Sort By">
                         <option value="">Sort By</option>
-                        <option value="az">A to Z</option>
-                        <option value="za">Z to A</option>
-                        <option value="lowHigh">Harga: Rendah ke Tinggi</option>
-                        <option value="highLow">Harga: Tinggi ke Rendah</option>
-                        <option value="oldNew">Tanggal: Lama ke Baru</option>
-                        <option value="newOld">Tanggal: Baru ke Lama</option>
+                        <option value="newOld" <?= ($sort_by == 'newOld') ? 'selected' : '' ?>>Terbaru</option>
+                        <option value="oldNew" <?= ($sort_by == 'oldNew') ? 'selected' : '' ?>>Terlama</option>
+                        <option value="az" <?= ($sort_by == 'az') ? 'selected' : '' ?>>A to Z</option>
+                        <option value="za" <?= ($sort_by == 'za') ? 'selected' : '' ?>>Z to A</option>
+                        <option value="lowHigh" <?= ($sort_by == 'lowHigh') ? 'selected' : '' ?>>Harga: Rendah ke Tinggi</option>
+                        <option value="highLow" <?= ($sort_by == 'highLow') ? 'selected' : '' ?>>Harga: Tinggi ke Rendah</option>
                     </select>
                 </div>
             </div>
         </div>
     </div>
-
 
     <!-- List Produk -->
     <div class="row">
@@ -106,3 +105,14 @@
         <?= $this->pagination->create_links(); ?>
     </div>
 </div>
+
+<script>
+document.getElementById('sortSelect').addEventListener('change', function() {
+    var sortValue = this.value;
+    var currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('sort_by', sortValue);
+    // Reset page to 1 when sorting changes
+    currentUrl.searchParams.delete('page'); 
+    window.location.href = currentUrl.toString();
+});
+</script>

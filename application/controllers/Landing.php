@@ -4,7 +4,7 @@ class Landing extends CI_Controller {
     public function __construct() {
         parent::__construct();
         // Load Models
-        	$this->load->model(['Product_model', 'Collection_model', 'Category_model', 'News_model', 'Profile_model']);
+			$this->load->model(['Product_model', 'Collection_model', 'Category_model', 'News_model', 'Profile_model', 'Banner_model']);
 			
         // Load Data
 			$data['collections'] = $this->Collection_model->get_all();;
@@ -27,6 +27,7 @@ class Landing extends CI_Controller {
         $data['collections'] = $this->Collection_model->get_all();
         $data['sliders'] = $this->db->order_by('urutan')->get_where('sliders', ['status' => 'aktif'])->result();
         $data['news'] = $this->News_model->get_limit_news(4, 0);
+		$data['banner_best_selling'] = $this->Banner_model->get_banner('Best Selling');
 		
 		// Load Profile
 		$this->load->model('Profile_model');
@@ -41,60 +42,60 @@ class Landing extends CI_Controller {
 	
 	// Menampilkan daftar semua produk
 	public function products() {
-    $page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
-    $per_page = 8;
-    $offset = ($page - 1) * $per_page;
+		$page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
+		$per_page = 8;
+		$offset = ($page - 1) * $per_page;
 
-    // Ambil produk
-    $data['products'] = $this->Product_model->get_limit_catalogues($per_page, $offset);
-    $total_products = $this->Product_model->count_all();
-    $data['total_products'] = $total_products;
+		// Ambil produk
+		$data['products'] = $this->Product_model->get_limit_catalogues($per_page, $offset);
+		$total_products = $this->Product_model->count_all();
+		$data['total_products'] = $total_products;
 
-    // Konfigurasi pagination
-    $config['base_url'] = base_url('index.php/Landing/products');
-    $config['total_rows'] = $total_products;
-    $config['per_page'] = $per_page;
-    $config['use_page_numbers'] = TRUE;
-    $config['page_query_string'] = TRUE;
-    $config['query_string_segment'] = 'page';
+		// Konfigurasi pagination
+		$config['base_url'] = base_url('index.php/Landing/products');
+		$config['total_rows'] = $total_products;
+		$config['per_page'] = $per_page;
+		$config['use_page_numbers'] = TRUE;
+		$config['page_query_string'] = TRUE;
+		$config['query_string_segment'] = 'page';
 
-    $config['full_tag_open'] = '<ul class="pagination justify-content-center">';
-    $config['full_tag_close'] = '</ul>';
-    $config['first_link'] = '«';
-    $config['last_link'] = '»';
-    $config['first_tag_open'] = '<li class="page-item">';
-    $config['first_tag_close'] = '</li>';
-    $config['prev_link'] = '&laquo;';
-    $config['prev_tag_open'] = '<li class="page-item">';
-    $config['prev_tag_close'] = '</li>';
-    $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
-    $config['cur_tag_close'] = '</a></li>';
-    $config['num_tag_open'] = '<li class="page-item">';
-    $config['num_tag_close'] = '</li>';
-    $config['next_link'] = '&raquo;';
-    $config['next_tag_open'] = '<li class="page-item">';
-    $config['next_tag_close'] = '</li>';
-    $config['last_tag_open'] = '<li class="page-item">';
-    $config['last_tag_close'] = '</li>';
-    $config['attributes'] = ['class' => 'page-link'];
+		$config['full_tag_open'] = '<ul class="pagination justify-content-center">';
+		$config['full_tag_close'] = '</ul>';
+		$config['first_link'] = '«';
+		$config['last_link'] = '»';
+		$config['first_tag_open'] = '<li class="page-item">';
+		$config['first_tag_close'] = '</li>';
+		$config['prev_link'] = '&laquo;';
+		$config['prev_tag_open'] = '<li class="page-item">';
+		$config['prev_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['num_tag_open'] = '<li class="page-item">';
+		$config['num_tag_close'] = '</li>';
+		$config['next_link'] = '&raquo;';
+		$config['next_tag_open'] = '<li class="page-item">';
+		$config['next_tag_close'] = '</li>';
+		$config['last_tag_open'] = '<li class="page-item">';
+		$config['last_tag_close'] = '</li>';
+		$config['attributes'] = ['class' => 'page-link'];
 
-    $this->pagination->initialize($config);
+		$this->pagination->initialize($config);
 
-    // Data tambahan
-    $data['categories'] = $this->Category_model->get_all();
-    $data['collections'] = $this->Collection_model->get_all();
+		// Data tambahan
+		$data['categories'] = $this->Category_model->get_all();
+		$data['collections'] = $this->Collection_model->get_all();
 
-    // Load profile
-    $this->load->model('Profile_model');
-    $data['profile'] = $this->Profile_model->get();
+		// Load profile
+		$this->load->model('Profile_model');
+		$data['profile'] = $this->Profile_model->get();
 
-    // Judul halaman
-    $data['page_title'] = 'Semua Produk';
+		// Judul halaman
+		$data['page_title'] = 'Semua Produk';
 
-    // Load view
-    $this->load->view('Pages/Pelanggan/Products/products', $data);
-    $this->load->view('Layout/addon-footer-lp', $data);
-    $this->load->view('Layout/footer');
+		// Load view
+		$this->load->view('Pages/Pelanggan/Products/products', $data);
+		$this->load->view('Layout/addon-footer-lp', $data);
+		$this->load->view('Layout/footer');
 	}
 
 
@@ -161,4 +162,68 @@ class Landing extends CI_Controller {
         $this->load->view('Layout/addon-footer-lp', $data);
         $this->load->view('Layout/footer');
     }
+
+	// 
+	public function search() {
+		$this->load->library('pagination');
+		$keyword = $this->input->get('keyword');
+		$sort_by = $this->input->get('sort_by') ? $this->input->get('sort_by') : 'newOld'; // Default: produk terbaru
+
+		$page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
+		$per_page = 8; // Jumlah produk per halaman
+		$offset = ($page - 1) * $per_page;
+
+		// Menghitung total produk yang ditemukan
+		$total_products = $this->Product_model->count_search_results($keyword);
+
+		// Mengambil produk sesuai dengan halaman dan urutan
+		$data['products'] = $this->Product_model->search_products($keyword, $sort_by, $per_page, $offset);
+		$data['keyword'] = $keyword;
+		$data['total_products'] = $total_products;
+		$data['sort_by'] = $sort_by;
+
+		// Konfigurasi Paginasi
+		$config['base_url'] = base_url('index.php/landing/search');
+		$config['total_rows'] = $total_products;
+		$config['per_page'] = $per_page;
+		$config['use_page_numbers'] = TRUE;
+		$config['page_query_string'] = TRUE;
+		$config['query_string_segment'] = 'page';
+		$config['reuse_query_string'] = TRUE;
+
+		// Kustomisasi Tampilan Paginasi (Bootstrap 5)
+		$config['full_tag_open'] = '<ul class="pagination justify-content-center">';
+		$config['full_tag_close'] = '</ul>';
+		$config['first_link'] = '«';
+		$config['last_link'] = '»';
+		$config['first_tag_open'] = '<li class="page-item">';
+		$config['first_tag_close'] = '</li>';
+		$config['prev_link'] = '&laquo;';
+		$config['prev_tag_open'] = '<li class="page-item">';
+		$config['prev_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['num_tag_open'] = '<li class="page-item">';
+		$config['num_tag_close'] = '</li>';
+		$config['next_link'] = '&raquo;';
+		$config['next_tag_open'] = '<li class="page-item">';
+		$config['next_tag_close'] = '</li>';
+		$config['last_tag_open'] = '<li class="page-item">';
+		$config['last_tag_close'] = '</li>';
+		$config['attributes'] = ['class' => 'page-link'];
+
+		$this->pagination->initialize($config);
+
+		// Data tambahan untuk layout
+		$data['categories'] = $this->Category_model->get_all();
+		$data['collections'] = $this->Collection_model->get_all();
+		$this->load->model('Profile_model');
+		$data['profile'] = $this->Profile_model->get();
+		$data['page_title'] = 'Hasil Pencarian';
+
+		// Load view
+		$this->load->view('Pages/Pelanggan/Products/search_results', $data);
+		$this->load->view('Layout/addon-footer-lp', $data);
+		$this->load->view('Layout/footer');
+	}
 }
