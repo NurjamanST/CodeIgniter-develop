@@ -356,12 +356,12 @@
         }
 
         .whatsapp-btn {
-            background-color: #25d366;
+            background-color: #626864ff;
             color: white;
         }
 
         .back-to-top-btn {
-            background-color: #0d6efd;
+            background-color: #626864ff;
             color: white;
         }
 
