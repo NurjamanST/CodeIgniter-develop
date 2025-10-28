@@ -35,6 +35,14 @@
 
     <!-- Template Main CSS File -->
     <link href="<?= base_url('assets/css/style.css')?>" rel="stylesheet">
+    <script src="https://unpkg.com/stickybits@3.7.7/dist/stickybits.min.js"></script>
+
+    <!-- gsap -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+     
+       <!-- ScrollTrigger plugin -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
     <!-- Setup Navbar Landing Page -->
     <style>
         /* Memaksa seluruh halaman menggunakan font Nunito */

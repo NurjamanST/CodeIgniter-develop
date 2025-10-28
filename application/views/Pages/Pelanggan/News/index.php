@@ -59,6 +59,14 @@
                                 <div class="card-body mt-2">
                                     <p class="card-text text-dark">
                                         <?= htmlspecialchars(substr(strip_tags($n->judul), 0, 50) ?? 'News Title') ?>
+                                  <p class="card-text text-dark" style="
+                                        display: -webkit-box;
+                                        -webkit-line-clamp: 3;
+                                        -webkit-box-orient: vertical;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                    ">
+                                        <?= htmlspecialchars(strip_tags($n->narasi)) ?>
                                     </p>
                                     <small class="card-text text-secondary">
                                         <?= $n->created_at ?> | <?= "@HaweCollections" ?>    

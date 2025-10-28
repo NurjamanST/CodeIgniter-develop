@@ -66,7 +66,9 @@
 								<div class="position-relative overflow-hidden" style="height: 180px;">
 									<img src="<?php
 										if (!empty($product->gambar1)) {
-											echo base_url('uploads/products/' . $product->gambar1);
+                                            
+											// echo base_url('uploads/products/' . $product->gambar1); default
+                                            echo 'https://picsum.photos/300/300?random=' . strtotime($product->created_at);
 										} else {
 											echo base_url('assets/img/no-image.png');
 										}
@@ -79,15 +81,15 @@
 								</div>
 
 								<!-- Deskripsi Produk -->
-								<div class="p-2 flex-grow-1 d-flex flex-column">
+								<div class="p-2 flex-grow-1 d-flex flex-column text-center">
 									<p class="card-text text-dark fw-medium mb-1" style="height: 1.8rem; overflow: hidden;">
 										<?= htmlspecialchars(substr($product->nama_product, 0, 24)) ?>...
 									</p>
 									<p class="card-text text-secondary small mb-1">
 										<?= htmlspecialchars($product->nama_kategori ?? 'Kategori') ?> <br>
-										<?= htmlspecialchars($product->nama_koleksi ?? 'Koleksi') ?>
+								
 									</p>
-									<p class="card-text text-danger fw-bold">
+									<p class="card-text fw-bold" style="color: #212121;">
 										Rp <?= number_format($product->harga, 0, ',', '.') ?>
 									</p>
 								</div>

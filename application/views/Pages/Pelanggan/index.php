@@ -19,7 +19,7 @@
 <!-- End Slider Banner -->
 
 <!-- Main Content -->
-<div class="container my-1">
+<div class="container my-1 fade-up">
     <!-- PRODUCT CATEGORY -->
 		<div class="container py-5">
 			<div class="text-center mb-4">
@@ -54,10 +54,14 @@
 	
 	<!-- BEST SELLING -->
 	<?php if (isset($banner_best_selling) && $banner_best_selling): ?>
-	<div class="row d-flex justify-content-center">
+	<div class="row d-flex justify-content-center fade-up">
 		<div class="col-md-12 col-lg-12 text-center fw-bold">
 			<div class="position-relative shadow-sm rounded-3 overflow-hidden">
-				<img src="<?= base_url('assets/img/' . $banner_best_selling->gambar)?>" class="img-fluid" style="width: 100%;height:70vh; object-fit: cover;" alt="Best Selling">
+				<!-- <img src="<?= base_url('assets/img/' . $banner_best_selling->gambar)?>" class="img-fluid" style="width: 100%;height:70vh; object-fit: cover;" alt="Best Selling"> default -->
+			<img src="https://picsum.photos/1200/700?random=<?= time() ?>" 
+			class="img-fluid" 
+			style="width: 100%;height:70vh; object-fit: cover;" 
+			alt="Best Selling">
 				<div class="position-absolute top-50 start-50 translate-middle text-white fw-bold" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);">
 					<h1><?= html_escape($banner_best_selling->teks) ?></h1>
 				</div>
@@ -70,7 +74,7 @@
 	
 	
 	<!-- CARD PRODUCT - NEW ARRIVAL -->
-		<div class="row d-flex justify-content-center">
+		<div class="row d-flex justify-content-center fade-up">
 			<div class="col-md-12 col-lg-12 text-center mt-4 fw-bold">
 				<h4>New Arrival</h4>
 			</div>
@@ -89,7 +93,8 @@
 								<div class="position-relative overflow-hidden" style="height: 180px;">
 									<img src="<?php
 										if (!empty($product->gambar1)) {
-											echo base_url('uploads/products/' . $product->gambar1);
+											// echo base_url('uploads/products/' . $product->gambar1); DEFAULT
+											echo 'https://picsum.photos/300/300?random=' . strtotime($product->created_at);
 										} else {
 											echo base_url('assets/img/no-image.png');
 										}
@@ -102,15 +107,15 @@
 								</div>
 
 								<!-- Deskripsi Produk -->
-								<div class="p-2 flex-grow-1 d-flex flex-column">
+								<div class="p-2 flex-grow-1 d-flex flex-column text-center">
 									<p class="card-text text-dark fw-medium mb-1" style="height: 1.8rem; overflow: hidden;">
 										<?= htmlspecialchars(substr($product->nama_product, 0, 24)) ?>...
 									</p>
 									<p class="card-text text-secondary small mb-1">
 										<?= htmlspecialchars($product->nama_kategori ?? 'Kategori') ?> <br>
-										<?= htmlspecialchars($product->nama_koleksi ?? 'Koleksi') ?>
+										
 									</p>
-									<p class="card-text text-danger fw-bold">
+									<p class="card-text fw-bold" style="color: #212121;">
 										Rp <?= number_format($product->harga, 0, ',', '.') ?>
 									</p>
 								</div>
@@ -134,9 +139,9 @@
 	
 	
 	<!-- CARD NEWS -->
-		<div class="row mx-2 d-flex justify-content-center">
-			<div class="col-md-12 col-lg-12 text-center py-4 fw-bold">
-				<h4>Latest News</h4>
+		<div class="row mx-2 d-flex justify-content-center fade-up">
+			<div class="col-md-12 col-lg-12 text-center py-4 fw-bold ">
+				<h2 class="fw-bold">Latest News</h2>
 			</div>
 			<div class="row row-cols-2 row-cols-md-4 gx-4">
 				<?php foreach ($news as $n): ?>
@@ -161,4 +166,5 @@
 			</div>
 		</div>
 	<!-- End CARD NEWS -->
-</iv>
+</div>
+<script src="<?= base_url('assets/js/animations.js') ?>"></script>

@@ -70,7 +70,7 @@
         </div>
 
         <hr class="my-4">
-        <!-- Visi & Misi -->
+        <!-- Visi & Misi
         <div class="row mt-5">
             <div class="col-md-6 mb-4">
                 <h3>Visi</h3>
@@ -80,6 +80,6 @@
                 <h3>Misi</h3>
                 <p><?= nl2br(htmlspecialchars($profile->misi ?? 'Belum ada misi.')) ?></p>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>

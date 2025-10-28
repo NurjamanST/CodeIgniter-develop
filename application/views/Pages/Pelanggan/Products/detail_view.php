@@ -1,6 +1,5 @@
-<div class="container-fluid py-5 mb-2 bg bg-white"></div>
 <!-- Page Content -->
-<div class="container-fluid py-5 mb-2 bg bg-white">
+<div class="container-fluid mb-2 bg-white position-relative " style="padding-top: 120px;">
     <!-- Breadcrumb -->
     <div class="col-md-12 mb-4">
         <div class="card">
@@ -25,106 +24,113 @@
             </div>
         </div>
     </div>
-            
-    <div class="row">
-        <!-- Gambar Produk - Gaya Shopee -->
-        <div class="col-md-6 d-flex flex-column align-items-center">
-            <!-- Main Image Preview -->
-			<div class="main-image mb-3 border rounded overflow-hidden shadow-sm" style="width: 100%; max-width: 450px;">
-				<img id="mainImage" src="
-					<?php
-						if (!empty($product->gambar1)) {
-							echo base_url('uploads/products/' . $product->gambar1);
-						} else {
-							echo base_url('assets/img/no-image.png');
-						}
-					?>
-				" alt="<?= htmlspecialchars($product->nama_product) ?>" class="img-fluid" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="updateModalImage(this)">
-			</div>
 
-            <!-- Thumbnail Gallery -->
-			<div class="d-flex gap-2 justify-content-center flex-wrap mt-2" style="width: 100%;">
-				<?php if (!empty($product->gambar1)): ?>
-					<img src="<?= base_url("uploads/products/" . $product->gambar1) ?>" alt="Gambar 1" class="thumb-img rounded border active" onclick="changeImage(this)">
-				<?php endif; ?>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sticky Product Detail GSAP</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    background: #f8f9fa;
+    padding-top: 50px;
+  }
 
-				<?php if (!empty($product->gambar2)): ?>
-					<img src="<?= base_url("uploads/products/" . $product->gambar2) ?>" alt="Gambar 2" class="thumb-img rounded border" onclick="changeImage(this)">
-				<?php endif; ?>
+  .col-left img {
+    width: 100%;
+    border-radius: 10px;
+    display: block;
+  }
 
-				<?php if (!empty($product->gambar3)): ?>
-					<img src="<?= base_url("uploads/products/" . $product->gambar3) ?>" alt="Gambar 3" class="thumb-img rounded border" onclick="changeImage(this)">
-				<?php endif; ?>
+  .product-detail {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
 
-				<?php if (!empty($product->gambar4)): ?>
-					<img src="<?= base_url("uploads/products/" . $product->gambar4) ?>" alt="Gambar 4" class="thumb-img rounded border" onclick="changeImage(this)">
-				<?php endif; ?>
-			</div>
-        </div>
+  .col-right {
+    position: relative;
+  }
+</style>
+</head>
+<body>
 
-		<!-- Informasi Produk -->
-        <div class="col-md-6 d-flex flex-column align-items-start">
-            <h4 class="mt-5"><?= htmlspecialchars($product->nama_product) ?></h4>
-            <p class="text-muted"><?= $product->keterangan?></p>
-            <h4 class="text-success">Rp <?= number_format($product->harga, 0, ',', '.') ?></h4>
-            <ul class="list-unstyled mt-3">
-                <li><strong>Kategori:</strong> <?= htmlspecialchars($product->nama_kategori ?? 'Tidak diketahui') ?></li>
-                <li><strong>Koleksi:</strong> <?= htmlspecialchars($product->nama_koleksi ?? 'Tidak tersedia') ?></li>
-            </ul>
+<div class="container" id="productContainer">
+  <div class="row align-items-start">
 
-            <!-- Tombol Marketplace -->
-            <div class="d-flex justify-content-center gap-2 mt-3">
-                <div class="btn-group">
-                    <button type="button" class="btn dropdown-toggle p-3 w-25" style="background-color: #e1e1e1ff; color: #333;" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-cart me-1"></i> Beli Sekarang
-                    </button>
-                    <ul class="dropdown-menu shadow-sm">
-                        <?php if (!empty($product->shopee)): ?>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->shopee ?>" target="_blank">
-                                    <img src="<?= base_url("assets/img/shopee.png") ?>" alt="Shopee" width="30" class="me-2">
-                                </a>
-                            </li>
-                        <?php endif; ?>
-
-                        <?php if (!empty($product->lazada)): ?>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->lazada ?>" target="_blank">
-                                    <img src="<?= base_url("assets/img/lazada.png") ?>" alt="Lazada" width="30" class="me-2">
-                                </a>
-                            </li>
-                        <?php endif; ?>
-
-                        <?php if (!empty($product->tiktokshop)): ?>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->tiktokshop ?>" target="_blank">
-                                    <img src="<?= base_url("assets/img/tiktokshop.png") ?>" alt="TikTok Shop" width="30" class="me-2">
-                                </a>
-                            </li>
-                        <?php endif; ?>
-
-                        <?php if (!empty($product->tokopedia)): ?>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="<?= $product->tokopedia ?>" target="_blank">
-                                    <img src="<?= base_url("assets/img/tokopedia.png") ?>" alt="Tokopedia" width="30" class="me-2">
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <!-- KIRI -->
+    <div class="col-md-6 col-left" id="left-col">
+      <?php for($i=0;$i<6;$i++): ?>
+        <img src="https://picsum.photos/600/400?random=<?= $i ?>" 
+             alt="Gambar <?= $i ?>" 
+             class="img-fluid rounded py-2">
+      <?php endfor; ?>
     </div>
+
+    <!-- KANAN -->
+    <div class="col-md-5 ms-4 col-right">
+      <div class="product-detail" id="productDetail">
+        <h2>Kids Couple Towel - Astronaut Snuggles</h2>
+        <p class="text-muted fs-5 mb-4">Rp 329.900,00</p>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Color</label>
+          <div class="d-flex flex-wrap gap-2">
+            <?php 
+            $colors = [
+              "DREAMY BEIGE – DREAMY BEIGE",
+              "DREAMY BEIGE – MAGIC LILAC",
+              "MAGIC LILAC – MAGIC LILAC",
+              "MAGIC LILAC – TWILIGHT BLUE",
+              "TWILIGHT BLUE – TWILIGHT BLUE",
+              "TWILIGHT BLUE – DREAMY BEIGE"
+            ];
+            foreach ($colors as $color): ?>
+              <button type="button" class="btn btn-outline-secondary btn-sm"><?= $color ?></button>
+            <?php endforeach; ?>
+          </div>
+        </div>
+
+        <h4>Nama Produk</h4>
+        <p class="text-muted"><?= $product->keterangan ?? 'Deskripsi demo produk di sini'; ?></p>
+        <h4 class="text-success">Rp 329.900</h4>
+
+        <ul class="list-unstyled mt-3">
+          <li><strong>Kategori:</strong> Demo Kategori</li>
+          <li><strong>Koleksi:</strong> Demo Koleksi</li>
+        </ul>
+
+        <button class="btn btn-primary mt-3">Add to Cart</button>
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-<!-- Modal untuk Zoom Gambar -->
-<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-body text-center">
-                <img id="modalImage" src="" alt="Gambar Produk" class="img-fluid w-100">
-            </div>
-        </div>
-    </div>
-</div>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  const productDetail = document.getElementById("productDetail");
+  const container = document.getElementById("productContainer");
+
+  // ScrollTrigger Sticky logic
+  ScrollTrigger.create({
+    trigger: productDetail,
+    start: "bottom bottom", // ketika produk kanan habis (bawah-nya menyentuh bawah layar)
+    endTrigger: container,  // sticky sampai container habis
+    end: "bottom bottom",
+    pin: productDetail,     // elemen yang di-pin (sticky)
+    pinSpacing: false,      // tidak menambah ruang kosong di bawah
+    scrub: true,
+    markers: true // bisa kamu matikan nanti
+  });
+</script>
+
+</body>
+</html>
