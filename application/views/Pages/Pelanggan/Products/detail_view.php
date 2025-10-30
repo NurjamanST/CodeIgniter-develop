@@ -136,50 +136,23 @@
   
 
   // Parallax kiri lebih lambat
-  let isScrollingToColor = false;
   window.addEventListener('scroll', () => {
-    if (isScrollingToColor) return;
-    
     const rect = container.getBoundingClientRect();
     const scrollTop = window.scrollY || window.pageYOffset;
-    const containerTop = container.offsetTop;
-    
-    if (scrollTop > containerTop) {
-      const scrollDistance = scrollTop - containerTop;
-      const maxScroll = container.offsetHeight - window.innerHeight;
-      const offset = Math.min(scrollDistance * 0.3, maxScroll * 0.3);
-      leftCol.style.transform = `translateY(${offset}px)`;
-    } else {
-      leftCol.style.transform = 'translateY(0px)';
-    }
+    const containerHeight = container.offsetHeight - leftCol.offsetHeight;
+    const offset = Math.min((scrollTop - container.offsetTop) * 0.4, containerHeight);
+    leftCol.style.transform = `translateY(${offset}px)`;
   });
   
   // Fungsi scroll ke warna tertentu
   function scrollToColor(colorIndex) {
     const colorElement = document.getElementById('color-' + colorIndex);
     if (colorElement) {
-      isScrollingToColor = true;
-      
-      // Hitung posisi absolut dari element
-      const elementRect = colorElement.getBoundingClientRect();
-      const absoluteTop = elementRect.top + window.pageYOffset;
-      const currentTransform = leftCol.style.transform;
-      const currentOffset = currentTransform.match(/translateY\((-?\d+\.?\d*)px\)/) 
-        ? parseFloat(currentTransform.match(/translateY\((-?\d+\.?\d*)px\)/)[1]) 
-        : 0;
-      
-      // Target scroll dengan kompensasi parallax
-      const targetScroll = absoluteTop - currentOffset - 140;
-      
+      const offsetTop = colorElement.getBoundingClientRect().top + window.pageYOffset - 140;
       window.scrollTo({
-        top: targetScroll,
+        top: offsetTop,
         behavior: 'smooth'
       });
-      
-      // Reset flag setelah scroll selesai
-      setTimeout(() => {
-        isScrollingToColor = false;
-      }, 1000);
     }
   }
 </script>
