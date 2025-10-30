@@ -33,6 +33,22 @@
   .col-right {
     position: relative;
   }
+
+  /* ===== MOBILE VERSION ===== */
+  @media (max-width: 768px) {
+    .row.align-items-start {
+      flex-direction: column;
+    }
+    .col-left, .col-right {
+      transform: none !important;
+      position: static !important;
+      width: 100%;
+      margin: 0 !important;
+    }
+    .col-right {
+      margin-top: 20px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -42,7 +58,6 @@
     <!-- Breadcrumb -->
     <div class="col-md-12 mb-4">
         <div class="card">
-            <!-- Breadcrumb -->
             <div class="card-header py-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
@@ -63,6 +78,7 @@
             </div>
         </div>
     </div>
+
 <div class="container" id="productContainer">
   <div class="row align-items-start">
     <!-- KIRI -->
@@ -112,48 +128,76 @@
   </div>
 </div>
 
-
 <!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-  gsap.registerPlugin(ScrollTrigger);
-  const productDetail = document.getElementById("productDetail");
-  const container = document.getElementById("productContainer");
-  const leftCol = document.getElementById("left-col");
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-  // Sticky kanan + scroll lebih cepat
-  ScrollTrigger.create({
-    trigger: productDetail,
-    start: "top top+=120",
-    endTrigger: container,
-    end: "bottom bottom",
-    pin: productDetail,
-    pinSpacing: true,
-    scrub: 1.2,
-    markers: true
-  });
-  
+  if (!isMobile) {
+    // ======== DESKTOP / TABLET MODE (aktifkan efek) ========
+    gsap.registerPlugin(ScrollTrigger);
+    const productDetail = document.getElementById("productDetail");
+    const container = document.getElementById("productContainer");
+    const leftCol = document.getElementById("left-col");
 
-  // Parallax kiri lebih lambat
-  window.addEventListener('scroll', () => {
-    const rect = container.getBoundingClientRect();
-    const scrollTop = window.scrollY || window.pageYOffset;
-    const containerHeight = container.offsetHeight - leftCol.offsetHeight;
-    const offset = Math.min((scrollTop - container.offsetTop) * 0.4, containerHeight);
-    leftCol.style.transform = `translateY(${offset}px)`;
-  });
-  
-  // Fungsi scroll ke warna tertentu
-  function scrollToColor(colorIndex) {
-    const colorElement = document.getElementById('color-' + colorIndex);
-    if (colorElement) {
-      const offsetTop = colorElement.getBoundingClientRect().top + window.pageYOffset - 140;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
-      });
+    // Sticky kanan
+    ScrollTrigger.create({
+      trigger: productDetail,
+      start: "top top+=120",
+      endTrigger: container,
+      end: "bottom bottom",
+      pin: productDetail,
+      pinSpacing: true,
+      scrub: 1.2,
+      markers: false
+      
+    });
+
+    // Parallax kiri
+    let isScrollingToColor = false;
+    window.addEventListener('scroll', () => {
+      if (isScrollingToColor) return;
+      const scrollTop = window.scrollY || window.pageYOffset;
+      const containerTop = container.offsetTop;
+      const containerBottom = containerTop + container.offsetHeight;
+      if (scrollTop > containerTop && scrollTop < containerBottom) {
+        const scrollDistance = scrollTop - containerTop;
+        const containerScrollHeight = container.offsetHeight - leftCol.offsetHeight;
+        if (containerScrollHeight > 0) {
+          const offset = Math.min(scrollDistance * 0.2, containerScrollHeight);
+          leftCol.style.transform = `translateY(${offset}px)`;
+        }
+      } else if (scrollTop <= containerTop) {
+        leftCol.style.transform = 'translateY(0px)';
+      }
+    });
+
+    // Scroll ke warna tertentu
+    function scrollToColor(colorIndex) {
+      const colorElement = document.getElementById('color-' + colorIndex);
+      if (colorElement) {
+        isScrollingToColor = true;
+        const elementRect = colorElement.getBoundingClientRect();
+        const absoluteTop = elementRect.top + window.pageYOffset;
+        const currentTransform = leftCol.style.transform;
+        const currentOffset = currentTransform.match(/translateY\((-?\d+\.?\d*)px\)/)
+          ? parseFloat(currentTransform.match(/translateY\((-?\d+\.?\d*)px\)/)[1])
+          : 0;
+        const targetScroll = absoluteTop - currentOffset - 140;
+        window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+        setTimeout(() => { isScrollingToColor = false; }, 1000);
+      }
     }
+
+    // expose ke global
+    window.scrollToColor = scrollToColor;
+
+  } else {
+    // ======== MOBILE MODE (nonaktifkan semua efek) ========
+   
+    // Pastikan kolom tidak ada transform tersisa
+    document.getElementById("left-col").style.transform = "none";
   }
 </script>
 
