@@ -18,7 +18,7 @@
                   <div class="pt-4 pb-2">
                     <p class="text-center small">"Special gift for a special moment"</p>
                   </div>
-                  <?php echo password_hash('passwordbaru', PASSWORD_DEFAULT); ?>
+                
                     <?php if ($this->session->flashdata('error')): ?>
                         <div class="alert alert-danger">
                             <?= $this->session->flashdata('error') ?>
