@@ -122,26 +122,10 @@
                   <?= substr(strip_tags($cata->keterangan), 0, 50) ?>...</td>
                 <td>
                   <!-- Tombol Modal edit -->
-                  <button class="btn btn-warning btn-sm w-100" onclick='openEditModal(
-                    <?= json_encode([
-                      "id" => $cata->id,
-                      "nama_product" => $cata->nama_product,
-                      "harga" => $cata->harga,
-                      "koleksi_id" => $cata->koleksi_id,
-                      "kategori_id" => $cata->kategori_id,
-                      "keterangan" => $cata->keterangan,
-                      "shopee" => $cata->shopee,
-                      "lazada" => $cata->lazada,
-                      "tiktokshop" => $cata->tiktokshop,
-                      "tokopedia" => $cata->tokopedia,
-                      "gambar1" => $cata->gambar1,
-                      "gambar2" => $cata->gambar2,
-                      "gambar3" => $cata->gambar3,
-                      "gambar4" => $cata->gambar4,
-                      "gambar5" => $cata->gambar5,
-                    ]) ?> )'> 
-                    Edit
-                  </button> <br><br>
+                 <button type="button" class="btn btn-warning btn-sm w-100" 
+    onclick='openEditModal(<?= htmlspecialchars(json_encode($cata), ENT_QUOTES, "UTF-8") ?>)'>
+    Edit
+</button> <br><br>
                   <!-- Tombol Hapus -->
                   <button class="btn btn-danger btn-sm w-100" onclick="openDeleteModal('<?= $cata->id ?>')">Hapus</button>
                   
@@ -261,33 +245,32 @@
 
 
 
-
 <!-- Modal Edit Catalogues -->
 <div class="modal fade" id="editCatalogueModal" tabindex="-1" aria-labelledby="editCatalogueModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
-    <form action="<?= base_url('index.php/Product/update_catalogue') ?>" id="formEditProduk" method="post" enctype="multipart/form-data">
+    <form id="formEditProduk" method="post" action="<?= base_url('index.php/Product/update_catalogue') ?>" enctype="multipart/form-data">
       <input type="hidden" name="id" id="edit_id">
 
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="editCatalogueModalLabel">Edit Produk</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
 
         <div class="modal-body">
+
+          <!-- Atas: info produk -->
           <div class="row">
             <!-- Kolom Kanan -->
             <div class="col-md-7">
               <div class="mb-3">
                 <label for="edit_nama_product" class="form-label">Nama Produk</label>
-                <input type="text" class="form-control" name="nama_product" id="edit_nama_product" required>
+                <input type="text" class="form-control" id="edit_nama_product" name="nama_product" required>
               </div>
-
               <div class="mb-3">
                 <label for="edit_harga" class="form-label">Harga</label>
-                <input type="number" class="form-control" name="harga" id="edit_harga" required>
+                <input type="number" class="form-control" id="edit_harga" name="harga" required>
               </div>
-
               <div class="mb-3">
                 <label for="edit_koleksiSelect" class="form-label">Pilih Koleksi</label>
                 <select id="edit_koleksiSelect" class="form-select" name="koleksi_id" required>
@@ -297,7 +280,6 @@
                   <?php endforeach; ?>
                 </select>
               </div>
-
               <div class="mb-3">
                 <label for="edit_kategoriSelect" class="form-label">Pilih Kategori</label>
                 <select id="edit_kategoriSelect" class="form-select" name="kategori_id" required>
@@ -306,52 +288,42 @@
               </div>
             </div>
 
-            <!-- Kolom Kiri -->
+            <!-- Kolom Kiri: marketplace -->
             <div class="col-md-5">
-              <div class="mb-4">
-                <div class="mb-3">
-                  <label for="edit_shopee" class="form-label">Shopee</label>
-                  <input type="url" class="form-control" name="shopee" id="edit_shopee" placeholder="https://shopee.com/produk... ">
-                </div>
-
-                <div class="mb-3">
-                  <label for="edit_lazada" class="form-label">Lazada</label>
-                  <input type="url" class="form-control" name="lazada" id="edit_lazada" placeholder="https://www.lazada.com/produk... ">
-                </div>
-
-                <div class="mb-3">
-                  <label for="edit_tiktokshop" class="form-label">TikTok Shop</label>
-                  <input type="url" class="form-control" name="tiktokshop" id="edit_tiktokshop" placeholder="https://www.tiktok.com/ @.../product...">
-                </div>
-
-                <div class="mb-3">
-                  <label for="edit_tokopedia" class="form-label">Tokopedia</label>
-                  <input type="url" class="form-control" name="tokopedia" id="edit_tokopedia" placeholder="https://www.tokopedia.com/produk... ">
-                </div>
+              <div class="mb-3">
+                <label for="edit_shopee" class="form-label">Shopee</label>
+                <input type="text" class="form-control" id="edit_shopee" name="shopee" required>
+              </div>
+              <div class="mb-3">
+                <label for="edit_lazada" class="form-label">Lazada</label>
+                <input type="text" class="form-control" id="edit_lazada" name="lazada" required>
+              </div>
+              <div class="mb-3">
+                <label for="edit_tiktokshop" class="form-label">Tiktok Shop</label>
+                <input type="text" class="form-control" id="edit_tiktokshop" name="tiktokshop" required>
+              </div>
+              <div class="mb-3">
+                <label for="edit_tokopedia" class="form-label">Tokopedia</label>
+                <input type="text" class="form-control" id="edit_tokopedia" name="tokopedia" required>
               </div>
             </div>
           </div>
 
-          <!-- Upload Gambar & Keterangan -->
-          <div class="row">
-            <div class="col-md-5">
-              <?php for ($i = 1; $i <= 5; $i++): ?>
-              <div class="mb-3">
-                <label for="edit_gambar<?= $i ?>" class="form-label">Gambar <?= $i ?></label>
-                <input type="file" class="form-control" name="gambar<?= $i ?>" id="edit_gambar<?= $i ?>" onchange="previewImage(event, 'edit_preview_gambar<?= $i  ?>')">
-                <img id="edit_preview_gambar<?= $i ?>" class="w-100 img-thumbnail mt-2" style="max-width: 100%; display: none;">
-              </div>
-              <?php endfor; ?>
-            </div>
+          <hr>
 
-            <div class="col-md-7">
-              <div class="mb-3">
-                <label for="quillEditoreditprod" class="form-label">Keterangan</label>
-                <div id="quillEditoreditprod" style="height: 100vh;"></div>
-                <textarea name="keterangan" id="edit_keterangan" style="display:none;"></textarea>
-              </div>
-            </div>
+          <!-- Warna + Gambar -->
+          <div id="editColorImagesContainer"></div>
+          <button type="button" class="btn btn-secondary btn-sm mb-3" onclick="addEditColorImageRow()">Tambah Warna</button>
+
+          <hr>
+
+          <!-- Keterangan -->
+          <div class="mb-3">
+            <label for="edit_keterangan" class="form-label">Keterangan</label>
+            <div id="quillEditoreditprod" style="height: 200px;"></div>
+            <textarea name="keterangan" id="edit_keterangan" style="display:none;"></textarea>
           </div>
+
         </div>
 
         <div class="modal-footer">
@@ -362,6 +334,7 @@
     </form>
   </div>
 </div>
+
 
 <!-- Modal Hapus Catalogues -->
 <div class="modal fade" id="deleteCatalogueModal" tabindex="-1" aria-labelledby="deleteCatalogueModalLabel" aria-hidden="true">
@@ -423,6 +396,77 @@ function previewImage(event, previewId) {
         reader.readAsDataURL(files[0]); // preview gambar pertama saja
     }
 }
+ let editQuill;
 
+document.addEventListener('DOMContentLoaded', function() {
+  // Inisialisasi Quill
+  editQuill = new Quill('#quillEditoreditprod', { theme: 'snow' });
 
+  document.getElementById('formEditProduk').addEventListener('submit', function() {
+    document.getElementById('edit_keterangan').value = editQuill.root.innerHTML;
+  });
+});
+
+// Fungsi membuka modal edit
+function openEditModal(product) {
+  if (!editQuill) return;
+
+  document.getElementById('edit_id').value = product.id;
+  document.getElementById('edit_nama_product').value = product.nama_product;
+  document.getElementById('edit_harga').value = product.harga;
+  document.getElementById('edit_shopee').value = product.shopee;
+  document.getElementById('edit_lazada').value = product.lazada;
+  document.getElementById('edit_tiktokshop').value = product.tiktokshop;
+  document.getElementById('edit_tokopedia').value = product.tokopedia;
+  document.getElementById('edit_koleksiSelect').value = product.koleksi_id;
+  document.getElementById('edit_kategoriSelect').value = product.kategori_id;
+  editQuill.root.innerHTML = product.keterangan || '';
+
+  // Reset warna & gambar
+  const container = document.getElementById('editColorImagesContainer');
+  container.innerHTML = '';
+  if (product.colors && product.colors.length > 0) {
+    product.colors.forEach((c, i) => addEditColorImageRow(c, i));
+  } else {
+    addEditColorImageRow(); // default 1 row
+  }
+
+  new bootstrap.Modal(document.getElementById('editCatalogueModal')).show();
+}
+
+// Fungsi tambah row warna & gambar (sama seperti modal create)
+function addEditColorImageRow(color = {}, index = 0) {
+  const container = document.getElementById('editColorImagesContainer');
+  const row = document.createElement('div');
+  row.classList.add('color-image-row', 'row', 'mb-3');
+
+  row.innerHTML = `
+    <div class="col-md-6">
+      <label class="form-label">Nama Warna</label>
+      <input type="text" name="color_name[]" class="form-control" placeholder="Misal: Merah" value="${color.name || ''}" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Upload Gambar</label>
+      <input type="file" name="color_image[${index}][]" class="form-control" accept="image/*" multiple onchange="previewImage(event, 'preview-edit-color-${index}')">
+      <div class="mt-2">
+        <img id="preview-edit-color-${index}" class="w-100 img-thumbnail mt-2 img-fluid" style="display:${color.images?.length ? 'block' : 'none'};" src="${color.images?.[0] || ''}">
+      </div>
+    </div>
+  `;
+  container.appendChild(row);
+}
+
+// Fungsi preview gambar
+function previewImage(event, previewId) {
+  const input = event.target;
+  const preview = document.getElementById(previewId);
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
 </script>

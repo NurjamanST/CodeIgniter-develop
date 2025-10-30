@@ -219,96 +219,157 @@ public function create_catalogue_debug()
 
 
 
+public function create_catalogue()
+{
+    // Ambil input produk
+    $nama_product  = $this->input->post('nama_product');
+    $harga         = $this->input->post('harga');
+    $koleksi_id    = $this->input->post('koleksi_id');
+    $kategori_id   = $this->input->post('kategori_id');
+    $shopee        = $this->input->post('shopee');
+    $lazada        = $this->input->post('lazada');
+    $tiktokshop    = $this->input->post('tiktokshop');
+    $tokopedia     = $this->input->post('tokopedia');
+    $keterangan    = $this->input->post('keterangan');
 
+    // Simpan produk utama
+    $product_id = $this->Product_model->insert_product([
+        'nama_product' => $nama_product,
+        'harga'        => $harga,
+        'koleksi_id'   => $koleksi_id,
+        'kategori_id'  => $kategori_id,
+        'shopee'       => $shopee,
+        'lazada'       => $lazada,
+        'tiktokshop'   => $tiktokshop,
+        'tokopedia'    => $tokopedia,
+        'keterangan'   => $keterangan
+    ]);
 
-
-	public function file_check($str, $field)
-	{
-		$config['upload_path']   = FCPATH . 'uploads/products/'; // path absolut
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['max_size']      = 2048; // KB
-        $this->load->library('upload', $config);
-
-
-		if (!empty($_FILES[$field]['name'])) {
-			if (!$this->upload->do_upload($field)) {
-				$this->form_validation->set_message('file_check', $this->upload->display_errors('', ''));
-				return false;
-			} else {
-				// Hapus file sementara setelah validasi
-				$data = $this->upload->data();
-				@unlink($data['full_path']);
-				return true;
-			}
-		} else {
-			$this->form_validation->set_message('file_check', 'Silakan pilih file untuk ' . $field);
-			return false;
-		}
-	}
-    
-
-    // Fungsi bantu untuk handle upload file (bisa diletakkan di bawah create_catalogue)
-    private function _upload_file($field, $config)
-    {
-        if (!empty($_FILES[$field]['name'])) {
-            $this->upload->initialize($config);
-            if ($this->upload->do_upload($field)) {
-                return $this->upload->data('file_name');
-            } else {
-                // Log atau tampilkan error (sementara)
-                log_message('error', $this->upload->display_errors());
-                return null;
-            }
-        }
-        return null;
+    // Upload folder
+    $uploadPath = FCPATH . 'uploads/products/';
+    if (!is_dir($uploadPath)) {
+        mkdir($uploadPath, 0777, true);
     }
 
-    // Fungsi untuk menampilkan form edit produk 
-    public function update_catalogue()
-    {
-        $id = $this->input->post('id');
+    // Ambil warna dan gambar
+    $colors = $this->input->post('color_name');
+    if (!empty($colors)) {
+        foreach ($colors as $index => $color_name) {
+            // Simpan warna
+            $color_id = $this->Product_color_model->create([
+                'product_id' => $product_id,
+                'nama_warna' => $color_name
+            ]);
 
-        // Ambil data lama untuk cek gambar yang sudah ada
-        $oldData = $this->Product_model->get_by_id($id);
+            // Upload gambar untuk warna
+            if (isset($_FILES['color_image']['name'][$index])) {
+                $filesCount = count($_FILES['color_image']['name'][$index]);
+                for ($f = 0; $f < $filesCount; $f++) {
+                    if ($_FILES['color_image']['name'][$index][$f] != '') {
+                        // Set array temporary untuk CI upload
+                        $_FILES['userfile']['name']     = $_FILES['color_image']['name'][$index][$f];
+                        $_FILES['userfile']['type']     = $_FILES['color_image']['type'][$index][$f];
+                        $_FILES['userfile']['tmp_name'] = $_FILES['color_image']['tmp_name'][$index][$f];
+                        $_FILES['userfile']['error']    = $_FILES['color_image']['error'][$index][$f];
+                        $_FILES['userfile']['size']     = $_FILES['color_image']['size'][$index][$f];
 
-        $data = [
-            'nama_product' => $this->input->post('nama_product'),
-            'harga' => $this->input->post('harga'),
-            'koleksi_id' => $this->input->post('koleksi_id'),
-            'kategori_id' => $this->input->post('kategori_id'),
-            'shopee' => $this->input->post('shopee'),
-            'lazada' => $this->input->post('lazada'),
-            'tiktokshop' => $this->input->post('tiktokshop'),
-            'tokopedia' => $this->input->post('tokopedia'),
-            'keterangan' => $this->input->post('keterangan'),
-        ];
+                        // Config upload
+                        $config = [
+                            'upload_path'   => $uploadPath,
+                            'allowed_types' => 'jpg|jpeg|png|gif',
+                            'max_size'      => 2048,
+                            'file_name'     => time() . '_' . rand(1000,9999)
+                        ];
 
-        $uploadPath = './uploads/products/';
-        $this->load->library('upload');
+                        $this->upload->initialize($config);
 
-		// 
-        for ($i = 1; $i <= 5; $i++) {
-            $fileField = 'gambar' . $i;
-            if (!empty($_FILES[$fileField]['name'])) {
-                $config['upload_path'] = $uploadPath;
-                $config['allowed_types'] = 'jpg|jpeg|png|gif';
-                $config['file_name'] = time() . '_' . $i . '_' . $_FILES[$fileField]['name'];
-                $this->upload->initialize($config);
-
-                if ($this->upload->do_upload($fileField)) {
-                    // Hapus gambar lama jika ada
-                    if (!empty($oldData->$fileField) && file_exists($uploadPath . $oldData->$fileField)) {
-                        unlink($uploadPath . $oldData->$fileField);
+                        if ($this->upload->do_upload('userfile')) {
+                            $data = $this->upload->data();
+                            // Simpan ke DB
+                            $this->Product_color_images_model->create([
+                                'product_color_id' => $color_id,
+                                'image'            => $data['file_name']
+                            ]);
+                        }
                     }
-
-                    $data[$fileField] = $this->upload->data('file_name');
                 }
             }
         }
-
-        $this->Product_model->update_catalogue($id, $data);
-        redirect('Product/catalogues');
     }
+
+    redirect('Product/catalogues');
+}
+
+public function update_catalogue()
+{
+    $id = $this->input->post('id');
+
+    // Ambil data lama
+    $oldData = $this->Product_model->get_by_id($id);
+
+    $data = [
+        'nama_product' => $this->input->post('nama_product'),
+        'harga'        => $this->input->post('harga'),
+        'koleksi_id'   => $this->input->post('koleksi_id'),
+        'kategori_id'  => $this->input->post('kategori_id'),
+        'shopee'       => $this->input->post('shopee'),
+        'lazada'       => $this->input->post('lazada'),
+        'tiktokshop'   => $this->input->post('tiktokshop'),
+        'tokopedia'    => $this->input->post('tokopedia'),
+        'keterangan'   => $this->input->post('keterangan')
+    ];
+
+    $uploadPath = FCPATH . 'uploads/products/';
+    if (!is_dir($uploadPath)) mkdir($uploadPath, 0777, true);
+
+    // Update data utama
+    $this->Product_model->update_catalogue($id, $data);
+
+    // Hapus dan upload warna baru (sederhana: hapus semua warna lama, lalu insert baru)
+    $this->Product_color_model->delete_by_product($id);
+
+    $colors = $this->input->post('color_name');
+    if (!empty($colors)) {
+        foreach ($colors as $index => $color_name) {
+            $color_id = $this->Product_color_model->create([
+                'product_id' => $id,
+                'nama_warna' => $color_name
+            ]);
+
+            if (isset($_FILES['color_image']['name'][$index])) {
+                $filesCount = count($_FILES['color_image']['name'][$index]);
+                for ($f = 0; $f < $filesCount; $f++) {
+                    if ($_FILES['color_image']['name'][$index][$f] != '') {
+                        $_FILES['userfile']['name']     = $_FILES['color_image']['name'][$index][$f];
+                        $_FILES['userfile']['type']     = $_FILES['color_image']['type'][$index][$f];
+                        $_FILES['userfile']['tmp_name'] = $_FILES['color_image']['tmp_name'][$index][$f];
+                        $_FILES['userfile']['error']    = $_FILES['color_image']['error'][$index][$f];
+                        $_FILES['userfile']['size']     = $_FILES['color_image']['size'][$index][$f];
+
+                        $config = [
+                            'upload_path'   => $uploadPath,
+                            'allowed_types' => 'jpg|jpeg|png|gif',
+                            'max_size'      => 2048,
+                            'file_name'     => time() . '_' . rand(1000,9999)
+                        ];
+
+                        $this->upload->initialize($config);
+
+                        if ($this->upload->do_upload('userfile')) {
+                            $fileData = $this->upload->data();
+                            $this->Product_color_images_model->create([
+                                'product_color_id' => $color_id,
+                                'image'            => $fileData['file_name']
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    redirect('Product/catalogues');
+}
 
     public function delete_catalogue()
     {
