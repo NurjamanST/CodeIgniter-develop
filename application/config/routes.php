@@ -52,3 +52,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'landing';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+// Admin
+$route['auth/login'] = 'Auth/login';
+$route['auth/do_login'] = 'Auth/do_login';
+$route['auth/logout'] = 'Auth/logout';
+$route['profile'] = 'Profile/index';
+
+// Landing page / collections
+$route['landing'] = 'Landing/index';
+$route['collections'] = 'Collections/index';
+$route['collections/(:any)'] = 'Collections/$1';

@@ -5,19 +5,38 @@ class Product_model extends CI_Model
 {
     // Fungsi ini digunakan untuk mendapatkan semua produk dari tabel 'products'
     // dengan menggabungkan tabel 'collections' dan 'categories'
-    public function get_all_catalogues()
-    {
-        $this->db->select('
-            products.*, 
-            collections.nama_koleksi, 
-            categories.nama_kategori
-        ');
-        $this->db->from('products');
-        $this->db->join('collections', 'products.koleksi_id = collections.id', 'left');
-        $this->db->join('categories', 'products.kategori_id = categories.id', 'left');
-        $this->db->order_by('products.id', 'ASC');
-        return $this->db->get()->result();
+   public function get_all_catalogues()
+{
+$this->db->select('
+    p.*, 
+    c.nama_koleksi, 
+    k.nama_kategori,
+    MAX(pci.image) as image
+');
+
+    $this->db->from('products p');
+    $this->db->join('collections c', 'p.koleksi_id = c.id', 'left');
+    $this->db->join('categories k', 'p.kategori_id = k.id', 'left');
+    $this->db->join('product_color pc', 'pc.product_id = p.id', 'left');
+    $this->db->join('product_color_images pci', 'pci.product_color_id = pc.id', 'left');
+    $this->db->group_by('p.id');
+    $this->db->order_by('p.id', 'ASC');
+
+    $result = $this->db->get()->result();
+
+    // Kelompokkan gambar jadi array per produk
+     foreach ($result as &$row) {
+      $row->images = $this->db
+            ->select('pci.image') // <— ini barisnya
+            ->from('product_color_images pci')
+            ->join('product_color pc', 'pci.product_color_id = pc.id', 'left')
+            ->where('pc.product_id', $row->id)
+            ->get()
+            ->result();
     }
+    return $result;
+}
+
 	// Ambil sebagian produk untuk pagination
 	// public function get_limit_catalogues($limit, $offset) {
 	// 	return $this->db->get('products', $limit, $offset)->result();
@@ -49,9 +68,11 @@ class Product_model extends CI_Model
 
     // Fungsi untuk menyimpan produk baru
     public function insert_product($data)
-    {
-        $this->db->insert('products', $data);
-    }
+{
+    $this->db->insert('products', $data);
+    return $this->db->insert_id(); // tambahkan ini untuk ambil ID produk
+}
+
     public function update_catalogue($id, $data)
     {
         $this->db->where('id', $id);
@@ -184,5 +205,16 @@ class Product_model extends CI_Model
 		$this->db->limit($limit, $offset);
 		return $this->db->get()->result();
 	}
+
+    public function get_colors_with_images($product_id)
+{
+    $this->db->select('pc.id as color_id, pc.nama_warna, pci.image');
+    $this->db->from('product_color pc');
+    $this->db->join('product_color_images pci', 'pci.product_color_id = pc.id', 'left');
+    $this->db->where('pc.product_id', $product_id);
+    $this->db->order_by('pc.id', 'ASC');
+    return $this->db->get()->result();
+}
+
 
 }

@@ -5,6 +5,8 @@ class Landing extends CI_Controller {
         parent::__construct();
         // Load Models
 			$this->load->model(['Product_model', 'Collection_model', 'Category_model', 'News_model', 'Profile_model', 'Banner_model']);
+			$this->load->model('Product_color_model');
+			$this->load->model('Product_image_model');
 			
         // Load Data
 			$data['collections'] = $this->Collection_model->get_all();;
@@ -99,23 +101,33 @@ class Landing extends CI_Controller {
 	}
 
 
-    // Menampilkan detail produk berdasarkan ID
     public function view($id) {
-        $data['product'] = $this->Product_model->get_product_by_id($id);
-        $data['categories'] = $this->Category_model->get_all();
-        $data['collections'] = $this->Collection_model->get_all();;
-        if (!$data['product']) {
-            show_404(); // Tampilkan error jika produk tidak ditemukan
-        }
+    $data['product'] = $this->Product_model->get_product_by_id($id);
+    $data['categories'] = $this->Category_model->get_all();
+    $data['collections'] = $this->Collection_model->get_all();
 
-		// Load Profile
-		$this->load->model('Profile_model');
-		$data['profile'] = $this->Profile_model->get();
-
-        $this->load->view('Pages/Pelanggan/Products/detail_view', $data);
-        $this->load->view('Layout/addon-footer-lp', $data);
-        $this->load->view('Layout/footer');
+    if (!$data['product']) {
+        show_404(); // Tampilkan error jika produk tidak ditemukan
     }
+
+    // Load Profile
+    $this->load->model('Profile_model');
+    $data['profile'] = $this->Profile_model->get();
+
+    // Ambil semua warna + gambar untuk produk ini
+    $colors = $this->Product_color_model->get_colors_with_images($id);
+
+	foreach ($colors as $key => $color) {
+		$colors[$key]->images = $this->Product_image_model->get_by_color($color->id);
+	}
+
+	$data['colors'] = $colors;
+
+    $this->load->view('Pages/Pelanggan/Products/detail_view', $data);
+    $this->load->view('Layout/addon-footer-lp', $data);
+    $this->load->view('Layout/footer');
+}
+
     // Menampilkan list News
     public function news() {
         $data['news'] = $this->News_model->get_all();

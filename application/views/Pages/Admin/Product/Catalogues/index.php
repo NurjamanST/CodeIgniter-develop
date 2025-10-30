@@ -47,25 +47,46 @@
           <tbody>
             <?php foreach($catalogues as $cata): ?>
               <tr>
+                
                 <td><?= $cata->id ?></td>
                 <!-- Foto Produk -->
                 <td>
-                  <h6><?= $cata->nama_product ?></h6>
-                  <div style="display: flex; gap: 5px;">
-                    <?php
-                        $gambarList = [$cata->gambar1, $cata->gambar2, $cata->gambar3, $cata->gambar4, $cata->gambar5];
-                        foreach ($gambarList as $gambar) :
-                        if (!empty($gambar)) :
-                    ?>
-                        <img src="<?= base_url('uploads/products/'.$gambar) ?>" alt="Foto" style="width: 50px; height: 50px; object-fit: cover; border:1px solid #ddd; padding:2px;">
-                    <?php
-                        endif;
-                        endforeach;
-                    ?>
-                  </div>
-                  <span class="badge bg-info" style="font-size: 14px; margin-top: 5px;">
-                    Rp <?= number_format($cata->harga,0,',','.') ?>
-                  </span>
+              <h6><?= $cata->nama_product ?></h6>
+              <div style="display: flex; gap: 5px;">
+                  <?php
+                  // Jika menggunakan tabel product_color_images
+                  if (isset($cata->images) && is_array($cata->images) && count($cata->images) > 0) :
+                      foreach ($cata->images as $img) :
+                  ?>
+                          <img src="<?= base_url('uploads/products/' . $img->image) ?>" 
+                              alt="Foto" 
+                              style="width: 50px; height: 50px; object-fit: cover; border:1px solid #ddd; padding:2px;">
+                  <?php 
+                      endforeach;
+                  else:
+                      // Fallback untuk data lama (gambar1 - gambar5)
+                      $gambarList = [
+                          $cata->gambar1 ?? null, 
+                          $cata->gambar2 ?? null, 
+                          $cata->gambar3 ?? null, 
+                          $cata->gambar4 ?? null, 
+                          $cata->gambar5 ?? null
+                      ];
+                      foreach ($gambarList as $gambar) :
+                          if (!empty($gambar)) :
+                  ?>
+                              <img src="<?= base_url('uploads/products/' . $gambar) ?>" 
+                                  alt="Foto" 
+                                  style="width: 50px; height: 50px; object-fit: cover; border:1px solid #ddd; padding:2px;">
+                  <?php
+                          endif;
+                      endforeach;
+                  endif;
+                  ?>
+              </div>
+              <span class="badge bg-info" style="font-size: 14px; margin-top: 5px;">
+                  Rp <?= number_format($cata->harga,0,',','.') ?>
+              </span>
                 </td>
                 <td class="item-center">
                   <div style="grid-template-columns: 1fr 1fr;" class="d-grid gap-3 row-gap-0 text-center">
@@ -139,130 +160,96 @@
 <!-- Modal Tambah Catalogue -->
 <div class="modal fade" id="createCatalogueModal" tabindex="-1" aria-labelledby="createCatalogueModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
-    <form action="<?= base_url('index.php/Product/create_catalogue') ?>" method="post" enctype="multipart/form-data">
+    <form action="<?= base_url('index.php/Product/create_catalogue_debug') ?>" method="post" enctype="multipart/form-data">
+
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="createCatalogueModalLabel">Tambah Produk Baru</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <!-- Atas -->
+
+          <!-- Atas: info produk -->
           <div class="row">
             <!-- Kolom Kanan -->
             <div class="col-md-7">
               <div class="mb-3">
-                  <label for="nama_product" class="form-label">Nama Produk</label>
-                  <input type="text" class="form-control" name="nama_product" required>
-              </div>
-
-              <div class="mb-3">
-                  <label for="harga" class="form-label">Harga</label>
-                  <input type="number" class="form-control" name="harga" required>
-              </div>
-
-              <div class="mb-3">
-                  <label for="koleksiSelect" class="form-label">Pilih Koleksi</label>
-                  <select id="koleksiSelect" class="form-select" name="koleksi_id" required>
-                      <option value="">-- Pilih Koleksi --</option>
-                      <?php foreach ($collections as $collection): ?>
-                      <option value="<?= $collection->id ?>"><?= $collection->nama_koleksi ?></option>
-                      <?php endforeach; ?>
-                  </select>
+                <label for="nama_product" class="form-label">Nama Produk</label>
+                <input type="text" class="form-control" name="nama_product" required>
               </div>
               <div class="mb-3">
-                  <label for="kategoriSelect" class="form-label">Pilih Kategori</label>
-                  <select id="kategoriSelect" class="form-select" name="kategori_id" required>
-                      <option value="">-- Pilih Koleksi dulu --</option>
-                  </select>
+                <label for="harga" class="form-label">Harga</label>
+                <input type="number" class="form-control" name="harga" required>
+              </div>
+              <div class="mb-3">
+                <label for="koleksiSelect" class="form-label">Pilih Koleksi</label>
+                <select id="koleksiSelect" class="form-select" name="koleksi_id" required>
+                  <option value="">-- Pilih Koleksi --</option>
+                  <?php foreach ($collections as $collection): ?>
+                    <option value="<?= $collection->id ?>"><?= $collection->nama_koleksi ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="kategoriSelect" class="form-label">Pilih Kategori</label>
+                <select id="kategoriSelect" class="form-select" name="kategori_id" required>
+                  <option value="">-- Pilih Koleksi dulu --</option>
+                </select>
               </div>
             </div>
-            <!-- Kolom Kiri -->
+
+            <!-- Kolom Kiri: marketplace -->
             <div class="col-md-5">
               <div class="mb-3">
-                  <label for="shopee" class="form-label">Shopee</label>
-                  <input type="text" class="form-control" name="shopee" required>
+                <label for="shopee" class="form-label">Shopee</label>
+                <input type="text" class="form-control" name="shopee" required>
               </div>
-
               <div class="mb-3">
-                  <label for="lazada" class="form-label">Lazada</label>
-                  <input type="text" class="form-control" name="lazada" required>
+                <label for="lazada" class="form-label">Lazada</label>
+                <input type="text" class="form-control" name="lazada" required>
               </div>
-
               <div class="mb-3">
-                  <label for="tiktokshop" class="form-label">Tiktok Shop</label>
-                  <input type="text" class="form-control" name="tiktokshop" required>
+                <label for="tiktokshop" class="form-label">Tiktok Shop</label>
+                <input type="text" class="form-control" name="tiktokshop" required>
               </div>
-
               <div class="mb-3">
-                  <label for="tokopedia" class="form-label">Tokopedia</label>
-                  <input type="text" class="form-control" name="tokopedia" required>
+                <label for="tokopedia" class="form-label">Tokopedia</label>
+                <input type="text" class="form-control" name="tokopedia" required>
               </div>
             </div>
           </div>
 
-          <!-- Bawah -->
-          <div class="row">
-						<!-- Upload Images -->
-            <div class="col-md-5">
-              <div class="mb-3">
-                  <label for="gambar1" class="form-label">Gambar 1</label>
-                  <input type="file" class="form-control" name="gambar1"  accept="image/*" onchange="previewImage(event, 'preview-gambar1')">
-									<div class="mt-2">
-										Preview Image 
-										<img id="preview-gambar1" class="w-100 img-thumbnail mt-2 img-fluid" style="display:none;">
-									</div>
-              </div>
+          <hr>
 
-              <div class="mb-3">
-                  <label for="gambar2" class="form-label">Gambar 2</label>
-                  <input type="file" class="form-control" name="gambar2"  accept="image/*" onchange="previewImage(event, 'preview-gambar2')">
-									<div class="mt-2">
-										Preview Image 
-										<img id="preview-gambar2" class="w-100 img-thumbnail mt-2 img-fluid" style=" display:none;">
-									</div>
+          <!-- Warna + Gambar -->
+          <div id="colorImagesContainer">
+            <div class="color-image-row row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Nama Warna</label>
+                <input type="text" name="color_name[]" class="form-control" placeholder="Misal: Merah" required>
               </div>
-
-              <div class="mb-3">
-                  <label for="gambar3" class="form-label">Gambar 3</label>
-                  <input type="file" class="form-control" name="gambar3"  accept="image/*" onchange="previewImage(event, 'preview-gambar3')">
-									<div class="mt-2">
-										Preview Image 
-										<img id="preview-gambar3" class="w-100 img-thumbnail mt-2 img-fluid" style=" display:none;">
-									</div>
-              </div>
-
-              <div class="mb-3">
-                  <label for="gambar4" class="form-label">Gambar 4</label>
-                  <input type="file" class="form-control" name="gambar4"  accept="image/*" onchange="previewImage(event, 'preview-gambar4')">
-									<div class="mt-2">
-										Preview Image 
-										<img id="preview-gambar4" class="w-100 img-thumbnail mt-2 img-fluid" style=" display:none;">
-									</div>
-              </div>
-              
-              <div class="mb-3">
-                  <label for="gambar5" class="form-label">Gambar 5</label>
-                  <input type="file" class="form-control" name="gambar5"  accept="image/*" onchange="previewImage(event, 'preview-gambar5')">
-									<div class="mt-2">
-										Preview Image 
-										<img id="preview-gambar5" class="w-100 img-thumbnail mt-2 img-fluid" style=" display:none;">
-									</div>
-              </div>
-            </div>
-
-						<!-- Editor Keterangan -->
-            <div class="col-md-7">
-              <div class="mb-3">
-                <label for="keterangan" class="form-label">Keterangan</label>
-                <!-- Quill Editor -->
-                <div id="quillEditoraddprod" style="height: 100vh;"></div>
-                <!-- Hidden textarea -->
-                <textarea name="keterangan" id="addprodketerangan" style="display:none;"></textarea>
+              <div class="col-md-6">
+                <label class="form-label">Upload Gambar</label>
+                <input type="file" name="color_image[0][]" class="form-control" accept="image/*" multiple onchange="previewImage(event, 'preview-color-0')">
+                <div class="mt-2">
+                  <img id="preview-color-0" class="w-100 img-thumbnail mt-2 img-fluid" style="display:none;">
+                </div>
               </div>
             </div>
           </div>
+          <button type="button" class="btn btn-secondary btn-sm mb-3" onclick="addColorImageRow()">Tambah Warna</button>
+
+          <hr>
+
+          <!-- Keterangan -->
+          <div class="mb-3">
+            <label for="keterangan" class="form-label">Keterangan</label>
+            <div id="quillEditoraddprod" style="height: 200px;"></div>
+            <textarea name="keterangan" id="addprodketerangan" style="display:none;"></textarea>
+          </div>
+
         </div>
-				<!-- Button -->
+
         <div class="modal-footer">
           <button class="btn btn-primary">Simpan</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -271,6 +258,9 @@
     </form>
   </div>
 </div>
+
+
+
 
 <!-- Modal Edit Catalogues -->
 <div class="modal fade" id="editCatalogueModal" tabindex="-1" aria-labelledby="editCatalogueModalLabel" aria-hidden="true">
@@ -394,3 +384,45 @@
     </form>
   </div>
 </div>
+
+
+
+<script>
+let colorIndex = 1;
+
+function addColorImageRow() {
+    const container = document.getElementById('colorImagesContainer');
+    const row = document.createElement('div');
+    row.className = 'color-image-row row mb-3';
+    row.innerHTML = `
+        <div class="col-md-6">
+            <label class="form-label">Nama Warna</label>
+            <input type="text" name="color_name[]" class="form-control" placeholder="Misal: Biru" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Upload Gambar</label>
+            <input type="file" name="color_image[${colorIndex}][]" class="form-control" accept="image/*" multiple onchange="previewImage(event, 'preview-color-${colorIndex}')">
+            <div class="mt-2">
+                <img id="preview-color-${colorIndex}" class="w-100 img-thumbnail mt-2 img-fluid" style="display:none;">
+            </div>
+        </div>
+    `;
+    container.appendChild(row);
+    colorIndex++;
+}
+
+function previewImage(event, previewId) {
+    const files = event.target.files;
+    const output = document.getElementById(previewId);
+    if (files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = function(e){
+            output.src = e.target.result;
+            output.style.display = 'block';
+        }
+        reader.readAsDataURL(files[0]); // preview gambar pertama saja
+    }
+}
+
+
+</script>

@@ -6,6 +6,9 @@ class Product extends CI_Controller {
         parent::__construct();
         $this->load->library('form_validation', 'upload', 'session');
         $this->load->helper(array('form', 'url', 'html', 'file'));
+            $this->load->model('Product_color_model');   // <<--- tambahkan ini
+    $this->load->model('Product_image_model');   // jika pakai untuk upload gambar
+        $this->load->model('Product_color_images_model');
         // Load session library
         $admin = $this->session->userdata('admin');
         // var_dump($admin);
@@ -118,102 +121,114 @@ class Product extends CI_Controller {
         $this->load->view('Layout/addon-footer');
         $this->load->view('Layout/footer');
     }
+public function create_catalogue_debug()
+{
+    // Ambil input produk
+    $nama_product  = $this->input->post('nama_product');
+    $harga         = $this->input->post('harga');
+    $koleksi_id    = $this->input->post('koleksi_id');
+    $kategori_id   = $this->input->post('kategori_id');
+    $shopee        = $this->input->post('shopee');
+    $lazada        = $this->input->post('lazada');
+    $tiktokshop    = $this->input->post('tiktokshop');
+    $tokopedia     = $this->input->post('tokopedia');
+    $keterangan    = $this->input->post('keterangan');
 
-    //  create catalogue
-    public function create_catalogue()
-	{
-		$this->load->library(['form_validation', 'upload']);
+    // Simpan produk utama
+    $product_id = $this->Product_model->insert_product([
+        'nama_product' => $nama_product,
+        'harga'        => $harga,
+        'koleksi_id'   => $koleksi_id,
+        'kategori_id'  => $kategori_id,
+        'shopee'       => $shopee,
+        'lazada'       => $lazada,
+        'tiktokshop'   => $tiktokshop,
+        'tokopedia'    => $tokopedia,
+        'keterangan'   => $keterangan
+    ]);
 
-		// Validasi form input (tanpa validasi file dulu)
-		$this->form_validation->set_rules('nama_product', 'Nama Produk', 'required');
-		$this->form_validation->set_rules('harga', 'Harga', 'required|numeric');
-		$this->form_validation->set_rules('koleksi_id', 'Koleksi', 'required|integer');
-		$this->form_validation->set_rules('kategori_id', 'Kategori', 'required|integer');
-		$this->form_validation->set_rules('shopee', 'Shopee', 'required|valid_url');
-		$this->form_validation->set_rules('lazada', 'Lazada', 'required|valid_url');
-		$this->form_validation->set_rules('tiktokshop', 'Tiktokshop', 'required|valid_url');
-		$this->form_validation->set_rules('tokopedia', 'Tokopedia', 'required|valid_url');
-		$this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
+    echo "Product inserted with ID: $product_id<br>";
 
-		if ($this->form_validation->run() == FALSE) {
-			$this->session->set_flashdata('danger', validation_errors());
-			redirect('product/catalogues');
-			return;
-		}
+    // Upload folder
+    $uploadPath = FCPATH . 'uploads/products/';
+    if (!is_dir($uploadPath)) {
+        mkdir($uploadPath, 0777, true);
+        echo "Folder upload dibuat: $uploadPath<br>";
+    } else {
+        echo "Folder upload OK: $uploadPath<br>";
+    }
 
-		// Konfigurasi upload
-		$config['upload_path'] = './uploads/products/';
-		$config['allowed_types'] = 'jpg|jpeg|png|gif|webp';
-		$config['encrypt_name'] = TRUE;
-		$config['max_size'] = 2048; // 2MB
+    // Ambil warna
+    $colors = $this->input->post('color_name');
+    if (!empty($colors)) {
+        foreach ($colors as $index => $color_name) {
+            // Simpan warna
+            $color_id = $this->Product_color_model->create([
+                'product_id' => $product_id,
+                'nama_warna' => $color_name
+            ]);
+            echo "Color '$color_name' inserted with ID: $color_id<br>";
 
-		// Buat folder jika belum ada
-		if (!is_dir($config['upload_path'])) {
-			mkdir($config['upload_path'], 0777, true);
-		}
+            // Cek file
+            if (isset($_FILES['color_image']['name'][$index])) {
+                $filesCount = count($_FILES['color_image']['name'][$index]);
+                echo "Found $filesCount file(s) for color $color_name<br>";
 
-		$this->upload->initialize($config);
+                for ($f = 0; $f < $filesCount; $f++) {
+                    if ($_FILES['color_image']['name'][$index][$f] != '') {
+                        // Set array temporary untuk CI upload
+                        $_FILES['userfile']['name']     = $_FILES['color_image']['name'][$index][$f];
+                        $_FILES['userfile']['type']     = $_FILES['color_image']['type'][$index][$f];
+                        $_FILES['userfile']['tmp_name'] = $_FILES['color_image']['tmp_name'][$index][$f];
+                        $_FILES['userfile']['error']    = $_FILES['color_image']['error'][$index][$f];
+                        $_FILES['userfile']['size']     = $_FILES['color_image']['size'][$index][$f];
 
-		$gambar = [];
-		$upload_count = 0;
-		$upload_errors = [];
+                        // Config upload
+                        $config = [
+                            'upload_path'   => $uploadPath,
+                            'allowed_types' => 'jpg|jpeg|png|gif',
+                            'max_size'      => 2048,
+                            'file_name'     => time() . '_' . rand(1000,9999)
+                        ];
 
-		for ($i = 1; $i <= 5; $i++) {
-			$field = 'gambar' . $i;
+                        $this->upload->initialize($config);
 
-			if (!empty($_FILES[$field]['name'])) {
-				if ($this->upload->do_upload($field)) {
-					$uploaded = $this->upload->data();
-					$gambar[$field] = $uploaded['file_name'];
-					$upload_count++;
-				} else {
-					$upload_errors[] = "Gagal upload $field: " . strip_tags($this->upload->display_errors('', ''));
-				}
-			} else {
-				$gambar[$field] = null;
-			}
-		}
+                        if ($this->upload->do_upload('userfile')) {
+                            $data = $this->upload->data();
 
-		// Minimal 1 gambar harus diupload
-		if ($upload_count === 0) {
-			$this->session->set_flashdata('danger', 'Tidak ada file gambar yang diupload / file gambar tidak terbaca, Slahkan upload minimal 1 gambar produk.');
-			if (!empty($upload_errors)) {
-				$this->session->set_flashdata('upload_errors', implode('<br>', $upload_errors));
-			}
-			redirect('product/catalogues');
-			return;
-		}
+                            // Simpan ke DB
+                            $this->Product_color_images_model->create([
+                                'product_color_id' => $color_id,
+                                'image'            => $data['file_name']
+                            ]);
 
-		// Simpan data produk
-		$data = [
-			'nama_product'      => $this->input->post('nama_product'),
-			'harga'             => $this->input->post('harga'),
-			'koleksi_id'        => $this->input->post('koleksi_id'),
-			'kategori_id'       => $this->input->post('kategori_id'),
-			'gambar1'           => $gambar['gambar1'] ?? null,
-			'gambar2'           => $gambar['gambar2'] ?? null,
-			'gambar3'           => $gambar['gambar3'] ?? null,
-			'gambar4'           => $gambar['gambar4'] ?? null,
-			'gambar5'           => $gambar['gambar5'] ?? null,
-			'shopee'            => $this->input->post('shopee'),
-			'lazada'            => $this->input->post('lazada'),
-			'tiktokshop'        => $this->input->post('tiktokshop'),
-			'tokopedia'         => $this->input->post('tokopedia'),
-			'keterangan'        => $this->input->post('keterangan'),
-		];
+                            echo "Uploaded file: ".$data['file_name']."<br>";
+                        } else {
+                            echo "Upload error: ".$this->upload->display_errors()."<br>";
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-		// Simpan ke database
-		$this->Product_model->insert_product($data);
-		$this->session->set_flashdata('success', 'Produk berhasil ditambahkan!');
-		redirect('product/catalogues');
-	}
+    echo "<br>Debug finished. Cek folder 'uploads/products/' dan tabel 'product_color_images'.";
+}
+
+
+
+
+
+
+
 
 	public function file_check($str, $field)
 	{
-		$config['upload_path'] = './uploads/products/';
-		$config['allowed_types'] = 'jpg|jpeg|png|gif|webp';
-		$config['max_size'] = 2048; // 2MB
-		$this->load->library('upload', $config);
+		$config['upload_path']   = FCPATH . 'uploads/products/'; // path absolut
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['max_size']      = 2048; // KB
+        $this->load->library('upload', $config);
+
 
 		if (!empty($_FILES[$field]['name'])) {
 			if (!$this->upload->do_upload($field)) {
@@ -316,6 +331,27 @@ class Product extends CI_Controller {
 
         redirect('Product/catalogues');
     }
+
+   public function detail($id)
+{
+    // Load model
+    $this->load->model('Product_model');
+    $this->load->model('Product_color_model');
+    $this->load->model('Product_image_model');
+
+    // Ambil data produk utama
+    $data['product'] = $this->Product_model->get_product_by_id($id);
+
+    // Ambil warna + gambar warna (gunakan fungsi yang baru kamu tambahkan di Product_color_model)
+    $data['colors'] = $this->Product_color_model->get_colors_with_images($id);
+
+    // Load view detail produk
+    $this->load->view('Pages/Admin/Product/Catalogues/detail', $data);
+    $this->load->view('Layout/addon-footer');
+    $this->load->view('Layout/footer');
+}
+
+
 
 
 } 

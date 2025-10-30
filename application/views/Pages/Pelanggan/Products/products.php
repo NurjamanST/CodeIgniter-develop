@@ -64,19 +64,25 @@
 								
 								<!-- Gambar Produk -->
 								<div class="position-relative overflow-hidden" style="height: 180px;">
-									<img src="<?php
-										if (!empty($product->gambar1)) {
-											echo base_url('uploads/products/' . $product->gambar1);
-										} else {
-											echo base_url('assets/img/no-image.png');
-										}
-										?>" 
-										class="w-100 object-fit-cover" 
-										alt="<?= htmlspecialchars($product->nama_product) ?>"
-										style="transition: transform 0.3s ease;"
-										onmouseover="this.style.transform='scale(1.1)';"
-										onmouseout="this.style.transform='scale(1)';">
-								</div>
+                                    <?php 
+                                    $firstImage = null;
+                                    if (!empty($colors)) {
+                                        foreach ($colors as $color) {
+                                            if (!empty($color->images)) {
+                                                $firstImage = $color->images[0]->image; // ambil gambar pertama
+                                                break; // langsung keluar loop
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                    <img src="<?= $firstImage ? base_url('uploads/products/' . $firstImage) : base_url('assets/img/no-image.png') ?>" 
+                                        class="w-100 object-fit-cover rounded mb-2" 
+                                        alt="<?= htmlspecialchars($product->nama_product) ?>"
+                                        style="transition: transform 0.3s ease;"
+                                        onmouseover="this.style.transform='scale(1.1)';"
+                                        onmouseout="this.style.transform='scale(1)';">
+                                </div>
+
 
 								<!-- Deskripsi Produk -->
 								<div class="p-2 flex-grow-1 d-flex flex-column">

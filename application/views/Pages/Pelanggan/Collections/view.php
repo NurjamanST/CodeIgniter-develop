@@ -67,8 +67,8 @@
 									<img src="<?php
 										if (!empty($product->gambar1)) {
                                             
-											// echo base_url('uploads/products/' . $product->gambar1); default
-                                            echo 'https://picsum.photos/300/300?random=' . strtotime($product->created_at);
+											echo base_url('uploads/products/' . $product->gambar1); 
+                                           
 										} else {
 											echo base_url('assets/img/no-image.png');
 										}

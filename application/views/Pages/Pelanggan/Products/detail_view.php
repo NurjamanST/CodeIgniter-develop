@@ -65,50 +65,55 @@
             </div>
         </div>
     </div>
-
 <div class="container" id="productContainer">
   <div class="row align-items-start">
     <!-- KIRI -->
     <div class="col-md-6 col-left" id="left-col">
-      <?php for($i=0;$i<6;$i++): ?>
-      <img src="https://picsum.photos/600/400?random=<?= $i ?>" alt="Gambar <?= $i ?>" class="img-fluid rounded">
-      <?php endfor; ?>
+      <?php if(!empty($colors)): ?>
+        <?php foreach($colors as $colorIndex => $color): ?>
+            <?php if(!empty($color->images)): ?>
+                <div id="color-<?= $colorIndex ?>" class="mb-3">
+                    <?php foreach($color->images as $image): ?>
+                        <img src="<?= base_url('uploads/products/'.$image->image) ?>" class="img-fluid rounded mb-2" alt="<?= $product->nama_product ?>">
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <p>Produk belum memiliki gambar.</p>
+      <?php endif; ?>
     </div>
+
     <!-- KANAN -->
     <div class="col-md-5 ms-4 col-right">
       <div class="product-detail" id="productDetail">
-        <h2>Kids Couple Towel - Astronaut Snuggles</h2>
-        <p class="text-muted fs-5 mb-4">Rp 329.900,00</p>
+        <h2><?= $product->nama_product ?? 'Demo Produk' ?></h2>
+
         <div class="mb-3">
           <label class="form-label fw-bold">Color</label>
           <div class="d-flex flex-wrap gap-2">
-            <?php
-              $colors = [
-                "DREAMY BEIGE – DREAMY BEIGE",
-                "DREAMY BEIGE – MAGIC LILAC",
-                "MAGIC LILAC – MAGIC LILAC",
-                "MAGIC LILAC – TWILIGHT BLUE",
-                "TWILIGHT BLUE – TWILIGHT BLUE",
-                "TWILIGHT BLUE – DREAMY BEIGE"
-              ];
-              foreach ($colors as $color):
-            ?>
-            <button type="button" class="btn btn-outline-secondary btn-sm"><?= $color ?></button>
-            <?php endforeach; ?>
+            <?php if(!empty($colors)): ?>
+              <?php foreach($colors as $colorIndex => $color): ?>
+                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="scrollToColor(<?= $colorIndex ?>)"><?= $color->nama_warna ?></button>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <p>Tidak ada warna untuk produk ini.</p>
+            <?php endif; ?>
           </div>
         </div>
-        <h4>Nama Produk</h4>
+
         <p class="text-muted"><?= $product->keterangan ?? 'Deskripsi demo produk di sini'; ?></p>
-        <h4 class="text-success">Rp 329.900</h4>
+        <h4 class="text-success">Rp. <?= $product->harga ?? 'harga'?></h4>
         <ul class="list-unstyled mt-3">
-          <li><strong>Kategori:</strong> Demo Kategori</li>
-          <li><strong>Koleksi:</strong> Demo Koleksi</li>
+          <li><strong>Kategori:</strong> <?= $product->kategori ?? 'Demo Kategori' ?></li>
+          <li><strong>Koleksi:</strong> <?= $product->koleksi ?? 'Demo Koleksi' ?></li>
         </ul>
         <button class="btn btn-primary mt-3">Add to Cart</button>
       </div>
     </div>
   </div>
 </div>
+
 
 <!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -122,7 +127,7 @@
   // Sticky kanan + scroll lebih cepat
   ScrollTrigger.create({
     trigger: productDetail,
-    start: "top top",
+    start: "top top+=120",
     endTrigger: container,
     end: "bottom bottom",
     pin: productDetail,
@@ -130,15 +135,17 @@
     scrub: 1.2, // kanan lebih cepat
     markers: true
   });
+  
 
   // Parallax kiri lebih lambat
   window.addEventListener('scroll', () => {
     const rect = container.getBoundingClientRect();
     const scrollTop = window.scrollY || window.pageYOffset;
     const containerHeight = container.offsetHeight - leftCol.offsetHeight;
-const offset = Math.min((scrollTop - container.offsetTop) * 0.4, containerHeight);
-leftCol.style.transform = `translateY(${offset}px)`;
-  });
+    const offset = Math.min((scrollTop - container.offsetTop) * 0.4, containerHeight);
+    leftCol.style.transform = `translateY(${offset}px)`;
+  });  
 </script>
+
 </body>
 </html>
