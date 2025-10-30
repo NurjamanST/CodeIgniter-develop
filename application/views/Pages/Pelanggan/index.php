@@ -1,27 +1,33 @@
+
 <!-- Slider Banner -->
-<div class="container-fluid px-0">
-    <div class="row g-0">
-        <div class="col-12 col-md-6 mx-auto">
-            <section id="header-carousel" class="carousel slide header-carousel" data-bs-ride="carousel" data-bs-interval="3000">
-                <div class="carousel-inner">
-                    <?php $no = 0; foreach ($sliders as $s): ?>
-                    <div class="carousel-item <?= $no == 0 ? 'active' : '' ?>">
-                        <img src="<?= base_url("assets/uploads/sliders/" . $s->gambar) ?>" class="d-block w-100" alt="<?= $s->gambar ?>">
-                    </div>
-                    <?php $no++; endforeach; ?>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </section>
-        </div>
+<section id="header-carousel" 
+         class="carousel slide" 
+         data-bs-ride="carousel" 
+         data-bs-interval="3000">
+
+  <div class="carousel-inner">
+    <?php $no = 0; foreach ($sliders as $s): ?>
+    <div class="carousel-item <?= $no == 0 ? 'active' : '' ?>">
+      <img src="<?= base_url("assets/uploads/sliders/" . $s->gambar) ?>" 
+           class="d-block w-100 carousel-img" 
+           alt="<?= $s->gambar ?>">
     </div>
-</div>
+    <?php $no++; endforeach; ?>
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</section>
+
+
+
 <!-- End Slider Banner -->
 
 <!-- Main Content -->
@@ -174,3 +180,34 @@
 	<!-- End CARD NEWS -->
 </div>
 <script src="<?= base_url('assets/js/animations.js') ?>"></script>
+
+<style>
+  /* Gambar tetap proporsional dan penuh */
+  .carousel-img {
+    height: 100vh; /* penuh di layar besar */
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.08); /* sedikit zoom agar tidak ada ruang kosong */
+  }
+
+  /* Responsif untuk mobile dan tablet */
+  @media (max-width: 992px) {
+    .carousel-img {
+      height: 80vh;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .carousel-img {
+      height: 100vh; /* full di layar hp */
+      transform: scale(1.05);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .carousel-img {
+      height: 100vh;
+      transform: scale(1.1);
+    }
+  }
+</style>
