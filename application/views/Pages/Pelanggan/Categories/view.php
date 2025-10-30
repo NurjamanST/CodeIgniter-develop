@@ -58,22 +58,14 @@
                      data-price="<?= (int)$product->harga ?>"
                      data-date="<?= strtotime($product->created_at) ?>">
                     <div class="card h-100 border-0 shadow-sm">
-                     	<div class="position-relative overflow-hidden" style="height: 180px;">
-									<img src="<?php
-										if (!empty($product->gambar1)) {
-                                            
-											// echo base_url('uploads/products/' . $product->gambar1); default
-                                            echo 'https://picsum.photos/300/300?random=' . strtotime($product->created_at);
-										} else {
-											echo base_url('assets/img/no-image.png');
-										}
-										?>" 
-										class="w-100 object-fit-cover" 
-										alt="<?= htmlspecialchars($product->nama_product) ?>"
-										style="transition: transform 0.3s ease;"
-										onmouseover="this.style.transform='scale(1.1)';"
-										onmouseout="this.style.transform='scale(1)';">
-						</div>
+                     	  <div class="position-relative overflow-hidden" style="height: 180px;">
+                            <img src="<?= !empty($product->first_image) ? base_url('uploads/products/' . $product->first_image) : base_url('assets/img/no-image.png') ?>"
+                                 class="w-100 object-fit-cover"
+                                 alt="<?= htmlspecialchars($product->nama_product, ENT_QUOTES, 'UTF-8') ?>"
+                                 style="transition: transform 0.3s ease;"
+                                 onmouseover="this.style.transform='scale(1.1)';"
+                                 onmouseout="this.style.transform='scale(1)';">
+                        </div>
                         <div class="card-body text-center p-3">
                             <p class="card-text text-dark fw-medium mb-1" style="height: 1.8rem; overflow: hidden;">
                                 <?= htmlspecialchars(substr($product->nama_product, 0, 24)) ?>...

@@ -30,4 +30,17 @@ class Product_image_model extends CI_Model {
             WHERE pc.product_id = " . (int)$product_id
         );
     }
+
+public function get_first_image_by_product($product_id)
+{
+    return $this->db->select('pci.*')
+                    ->from('product_color_images pci')
+                    ->join('product_color pc', 'pc.id = pci.product_color_id')
+                    ->where('pc.product_id', $product_id)
+                    ->order_by('pci.id', 'ASC')
+                    ->limit(1)
+                    ->get()
+                    ->row();
+}
+
 }

@@ -69,11 +69,11 @@
 	<div class="row d-flex justify-content-center fade-up">
 		<div class="col-md-12 col-lg-12 text-center fw-bold">
 			<div class="position-relative shadow-sm rounded-3 overflow-hidden">
-				<!-- <img src="<?= base_url('assets/img/' . $banner_best_selling->gambar)?>" class="img-fluid" style="width: 100%;height:70vh; object-fit: cover;" alt="Best Selling"> default -->
-			<img src="https://picsum.photos/1200/700?random=<?= time() ?>" 
+				<img src="<?= base_url('assets/img/' . $banner_best_selling->gambar)?>" class="img-fluid" style="width: 100%;height:70vh; object-fit: cover;" alt="Best Selling"> 
+			<!-- <img src="https://picsum.photos/1200/700?random=<?= time() ?>" 
 			class="img-fluid" 
 			style="width: 100%;height:70vh; object-fit: cover;" 
-			alt="Best Selling">
+			alt="Best Selling"> -->
 				<div class="position-absolute top-50 start-50 translate-middle text-white fw-bold" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);">
 					<h1><?= html_escape($banner_best_selling->teks) ?></h1>
 				</div>
@@ -103,19 +103,24 @@
 								
 								<!-- Gambar Produk -->
 								<div class="position-relative overflow-hidden" style="height: 180px;">
-									<img src="<?php
-										if (!empty($product->gambar1)) {
-											// echo base_url('uploads/products/' . $product->gambar1); DEFAULT
-											echo 'https://picsum.photos/300/300?random=' . strtotime($product->created_at);
-										} else {
-											echo base_url('assets/img/no-image.png');
-										}
-										?>" 
-										class="w-100 object-fit-cover" 
-										alt="<?= htmlspecialchars($product->nama_product) ?>"
-										style="transition: transform 0.3s ease;"
-										onmouseover="this.style.transform='scale(1.1)';"
-										onmouseout="this.style.transform='scale(1)';">
+									<?php
+										// Ambil gambar pertama dari Product_image_model
+										$first_image = $this->Product_image_model->get_first_image_by_product($product->id);
+										?>
+									<img 
+											src="<?php
+												if (!empty($first_image)) {
+													echo base_url('uploads/products/' . $first_image->image);
+												} else {
+													echo base_url('assets/img/no-image.png');
+												}
+											?>" 
+											class="w-100 object-fit-cover"
+											alt="<?= htmlspecialchars($product->nama_product) ?>"
+											style="transition: transform 0.3s ease;"
+											onmouseover="this.style.transform='scale(1.1)';"
+											onmouseout="this.style.transform='scale(1)'"
+											>
 								</div>
 
 								<!-- Deskripsi Produk -->
