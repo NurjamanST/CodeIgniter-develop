@@ -144,7 +144,7 @@
 
 			<!-- Tombol Produk Selanjutnya -->
 			<div class="col-12 text-center mt-4 mb-5">
-				<a href="<?= base_url('Landing/products') ?>" 
+				<a href="<?= base_url('index.php/Landing/products') ?>" 
 				class="btn btn-primary px-4 py-2 rounded-3 shadow-sm"
 				style="font-weight: 500; font-size: 1rem;">
 					Produk Selanjutnya
