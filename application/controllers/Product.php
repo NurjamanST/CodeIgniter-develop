@@ -6,18 +6,20 @@ class Product extends CI_Controller {
         parent::__construct();
         $this->load->library('form_validation', 'upload', 'session');
         $this->load->helper(array('form', 'url', 'html', 'file'));
-            $this->load->model('Product_color_model');   // <<--- tambahkan ini
-    $this->load->model('Product_image_model');   // jika pakai untuk upload gambar
+        $this->load->model('Product_color_model');   // <<--- tambahkan ini
+        $this->load->model('Product_image_model');   // jika pakai untuk upload gambar
         $this->load->model('Product_color_images_model');
+
         // Load session library
         $admin = $this->session->userdata('admin');
-        // var_dump($admin);
-        // Cek apakah admin sudah login
+
         if (!$admin) {
             redirect('auth/login');
         }
+
         // Load Model
         $this->load->model(['Product_model', 'Collection_model', 'Category_model', 'Profile_model']);    
+        
         // Tampilkan dashboard dengan data admin
         $data['admin'] = $admin;
         $data['profile'] = $this->Profile_model->get();
@@ -102,26 +104,42 @@ class Product extends CI_Controller {
         redirect('product/collections');
     }
     // get categories by collection id
-    public function get_categories_by_koleksi($koleksi_id) {
-        $this->load->model('Product_model');
-        $categories = $this->Product_model->get_categories_by_koleksi($koleksi_id);
+   // get categories by collection id
+public function get_categories_by_koleksi($koleksi_id) {
+    $this->load->model('Product_model');
+    $categories = $this->Product_model->get_categories_by_koleksi($koleksi_id);
+
+    // PERBAIKAN: Gunakan output class dengan benar
+    $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($categories));
+    // JANGAN gunakan exit() atau echo lain!
+}
+
+public function catalogues()
+{
+    $data['collections'] = $this->Collection_model->get_all();
+    $data['categories']  = $this->Category_model->get_all();
+    $data['catalogues']  = $this->Product_model->get_all_catalogues();
+
     
-        // Pastikan tidak ada output lain!
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($categories));
+    foreach ($data['catalogues'] as &$cata) {
+        // Ambil warna untuk produk ini
+        $cata->colors = $this->Product_color_model->get_by_product($cata->id);
+
+        // Ambil gambar untuk setiap warna
+        foreach ($cata->colors as &$color) {
+            $color->images = $this->Product_color_images_model->get_by_color($color->id);
+        }
     }
 
-    public function catalogues()
-    {
-        $data['collections'] = $this->Collection_model->get_all();
-        $data['categories'] = $this->Category_model->get_all();
-        $data['catalogues'] = $this->Product_model->get_all_catalogues();
-        $this->load->view('Pages/Admin/Product/Catalogues/index', $data);
-        $this->load->view('Layout/addon-footer');
-        $this->load->view('Layout/footer');
-    }
-public function create_catalogue_debug()
+    $this->load->view('Pages/Admin/Product/Catalogues/index', $data);
+    $this->load->view('Layout/addon-footer');
+    $this->load->view('Layout/footer');
+}
+
+
+    public function create_catalogue_debug()
 {
     // Ambil input produk
     $nama_product  = $this->input->post('nama_product');
@@ -300,13 +318,25 @@ public function create_catalogue()
     redirect('Product/catalogues');
 }
 
+public function edit($id)
+{
+    $data['product'] = $this->Product_model->get($id);
+    $data['colors']  = $this->Product_color_model->get_by_product($id);
+
+    foreach ($data['colors'] as &$color) {
+        $color->images = $this->Product_color_images_model->get_by_color($color->id);
+    }
+
+    
+
+    $this->load->view('admin/product_edit', $data);
+}
+
 public function update_catalogue()
 {
+    $this->load->library('upload');
+
     $id = $this->input->post('id');
-
-    // Ambil data lama
-    $oldData = $this->Product_model->get_by_id($id);
-
     $data = [
         'nama_product' => $this->input->post('nama_product'),
         'harga'        => $this->input->post('harga'),
@@ -319,23 +349,34 @@ public function update_catalogue()
         'keterangan'   => $this->input->post('keterangan')
     ];
 
+    // Update produk utama
+    $this->Product_model->update_catalogue($id, $data);
+
+    // Upload path
     $uploadPath = FCPATH . 'uploads/products/';
     if (!is_dir($uploadPath)) mkdir($uploadPath, 0777, true);
 
-    // Update data utama
-    $this->Product_model->update_catalogue($id, $data);
+    // Warna
+    $color_ids   = $this->input->post('color_id_existing'); // warna lama
+    $color_names = $this->input->post('color_name');        // nama warna
 
-    // Hapus dan upload warna baru (sederhana: hapus semua warna lama, lalu insert baru)
-    $this->Product_color_model->delete_by_product($id);
+    if (!empty($color_names)) {
+        foreach ($color_names as $index => $color_name) {
+            $existing_id = !empty($color_ids[$index]) ? $color_ids[$index] : null;
 
-    $colors = $this->input->post('color_name');
-    if (!empty($colors)) {
-        foreach ($colors as $index => $color_name) {
-            $color_id = $this->Product_color_model->create([
-                'product_id' => $id,
-                'nama_warna' => $color_name
-            ]);
+            if ($existing_id) {
+                // Update warna lama
+                $this->Product_color_model->update($existing_id, ['nama_warna' => $color_name]);
+                $color_id = $existing_id;
+            } else {
+                // Tambah warna baru
+                $color_id = $this->Product_color_model->create([
+                    'product_id' => $id,
+                    'nama_warna' => $color_name
+                ]);
+            }
 
+            // Upload gambar baru
             if (isset($_FILES['color_image']['name'][$index])) {
                 $filesCount = count($_FILES['color_image']['name'][$index]);
                 for ($f = 0; $f < $filesCount; $f++) {
@@ -350,7 +391,7 @@ public function update_catalogue()
                             'upload_path'   => $uploadPath,
                             'allowed_types' => 'jpg|jpeg|png|gif',
                             'max_size'      => 2048,
-                            'file_name'     => time() . '_' . rand(1000,9999)
+                            'file_name'     => time() . '_' . rand(1000, 9999)
                         ];
 
                         $this->upload->initialize($config);
@@ -368,8 +409,67 @@ public function update_catalogue()
         }
     }
 
+    // Handle warna yang dihapus
+    $deletedColors = $this->input->post('deleted_colors');
+    if (!empty($deletedColors)) {
+        $deleted = explode(',', $deletedColors);
+        foreach ($deleted as $colorId) {
+            $images = $this->Product_color_images_model->get_by_color($colorId);
+            foreach ($images as $img) {
+                $file = $uploadPath . $img->image;
+                if (file_exists($file)) unlink($file);
+            }
+            $this->Product_color_images_model->delete_by_color($colorId);
+            $this->Product_color_model->delete($colorId);
+        }
+    }
+
+    // Handle gambar yang dihapus
+    $deletedImages = $this->input->post('deleted_images');
+    if (!empty($deletedImages)) {
+        $deleted = explode(',', $deletedImages);
+        foreach ($deleted as $imgId) {
+            $img = $this->Product_color_images_model->get($imgId);
+            if ($img) {
+                $file = $uploadPath . $img->image;
+                if (file_exists($file)) unlink($file);
+                $this->Product_color_images_model->delete_by_id($imgId);
+            }
+        }
+    }
+
+    // PERBAIKAN: Samakan dengan create_catalogue
     redirect('Product/catalogues');
 }
+
+public function delete_color_image($id)
+{
+    // Pastikan respons hanya JSON
+    $this->output->set_content_type('application/json');
+
+    if (!$id) {
+        echo json_encode(['status' => 'error', 'message' => 'ID tidak valid']);
+        return; // hentikan proses
+    }
+
+    $image = $this->Product_color_images_model->get($id);
+    if (!$image) {
+        echo json_encode(['status' => 'error', 'message' => 'Gambar tidak ditemukan']);
+        return;
+    }
+
+    $filePath = FCPATH . 'uploads/products/' . $image->image;
+    if (file_exists($filePath)) unlink($filePath);
+
+    $this->Product_color_images_model->delete_by_id($id);
+
+    echo json_encode(['status' => 'success', 'message' => 'Gambar berhasil dihapus']);
+    exit; // 🚨 ini penting, hentikan eksekusi sebelum template diload
+}
+
+
+
+
 
     public function delete_catalogue()
     {

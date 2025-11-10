@@ -63,3 +63,7 @@ $route['profile'] = 'Profile/index';
 $route['landing'] = 'Landing/index';
 $route['collections'] = 'Collections/index';
 $route['collections/(:any)'] = 'Collections/$1';
+
+$route['product/delete_color_image/(:num)'] = 'product/delete_color_image/$1';
+$route['product/get_categories_by_collection/(:num)'] = 'Product/get_categories_by_koleksi/$1';
+

@@ -51,7 +51,7 @@
 
     <!-- List Produk -->
     <!-- <div class="row"> -->
-         <?php if (!empty($products)): ?>
+          <?php if (!empty($products)): ?>
             <div class="row row-cols-2 row-cols-md-4 g-3">
 				<?php foreach ($products as $product): ?>
 					<div class="col">
@@ -62,38 +62,27 @@
 								onmouseover="this.style.transform='scale(1.02)';"
 								onmouseout="this.style.transform='scale(1)';">
 								
-								<!-- Gambar Produk -->
-								<div class="position-relative overflow-hidden" style="height: 180px;">
-                                    <?php 
-                                    $firstImage = null;
-                                    if (!empty($colors)) {
-                                        foreach ($colors as $color) {
-                                            if (!empty($color->images)) {
-                                                $firstImage = $color->images[0]->image; // ambil gambar pertama
-                                                break; // langsung keluar loop
-                                            }
-                                        }
-                                    }
-                                    ?>
-                                    <img src="<?= $firstImage ? base_url('uploads/products/' . $firstImage) : base_url('assets/img/no-image.png') ?>" 
-                                        class="w-100 object-fit-cover rounded mb-2" 
-                                        alt="<?= htmlspecialchars($product->nama_product) ?>"
-                                        style="transition: transform 0.3s ease;"
-                                        onmouseover="this.style.transform='scale(1.1)';"
-                                        onmouseout="this.style.transform='scale(1)';">
-                                </div>
-
+						
+								  <!-- Gambar Produk -->
+                    <div class="position-relative overflow-hidden" style="height: 180px;">
+                        <img src="<?= !empty($product->first_image) ? base_url('uploads/products/' . $product->first_image) : base_url('assets/img/no-image.png') ?>"
+                             class="w-100 object-fit-cover"
+                             alt="<?= htmlspecialchars($product->nama_product, ENT_QUOTES, 'UTF-8') ?>"
+                             style="transition: transform 0.3s ease;"
+                             onmouseover="this.style.transform='scale(1.1)';"
+                             onmouseout="this.style.transform='scale(1)';">
+                    </div>
 
 								<!-- Deskripsi Produk -->
-								<div class="p-2 flex-grow-1 d-flex flex-column">
+								<div class="p-2 flex-grow-1 d-flex flex-column text-center">
 									<p class="card-text text-dark fw-medium mb-1" style="height: 1.8rem; overflow: hidden;">
 										<?= htmlspecialchars(substr($product->nama_product, 0, 24)) ?>...
 									</p>
 									<p class="card-text text-secondary small mb-1">
 										<?= htmlspecialchars($product->nama_kategori ?? 'Kategori') ?> <br>
-										<?= htmlspecialchars($product->nama_koleksi ?? 'Koleksi') ?>
+								
 									</p>
-									<p class="card-text text-danger fw-bold">
+									<p class="card-text fw-bold" style="color: #212121;">
 										Rp <?= number_format($product->harga, 0, ',', '.') ?>
 									</p>
 								</div>

@@ -30,4 +30,13 @@ class Product_color_images_model extends CI_Model {
             WHERE pc.product_id = " . (int)$product_id
         );
     }
+
+    public function get($id) {
+    return $this->db->where('id', $id)->get('product_color_images')->row();
+}
+
+public function delete_by_id($id) {
+    return $this->db->where('id', $id)->delete('product_color_images');
+}
+
 }

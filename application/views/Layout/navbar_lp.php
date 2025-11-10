@@ -33,7 +33,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="<?= base_url('index.php/Collections/index') ?>" role="button" 
                data-bs-toggle="dropdown" aria-expanded="false">
-              Categories
+              Collections
             </a>
             <ul class="dropdown-menu shadow-sm">
               <?php foreach ($collections as $collection): ?>
@@ -50,7 +50,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="<?= base_url('index.php/Categories/index') ?>" role="button" 
                data-bs-toggle="dropdown" aria-expanded="false">
-              Collections
+              Categories
             </a>
             <ul class="dropdown-menu shadow-sm">
               <?php foreach ($categories as $cat): ?>

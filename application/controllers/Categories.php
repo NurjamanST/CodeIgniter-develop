@@ -11,7 +11,7 @@ class Categories extends CI_Controller {
             'Collection_model', 
             'Category_model', 
             'News_model', 
-            'Product_image_model', // pastikan nama model sesuai
+            'Product_image_model', 
             'Profile_model'
         ]);
 

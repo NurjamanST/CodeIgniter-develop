@@ -44,13 +44,18 @@ class Landing extends CI_Controller {
 	
 	// Menampilkan daftar semua produk
 	public function products() {
-		$page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
-		$per_page = 8;
-		$offset = ($page - 1) * $per_page;
+	 $page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
+    $per_page = 8;
+    $offset = ($page - 1) * $per_page;
 
-		// Ambil produk
-		$data['products'] = $this->Product_model->get_limit_catalogues($per_page, $offset);
-		$total_products = $this->Product_model->count_all();
+    // Ambil produk
+    $data['products'] = $this->Product_model->get_limit_catalogues($per_page, $offset);
+    foreach ($data['products'] as &$product) {
+        $first_image = $this->Product_image_model->get_first_image_by_product($product->id);
+        $product->first_image = $first_image ? $first_image->image : null;
+    }
+    
+    $total_products = $this->Product_model->count_all();
 		$data['total_products'] = $total_products;
 
 		// Konfigurasi pagination

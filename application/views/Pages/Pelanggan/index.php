@@ -42,7 +42,7 @@
 			<div class="row g-3 justify-content-center">
 				<?php foreach ($categories as $cat): ?>
 					<div class="col-6 col-md-4 col-lg-3">
-						<a href="<?= base_url('Categories/view/' . $cat->id) ?>" class="text-decoration-none">
+						<a href="<?= base_url('index.php/Categories/view/' . $cat->id) ?>" class="text-decoration-none">
 							<div class="card border-0 shadow-sm text-center h-100"
 								style="background-color: #e1e1e1ff; 
 										border-radius: 12px; 
@@ -88,7 +88,7 @@
 	<!-- CARD PRODUCT - NEW ARRIVAL -->
 		<div class="row d-flex justify-content-center fade-up">
 			<div class="col-md-12 col-lg-12 text-center mt-4 fw-bold">
-				<h4>New Arrival</h4>
+				<h2 class="fw-bold">New Arrival</h2>
 			</div>
 
 			<div class="row row-cols-2 row-cols-md-4 g-3 px-4">

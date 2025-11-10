@@ -132,7 +132,45 @@
           <li><strong>Kategori:</strong> <?= $product->kategori ?? 'Demo Kategori' ?></li>
           <li><strong>Koleksi:</strong> <?= $product->koleksi ?? 'Demo Koleksi' ?></li>
         </ul>
-        <button class="btn btn-primary mt-3">Add to Cart</button>
+        <!-- Tombol Beli Sekarang dengan Dropup -->
+          <div class="dropup-center dropup mt-3">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Beli Sekarang
+            </button>
+            <ul class="dropdown-menu shadow-sm">
+              <?php if (!empty($product->shopee)): ?>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center justify-content-center py-2" href="<?= $product->shopee ?>" target="_blank">
+                    <img src="<?= base_url("assets/img/shopee.png") ?>" alt="Shopee" width="24" height="24">
+                  </a>
+                </li>
+              <?php endif; ?>
+
+              <?php if (!empty($product->lazada)): ?>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center justify-content-center py-2" href="<?= $product->lazada ?>" target="_blank">
+                    <img src="<?= base_url("assets/img/lazada.png") ?>" alt="Lazada" width="24" height="24">
+                  </a>
+                </li>
+              <?php endif; ?>
+
+              <?php if (!empty($product->tiktokshop)): ?>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center justify-content-center py-2" href="<?= $product->tiktokshop ?>" target="_blank">
+                    <img src="<?= base_url("assets/img/tiktokshop.png") ?>" alt="TikTok Shop" width="24" height="24">
+                  </a>
+                </li>
+              <?php endif; ?>
+
+              <?php if (!empty($product->tokopedia)): ?>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center justify-content-center py-2" href="<?= $product->tokopedia ?>" target="_blank">
+                    <img src="<?= base_url("assets/img/tokopedia.png") ?>" alt="Tokopedia" width="24" height="24">
+                  </a>
+                </li>
+              <?php endif; ?>
+            </ul>
+          </div>
       </div>
     </div>
   </div>
