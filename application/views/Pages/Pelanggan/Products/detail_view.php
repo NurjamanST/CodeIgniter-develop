@@ -129,8 +129,8 @@
         <p class="text-muted"><?= $product->keterangan ?? 'Deskripsi demo produk di sini'; ?></p>
         <h4 class="text-success">Rp. <?= $product->harga ?? 'harga'?></h4>
         <ul class="list-unstyled mt-3">
-          <li><strong>Kategori:</strong> <?= $product->kategori ?? 'Demo Kategori' ?></li>
-          <li><strong>Koleksi:</strong> <?= $product->koleksi ?? 'Demo Koleksi' ?></li>
+          <li><strong>Kategori:</strong> <?= $product->nama_kategori ?? 'Demo Kategori' ?></li>
+          <li><strong>Koleksi:</strong> <?= $product->nama_koleksi ?? 'Demo Koleksi' ?></li>
         </ul>
         <!-- Tombol Beli Sekarang dengan Dropup -->
           <div class="dropup-center dropup mt-3">

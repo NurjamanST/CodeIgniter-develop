@@ -119,25 +119,25 @@
                     <div class="">
                       <button type="button" class="btn btn-light btn-sm" onclick="window.open('<?= $cata->shopee ?>', '_blank')"
                               >
-                              <img src="<?= base_url("assets/img/shopee.png")?>" alt="" style="width: 30%; object-fit: cover;">
+                              <img src="<?= base_url("assets/img/shopee.png")?>" alt="" style="width: 50px; height: 50px; object-fit: cover; border:1px solid #ddd; padding:2px;">
                       </button>
                     </div>
                     <div class="">
                       <button type="button" class="btn btn-light btn-sm" onclick="window.open('<?= $cata->lazada ?>', '_blank')"
                               >
-                              <img src="<?= base_url("assets/img/lazada.png")?>" alt="" style="width: 30%; object-fit: cover;">
+                              <img src="<?= base_url("assets/img/lazada.png")?>" alt="" style="width: 50px; height: 50px; object-fit: cover; border:1px solid #ddd; padding:2px;">
                       </button>
                     </div>
                     <div class="">
                       <button type="button" class="btn btn-light btn-sm" onclick="window.open('<?= $cata->tiktokshop ?>', '_blank')"
                               >
-                              <img src="<?= base_url("assets/img/tiktokshop.png")?>" alt="" style="width: 30%; object-fit: cover;">
+                              <img src="<?= base_url("assets/img/tiktokshop.png")?>" alt="" style="width: 50px; height: 50px; object-fit: cover; border:1px solid #ddd; padding:2px;">
                       </button>
                     </div>
                     <div class="">
                       <button type="button" class="btn btn-light btn-sm" onclick="window.open('<?= $cata->tokopedia ?>', '_blank')"
                               >
-                              <img src="<?= base_url("assets/img/tokopedia.png")?>" alt="" style="width: 30%; object-fit: cover;">
+                              <img src="<?= base_url("assets/img/tokopedia.png")?>" alt="" style="width: 50px; height: 50px; object-fit: cover; border:1px solid #ddd; padding:2px;">
                       </button>
                     </div>
 
