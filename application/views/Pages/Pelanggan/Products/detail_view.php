@@ -182,6 +182,7 @@
 <script>
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
+  if (!isMobile) {
     // ======== DESKTOP / TABLET MODE (aktifkan efek) ========
     gsap.registerPlugin(ScrollTrigger);
     const productDetail = document.getElementById("productDetail");
@@ -240,7 +241,12 @@
     // expose ke global
     window.scrollToColor = scrollToColor;
 
-
+  } else {
+    // ======== MOBILE MODE (nonaktifkan semua efek) ========
+   
+    // Pastikan kolom tidak ada transform tersisa
+    document.getElementById("left-col").style.transform = "none";
+  }
 </script>
 
 </body>
