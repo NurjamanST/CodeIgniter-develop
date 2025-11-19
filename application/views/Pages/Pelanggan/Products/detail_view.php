@@ -175,7 +175,6 @@
     </div>
   </div>
 </div>
-
 <!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -183,7 +182,7 @@
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
   if (!isMobile) {
-    // ======== DESKTOP / TABLET MODE (aktifkan efek) ========
+    // ======== DESKTOP / TABLET MODE (aktifkan efek GSAP) ========
     gsap.registerPlugin(ScrollTrigger);
     const productDetail = document.getElementById("productDetail");
     const container = document.getElementById("productContainer");
@@ -199,7 +198,6 @@
       pinSpacing: true,
       scrub: 1.2,
       markers: false
-      
     });
 
     // Parallax kiri
@@ -221,7 +219,7 @@
       }
     });
 
-    // Scroll ke warna tertentu
+    // Scroll ke warna tertentu (Desktop version)
     function scrollToColor(colorIndex) {
       const colorElement = document.getElementById('color-' + colorIndex);
       if (colorElement) {
@@ -242,12 +240,35 @@
     window.scrollToColor = scrollToColor;
 
   } else {
-    // ======== MOBILE MODE (nonaktifkan semua efek) ========
+    // ======== MOBILE MODE (GSAP nonaktif, tapi scrollToColor aktif) ========
    
     // Pastikan kolom tidak ada transform tersisa
-    document.getElementById("left-col").style.transform = "none";
+    const leftCol = document.getElementById("left-col");
+    if (leftCol) {
+      leftCol.style.transform = "none";
+    }
+
+    // Scroll ke warna tertentu (Mobile version - lebih sederhana)
+    function scrollToColor(colorIndex) {
+      const colorElement = document.getElementById('color-' + colorIndex);
+      if (colorElement) {
+        // Hitung posisi element
+        const elementRect = colorElement.getBoundingClientRect();
+        const absoluteTop = elementRect.top + window.pageYOffset;
+        
+        // Offset untuk mobile (bisa disesuaikan)
+        const mobileOffset = 80; // Memberi ruang di atas element
+        
+        const targetScroll = absoluteTop - mobileOffset;
+        
+        window.scrollTo({ 
+          top: targetScroll, 
+          behavior: 'smooth' 
+        });
+      }
+    }
+
+    // Pastikan fungsi tersedia di global scope
+    window.scrollToColor = scrollToColor;
   }
 </script>
-
-</body>
-</html>
