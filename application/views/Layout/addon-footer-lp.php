@@ -44,9 +44,24 @@
                 <h3 style="font-size: calc(1.25rem + 1px)">NEWS & SERVICES</h3>
                 <ul>
                     <li><a href="<?= base_url("index.php/Landing/News") ?>" style="font-size: calc(1rem + 1px)">News</a></li>
-                    <li><a href="<?= base_url("index.php/Landing/faq") ?? '#'?>" style="font-size: calc(1rem + 1px)">FAQ</a></li>
-                    <li><a href="<?= base_url("index.php/Landing/return_policy") ?>" style="font-size: calc(1rem + 1px)">Return Policy</a></li>
-                    <li><a href="<?= base_url("index.php/Landing/terms_of_service") ?>" style="font-size: calc(1rem + 1px)">Terms of Service</a></li>
+                     <li>
+                    <a href="<?= method_exists('Landing', 'FAQ') ? base_url("index.php/Landing/terms_of_service") : '#' ?>" 
+                    style="font-size: calc(1rem + 1px)">
+                        FAQ
+                    </a>
+                </li>
+                 <li>
+                    <a href="<?= method_exists('Landing', 'faq') ? base_url("index.php/Landing/faq") : '#' ?>" 
+                    style="font-size: calc(1rem + 1px)">
+                        Return Policy
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= method_exists('Landing', 'terms_of_service') ? base_url("index.php/Landing/terms_of_service") : '#' ?>" 
+                    style="font-size: calc(1rem + 1px)">
+                        Terms Of Service
+                    </a>
+                </li>
                 </ul>
             </div>
         </div>

@@ -3,8 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Product_model extends CI_Model
 {
-    // Fungsi ini digunakan untuk mendapatkan semua produk dari tabel 'products'
-    // dengan menggabungkan tabel 'collections' dan 'categories'
+ 
    public function get_all_catalogues()
 {
 $this->db->select('
@@ -90,10 +89,6 @@ $this->db->select('
         return $this->db->where('id', $id)->get('products')->row();
     }
 
-    // public function get_categories_by_koleksi($koleksi_id)
-    // {
-    //     return $this->db->where('koleksi_id', $koleksi_id)->get('categories')->result();
-    // }
     public function get_categories_by_koleksi($koleksi_id)
     {
         $this->db->select('categories.id, categories.nama_kategori');
@@ -104,7 +99,7 @@ $this->db->select('
     }
     public function get_by_id($id)
     {
-        return $this->db->get_where('products', ['id' => $id])->row();  // sesuaikan nama tabel
+        return $this->db->get_where('products', ['id' => $id])->row(); 
     }
     public function get_product_by_id($id)
     {
@@ -117,7 +112,7 @@ $this->db->select('
     }
     public function get_products_by_collection($collection_id)
     {
-        // Lakukan join antara tabel products, categories dan collections
+       
         $this->db->select('products.*, categories.nama_kategori, collections.nama_koleksi');
         $this->db->from('products');
         $this->db->join('categories', 'products.kategori_id = categories.id', 'left');
@@ -126,7 +121,7 @@ $this->db->select('
         return $this->db->get()->result();
     } public function get_products_by_category($category_id)
     {
-        // Lakukan join antara tabel products, categories dan collections
+       
         $this->db->select('products.*, categories.nama_kategori, collections.nama_koleksi');
         $this->db->from('products');
         $this->db->join('categories', 'products.kategori_id = categories.id', 'left');
@@ -215,6 +210,7 @@ $this->db->select('
     $this->db->order_by('pc.id', 'ASC');
     return $this->db->get()->result();
 }
+
 
 
 }

@@ -261,9 +261,11 @@
         </ul>
         <!-- Tombol Beli Sekarang dengan Dropup -->
           <div class="dropup-center dropup mt-3">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Beli Sekarang
-            </button>
+         <button class="btn btn-primary dropdown-toggle" type="button" 
+        data-bs-toggle="dropdown" aria-expanded="false"
+        id="beliSekarangButton">
+    Beli Sekarang
+</button>
             <ul class="dropdown-menu shadow-sm">
               <?php if (!empty($product->shopee)): ?>
                 <li>
@@ -306,6 +308,11 @@
 <!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<!-- Bootstrap JS HARUS di sini, sebelum script custom -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
 <script>
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
@@ -445,6 +452,8 @@
     window.selectColorMobile = selectColorMobile;
     window.updateMobilePreview = updateMobilePreview;
   }
+
+  
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
