@@ -71,12 +71,15 @@ $active_group = 'default';
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'project_ci',
-	// 'username' => 'u683701725_haweshop2',
-	// 'password' => 'CahayaTech24#$*',
-	// 'database' => 'u683701725_db_haweshop2',
+	
+	// 'username' => 'root',
+	// 'password' => '',
+	// 'database' => 'project_ci',
+	
+	'username' => 'u683701725_haweshop2',
+	'password' => 'CahayaTech24#$*',
+	'database' => 'u683701725_db_haweshop2',
+	
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
